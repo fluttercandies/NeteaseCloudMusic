@@ -1,0 +1,40 @@
+PODS:
+  - Flutter (1.0.0)
+  - fluttertoast (0.0.2):
+    - Flutter
+  - path_provider (0.0.1):
+    - Flutter
+  - permission_handler (3.2.2):
+    - Flutter
+  - shared_preferences (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `.symlinks/flutter/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
+  path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
+  permission_handler: d59f41439f5bc6c4d1005f3355e98f05ddc68ece
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+
+PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
+
+COCOAPODS: 1.6.1

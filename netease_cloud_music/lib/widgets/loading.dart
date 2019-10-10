@@ -27,7 +27,6 @@ class Loading {
               ),
             );
           }).then((v) {
-            // 消失的时候把状态置为 false
         isLoading = false;
       });
     }

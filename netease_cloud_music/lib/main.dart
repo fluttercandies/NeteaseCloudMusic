@@ -1,31 +1,44 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:netease_cloud_music/pages/splash_page.dart';
+import 'package:netease_cloud_music/provider/user_model.dart';
+import 'package:netease_cloud_music/route/routes.dart';
+import 'package:netease_cloud_music/utils/net_utils.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+import 'application.dart';
+
+void main() {
+  Router router = Router();
+  Routes.configureRoutes(router);
+  Application.router = router;
+  Application.initSp();
+  NetUtils.init();
+
+
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<UserModel>.value(
+        value: UserModel(),
+      ),
+    ],
+    child: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
       ),
-      home: MyHomePage(),
+      home: SplashPage(),
+      onGenerateRoute: Application.router.generator,
     );
   }
 }
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-
-
-
