@@ -8,7 +8,9 @@ import 'package:netease_cloud_music/model/album.dart';
 import 'package:netease_cloud_music/model/banner.dart' as mBanner;
 import 'package:netease_cloud_music/model/daily_songs.dart';
 import 'package:netease_cloud_music/model/mv.dart';
+import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
+import 'package:netease_cloud_music/model/song_detail.dart';
 import 'package:netease_cloud_music/model/user.dart';
 import 'package:netease_cloud_music/widgets/loading.dart';
 import 'package:path_provider/path_provider.dart';
@@ -93,7 +95,42 @@ class NetUtils {
 
   /// 每日推荐歌曲
   static Future<DailySongsData> getDailySongsData(BuildContext context) async {
-    var response = await _get(context, '/recommend/songs',);
+    var response = await _get(
+      context,
+      '/recommend/songs',
+    );
     return DailySongsData.fromJson(response.data);
+  }
+
+  /// 歌单详情
+  static Future<PlayListData> _getPlayListData(
+    BuildContext context,
+    Map<String, dynamic> params,
+  ) async {
+    var response = await _get(context, '/playlist/detail', params: params);
+    return PlayListData.fromJson(response.data);
+  }
+
+  /// 歌曲详情
+  static Future<SongDetailData> getSongsDetailData(
+    BuildContext context, {
+    Map<String, dynamic> params,
+  }) async {
+    var response = await _get(context, '/song/detail', params: params);
+    return SongDetailData.fromJson(response.data);
+  }
+
+  /// 真正的歌单详情
+  /// 因为歌单详情只能获取歌单信息，并不能获取到歌曲信息，所以要请求两个接口，先获取歌单详情，再获取歌曲详情
+  static Future<SongDetailData> getPlayListData(
+    BuildContext context, {
+    Map<String, dynamic> params,
+  }) async {
+    var r = await _getPlayListData(context, params);
+    var response = await getSongsDetailData(context, params: {
+      'ids': r.playlist.trackIds.map((t) => t.id).toList().join(',')
+    });
+    response.playlist = r.playlist;
+    return response;
   }
 }

@@ -1,5 +1,4 @@
 import 'package:common_utils/common_utils.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/model/album.dart';
@@ -138,7 +137,7 @@ class _HomePrePageState extends State<DiscoverPage>
                   playCount: data[index].playcount,
                   maxLines: 2,
                   onTap: (){
-                    print(data[index].id);
+                    NavigatorUtil.goPlayListPage(context, title: data[index].name, id: data[index].id);
                   },
                 );
               },
