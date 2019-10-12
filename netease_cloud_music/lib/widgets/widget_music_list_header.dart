@@ -30,10 +30,10 @@ class MusicListHeader extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 HEmptyView(10),
                 Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: const EdgeInsets.only(top: 3.0),
                   child: Text(
                     "播放全部",
-                    style: commonTextStyle,
+                    style: mCommonTextStyle,
                   ),
                 ),
                 HEmptyView(5),

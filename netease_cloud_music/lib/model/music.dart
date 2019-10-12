@@ -3,13 +3,13 @@ class MusicData {
   String picUrl;
   String songName;
   String artists;
-  int length;
+  int index;
 
   MusicData({
     this.mvid,
     this.picUrl,
     this.songName,
     this.artists,
-    this.length,
+    this.index,
   });
 }

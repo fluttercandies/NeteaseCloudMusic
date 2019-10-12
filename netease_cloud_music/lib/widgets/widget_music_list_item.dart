@@ -9,9 +9,7 @@ import 'common_text_style.dart';
 import 'h_empty_view.dart';
 
 class WidgetMusicListItem extends StatelessWidget {
-
   final MusicData _data;
-
 
   WidgetMusicListItem(this._data);
 
@@ -25,12 +23,22 @@ class WidgetMusicListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           HEmptyView(20),
-          RoundedNetImage(
-            _data.picUrl,
-            width: 100,
-            height: 100,
-            radius: 5,
-          ),
+          _data.picUrl == null
+              ? Container()
+              : RoundedNetImage(
+                  _data.picUrl,
+                  width: 100,
+                  height: 100,
+                  radius: 5,
+                ),
+          _data.index == null
+              ? Container()
+              : Container(
+                  alignment: Alignment.center,
+                  width: ScreenUtil().setWidth(60),
+                  height: ScreenUtil().setWidth(50),
+                  child: Text(_data.index.toString(), style: mGrayTextStyle,),
+                ),
           HEmptyView(10),
           Expanded(
             child: Column(
@@ -56,10 +64,10 @@ class WidgetMusicListItem extends StatelessWidget {
             child: _data.mvid == 0
                 ? Container()
                 : IconButton(
-              icon: Icon(Icons.play_circle_outline),
-              onPressed: () {},
-              color: Colors.grey,
-            ),
+                    icon: Icon(Icons.play_circle_outline),
+                    onPressed: () {},
+                    color: Colors.grey,
+                  ),
           ),
           Align(
             alignment: Alignment.center,

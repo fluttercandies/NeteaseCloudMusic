@@ -35,7 +35,7 @@ class PlayListAppBarWidget extends StatelessWidget {
       iconTheme: IconThemeData(color: Colors.white),
       title: Text(
         title,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       bottom: MusicListHeader(
         onTap: playOnTap,
@@ -59,7 +59,7 @@ class PlayListAppBarWidget extends StatelessWidget {
                 sigmaX: sigma,
               ),
               child: Container(
-                color: Colors.transparent,
+                color: Colors.black38,
                 width: double.infinity,
                 height: double.infinity,
               ),
