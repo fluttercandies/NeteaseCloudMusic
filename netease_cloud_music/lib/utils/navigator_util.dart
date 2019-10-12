@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:netease_cloud_music/model/recommend.dart';
 import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/fluro_convert_utils.dart';
 
@@ -36,8 +37,8 @@ class NavigatorUtil {
 
   /// 歌单详情
   static void goPlayListPage(BuildContext context,
-      {@required String title, @required int id}) {
+      {@required Recommend data}) {
     _navigateTo(context,
-        "${Routes.playList}?title=${FluroConvertUtils.fluroCnParamsEncode(title)}&id=$id");
+        "${Routes.playList}?data=${FluroConvertUtils.object2string(data)}");
   }
 }

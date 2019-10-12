@@ -137,7 +137,7 @@ class _HomePrePageState extends State<DiscoverPage>
                   playCount: data[index].playcount,
                   maxLines: 2,
                   onTap: (){
-                    NavigatorUtil.goPlayListPage(context, title: data[index].name, id: data[index].id);
+                    NavigatorUtil.goPlayListPage(context, data: data[index]);
                   },
                 );
               },

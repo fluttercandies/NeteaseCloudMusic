@@ -93,9 +93,11 @@ class _DailySongsPageState extends State<DailySongsPage> {
 
   void setCount(int count) {
     Future.delayed(Duration(milliseconds: 300), () {
-      setState(() {
-        _count = count;
-      });
+      if(mounted){
+        setState(() {
+          _count = count;
+        });
+      }
     });
   }
 }

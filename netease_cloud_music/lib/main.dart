@@ -16,7 +16,6 @@ void main() {
   NetUtils.init();
 
 
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<UserModel>.value(

@@ -5,6 +5,7 @@ final commonWhiteTextStyle = TextStyle(fontSize: 16, color: Colors.white);
 final commonGrayTextStyle = TextStyle(fontSize: 16, color: Colors.grey);
 final commonWhite70TextStyle = TextStyle(fontSize: 16, color: Colors.white70);
 final smallWhite70TextStyle = TextStyle(fontSize: 12, color: Colors.white70);
+final smallWhiteTextStyle = TextStyle(fontSize: 12, color: Colors.white);
 final mWhiteTextStyle = TextStyle(fontSize: 18, color: Colors.white);
 final mCommonTextStyle = TextStyle(fontSize: 18, color: Colors.black87);
 final mGrayTextStyle = TextStyle(fontSize: 18, color: Colors.grey);

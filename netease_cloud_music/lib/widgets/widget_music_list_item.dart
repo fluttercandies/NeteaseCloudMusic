@@ -17,7 +17,7 @@ class WidgetMusicListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Application.screenWidth,
-      height: ScreenUtil().setWidth(140),
+      height: ScreenUtil().setWidth(120),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,8 +27,8 @@ class WidgetMusicListItem extends StatelessWidget {
               ? Container()
               : RoundedNetImage(
                   _data.picUrl,
-                  width: 100,
-                  height: 100,
+                  width: 80,
+                  height: 80,
                   radius: 5,
                 ),
           _data.index == null
@@ -49,7 +49,7 @@ class WidgetMusicListItem extends StatelessWidget {
                   _data.songName,
                   style: commonTextStyle,
                 ),
-                VEmptyView(20),
+                VEmptyView(10),
                 Text(
                   _data.artists,
                   style: smallGrayTextStyle,

@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:netease_cloud_music/model/recommend.dart';
 import 'package:netease_cloud_music/pages/daily_songs/daily_songs_page.dart';
 import 'package:netease_cloud_music/pages/home/home_page.dart';
 import 'package:netease_cloud_music/pages/login_page.dart';
@@ -34,7 +35,6 @@ var dailySongsHandler = new Handler(
 // 跳转到歌单
 var playListHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
-      String title = params['title'].first;
-      String id = params['id'].first;
-      return PlayListPage(FluroConvertUtils.fluroCnParamsDecode(title), FluroConvertUtils.string2int(id));
+      String data = params['data'].first;
+      return PlayListPage(Recommend.fromJson(FluroConvertUtils.string2map(data)));
     });
