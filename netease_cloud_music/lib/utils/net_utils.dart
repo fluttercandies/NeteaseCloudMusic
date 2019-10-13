@@ -31,8 +31,9 @@ class NetUtils {
     BuildContext context,
     String url, {
     Map<String, dynamic> params,
+    bool isShowLoading = true,
   }) async {
-    Loading.showLoading(context);
+    if (isShowLoading) Loading.showLoading(context);
     try {
       return await _dio.get(url, queryParameters: params);
     } on DioError catch (e) {
@@ -55,6 +56,10 @@ class NetUtils {
     });
 
     return User.fromJson(response.data);
+  }
+
+  static refreshLogin(BuildContext context){
+    _get(context, '/login/refresh', isShowLoading: false);
   }
 
   /// 首页 Banner

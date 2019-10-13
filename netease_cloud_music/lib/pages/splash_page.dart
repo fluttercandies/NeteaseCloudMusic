@@ -5,6 +5,7 @@ import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
@@ -36,6 +37,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
           UserModel userModel = Provider.of<UserModel>(context);
           userModel.initUser();
           if (userModel.user != null) {
+            NetUtils.refreshLogin(context);
             NavigatorUtil.goHomePage(context);
           } else
             NavigatorUtil.goLoginPage(context);
