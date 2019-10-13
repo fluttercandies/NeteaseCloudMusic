@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'discover/discover_page.dart';
@@ -16,10 +17,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(vsync: this, length: 3);
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      // 设置没有高度的 appbar，目的是为了设置状态栏的颜色
+      appBar: PreferredSize(
+        child: AppBar(
+          elevation: 0,
+        ),
+        preferredSize: Size.zero,
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         bottom: false,

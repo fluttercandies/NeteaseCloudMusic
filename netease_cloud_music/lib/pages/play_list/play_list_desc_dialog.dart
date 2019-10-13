@@ -13,6 +13,7 @@ class PlayListDescDialog extends StatelessWidget {
 
   PlayListDescDialog(this._data);
 
+
   @override
   Widget build(BuildContext context) {
     return Material(

@@ -226,6 +226,7 @@ class _HomePrePageState extends State<DiscoverPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
