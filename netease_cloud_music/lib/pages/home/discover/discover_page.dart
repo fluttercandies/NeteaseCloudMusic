@@ -61,6 +61,9 @@ class _HomePrePageState extends State<DiscoverPage>
                 case 0:
                   NavigatorUtil.goDailySongsPage(context);
                   break;
+                case 2:
+                  NavigatorUtil.goTopListPage(context);
+                  break;
               }
             },
             child: Column(

@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/pages/splash_page.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
+import 'package:netease_cloud_music/route/navigate_service.dart';
 import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ void main() {
   Application.router = router;
   Application.initSp();
   NetUtils.init();
+  Application.setupLocator();
 
 
   runApp(MultiProvider(
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-
+      navigatorKey: Application.getIt<NavigateService>().key,
       theme: ThemeData(
         primaryColor: Colors.white,
       ),

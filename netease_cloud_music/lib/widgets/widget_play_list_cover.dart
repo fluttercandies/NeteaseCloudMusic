@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/utils/number_utils.dart';
 
+/// 歌单、新碟上架等封面组件
 class PlayListCoverWidget extends StatelessWidget {
 
   final String url;

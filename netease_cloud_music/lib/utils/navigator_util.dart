@@ -41,4 +41,9 @@ class NavigatorUtil {
     _navigateTo(context,
         "${Routes.playList}?data=${FluroConvertUtils.object2string(data)}");
   }
+
+  /// 排行榜首页
+  static void goTopListPage(BuildContext context) {
+    _navigateTo(context, Routes.topList);
+  }
 }

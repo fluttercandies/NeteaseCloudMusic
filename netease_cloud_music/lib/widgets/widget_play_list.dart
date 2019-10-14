@@ -6,6 +6,7 @@ import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_cover.dart';
 
+/// 歌单、新碟上架等封装的组件
 class PlayListWidget extends StatelessWidget {
   final String picUrl;
   final String text;

@@ -4,6 +4,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloud_music/model/album.dart';
 import 'package:netease_cloud_music/model/banner.dart' as mBanner;
 import 'package:netease_cloud_music/model/daily_songs.dart';
@@ -11,9 +12,14 @@ import 'package:netease_cloud_music/model/mv.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
 import 'package:netease_cloud_music/model/song_detail.dart';
+import 'package:netease_cloud_music/model/top_list.dart';
 import 'package:netease_cloud_music/model/user.dart';
+import 'package:netease_cloud_music/route/navigate_service.dart';
+import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/widgets/loading.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../application.dart';
 
 class NetUtils {
   static Dio _dio;
@@ -22,7 +28,8 @@ class NetUtils {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
     CookieJar cj = PersistCookieJar(dir: tempPath);
-    _dio = Dio(BaseOptions(baseUrl: 'http://192.168.163.141:3000'))
+    _dio = Dio(
+        BaseOptions(baseUrl: 'http://127.0.0.1:3000', followRedirects: false))
       ..interceptors.add(CookieManager(cj))
       ..interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
@@ -37,7 +44,13 @@ class NetUtils {
     try {
       return await _dio.get(url, queryParameters: params);
     } on DioError catch (e) {
-      if (e.response is Map) {
+      if (e.response == null) {
+        Future.delayed(Duration(milliseconds: 200), () {
+          Application.getIt<NavigateService>().pushNamed('/login');
+          Fluttertoast.showToast(msg: '登录失效，请重新登录');
+        });
+        return Future.error(0);
+      } else if (e.response is Map) {
         return Future.value(e.response);
       } else {
         return Future.error(0);
@@ -58,7 +71,7 @@ class NetUtils {
     return User.fromJson(response.data);
   }
 
-  static refreshLogin(BuildContext context){
+  static refreshLogin(BuildContext context) {
     _get(context, '/login/refresh', isShowLoading: false);
   }
 
@@ -137,5 +150,11 @@ class NetUtils {
     });
     response.playlist = r.playlist;
     return response;
+  }
+
+  /// 排行榜首页
+  static Future<TopListData> getTopListData(BuildContext context) async {
+    var response = await _get(context, '/toplist/detail');
+    return TopListData.fromJson(response.data);
   }
 }

@@ -24,7 +24,7 @@ class UserModel with ChangeNotifier {
   void login(BuildContext context, String phone, String pwd) async {
 
     User user = await NetUtils.login(context, phone, pwd);
-    if (user.code > 300) {
+    if (user.code > 299) {
       Fluttertoast.showToast(msg: user.msg ?? '登录失败，请检查账号密码', gravity: ToastGravity.CENTER);
       return;
     }
@@ -36,9 +36,6 @@ class UserModel with ChangeNotifier {
   /// 保存用户信息到 sp
   _saveUserInfo(User user) {
     _user = user;
-//    String s = json.encode(user.toJson());
-//    user = User.fromJson(json.decode(s));
-
     Application.sp.setString('user', json.encode(user.toJson()));
   }
 }
