@@ -11,7 +11,7 @@
 | ![](http://pic.d3collection.cn/2019-10-13-132011.png) | ![](http://pic.d3collection.cn/2019-10-13-132000.png) | ![](http://pic.d3collection.cn/2019-10-13-125812.png) |
 | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
 | ![](http://pic.d3collection.cn/2019-10-13-125844.png) | ![](http://pic.d3collection.cn/2019-10-13-130202.png) | ![](http://pic.d3collection.cn/2019-10-13-130248.png) |
-| ![](http://pic.d3collection.cn/2019-10-14-151915.png) | ![](http://pic.d3collection.cn/2019-10-14-151915.png) | ![](http://pic.d3collection.cn/2019-10-14-151915.png) |
+| ![](http://pic.d3collection.cn/2019-10-14-151915.png) |  |  |
 
 
 
@@ -27,9 +27,4 @@
 
 
 
-
-
-分支如下：
-
-[Flutter实战 | 从 0 搭建「网易云音乐」APP（一、创建项目、添加插件、通用代码）](https://github.com/wanglu1209/NeteaseClouldMusic/tree/NeteaseClouldMusic-Day1)
 
