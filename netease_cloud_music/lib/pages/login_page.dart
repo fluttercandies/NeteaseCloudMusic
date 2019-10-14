@@ -78,76 +78,79 @@ class __LoginWidgetState extends State<_LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: ScreenUtil().setWidth(30)),
-          child: Text(
-            'Welcome Back!',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-              fontSize: 34,
+    return Theme(
+      data: ThemeData(primaryColor: Colors.red),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: ScreenUtil().setWidth(30)),
+            child: Text(
+              'Welcome Back!',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+                fontSize: 34,
+              ),
             ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
-          child: Text(
-            'The Flutter Netease Cloud Music App',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
+          Container(
+            margin: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
+            child: Text(
+              'The Flutter Netease Cloud Music App',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 14,
+              ),
             ),
           ),
-        ),
-        VEmptyView(50),
-        TextField(
-          controller: _phoneController,
-          decoration: InputDecoration(
-              hintText: 'Phone',
-              prefixIcon: Icon(
-                Icons.phone_iphone,
-                color: Colors.grey,
-              )),
-        ),
-        VEmptyView(40),
-        TextField(
-          obscureText: true,
-          controller: _pwdController,
-          decoration: InputDecoration(
-              hintText: 'Password',
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.grey,
-              )),
-        ),
-        VEmptyView(120),
-        Consumer<UserModel>(
-          builder: (BuildContext context, UserModel value, Widget child) {
-            return CommonButton(
-              callback: () {
-                String phone = _phoneController.text;
-                String pwd = _pwdController.text;
-                if (phone.isEmpty || pwd.isEmpty) {
-                  Fluttertoast.showToast(
-                      msg: '请输入账号或者密码', gravity: ToastGravity.CENTER);
-                  return;
-                }
-                value.login(
-                  context,
-                  phone,
-                  pwd,
-                );
-              },
-              content: 'Login',
-              width: double.infinity,
-            );
-          },
-        )
-      ],
+          VEmptyView(50),
+          TextField(
+            controller: _phoneController,
+            decoration: InputDecoration(
+                hintText: 'Phone',
+                prefixIcon: Icon(
+                  Icons.phone_iphone,
+                  color: Colors.grey,
+                )),
+          ),
+          VEmptyView(40),
+          TextField(
+            obscureText: true,
+            controller: _pwdController,
+            decoration: InputDecoration(
+                hintText: 'Password',
+                prefixIcon: Icon(
+                  Icons.lock,
+                  color: Colors.grey,
+                )),
+          ),
+          VEmptyView(120),
+          Consumer<UserModel>(
+            builder: (BuildContext context, UserModel value, Widget child) {
+              return CommonButton(
+                callback: () {
+                  String phone = _phoneController.text;
+                  String pwd = _pwdController.text;
+                  if (phone.isEmpty || pwd.isEmpty) {
+                    Fluttertoast.showToast(
+                        msg: '请输入账号或者密码', gravity: ToastGravity.CENTER);
+                    return;
+                  }
+                  value.login(
+                    context,
+                    phone,
+                    pwd,
+                  );
+                },
+                content: 'Login',
+                width: double.infinity,
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }

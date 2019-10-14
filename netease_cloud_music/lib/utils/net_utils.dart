@@ -22,7 +22,7 @@ class NetUtils {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
     CookieJar cj = PersistCookieJar(dir: tempPath);
-    _dio = Dio(BaseOptions(baseUrl: 'http://192.168.31.196:3000'))
+    _dio = Dio(BaseOptions(baseUrl: 'http://192.168.163.141:3000'))
       ..interceptors.add(CookieManager(cj))
       ..interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
