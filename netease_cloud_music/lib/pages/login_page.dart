@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_button.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -134,8 +135,7 @@ class __LoginWidgetState extends State<_LoginWidget> {
                   String phone = _phoneController.text;
                   String pwd = _pwdController.text;
                   if (phone.isEmpty || pwd.isEmpty) {
-                    Fluttertoast.showToast(
-                        msg: '请输入账号或者密码', gravity: ToastGravity.CENTER);
+                    Utils.showToast('请输入账号或者密码');
                     return;
                   }
                   value.login(

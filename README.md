@@ -6,6 +6,16 @@
 
 
 
+接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+请本地跑本项目时，先按照上面项目的步骤跑起本地服务。
+
+
+
 目前所能公开的信息：
 
 | ![](http://pic.d3collection.cn/2019-10-13-132011.png) | ![](http://pic.d3collection.cn/2019-10-13-132000.png) | ![](http://pic.d3collection.cn/2019-10-13-125812.png) |

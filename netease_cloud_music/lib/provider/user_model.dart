@@ -6,6 +6,7 @@ import 'package:netease_cloud_music/model/user.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 
 class UserModel with ChangeNotifier {
   User _user;
@@ -25,10 +26,10 @@ class UserModel with ChangeNotifier {
 
     User user = await NetUtils.login(context, phone, pwd);
     if (user.code > 299) {
-      Fluttertoast.showToast(msg: user.msg ?? '登录失败，请检查账号密码', gravity: ToastGravity.CENTER);
+      Utils.showToast(user.msg ?? '登录失败，请检查账号密码');
       return;
     }
-    Fluttertoast.showToast(msg: '登录成功', gravity: ToastGravity.CENTER);
+    Utils.showToast(user.msg ?? '登录成功');
     _saveUserInfo(user);
     NavigatorUtil.goHomePage(context);
   }

@@ -15,7 +15,9 @@ import 'package:netease_cloud_music/model/song_detail.dart';
 import 'package:netease_cloud_music/model/top_list.dart';
 import 'package:netease_cloud_music/model/user.dart';
 import 'package:netease_cloud_music/route/navigate_service.dart';
+import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/loading.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -46,8 +48,8 @@ class NetUtils {
     } on DioError catch (e) {
       if (e.response == null) {
         Future.delayed(Duration(milliseconds: 200), () {
-          Application.getIt<NavigateService>().pushNamed('/login');
-          Fluttertoast.showToast(msg: '登录失效，请重新登录');
+          Application.getIt<NavigateService>().pushNamed(Routes.login);
+          Utils.showToast('登录失效，请重新登录');
         });
         return Future.error(0);
       } else if (e.response is Map) {
@@ -121,10 +123,10 @@ class NetUtils {
   }
 
   /// 歌单详情
-  static Future<PlayListData> _getPlayListData(
-    BuildContext context,
+  static Future<PlayListData> getPlayListData(
+    BuildContext context, {
     Map<String, dynamic> params,
-  ) async {
+  }) async {
     var response = await _get(context, '/playlist/detail', params: params);
     return PlayListData.fromJson(response.data);
   }
@@ -138,13 +140,14 @@ class NetUtils {
     return SongDetailData.fromJson(response.data);
   }
 
+  /// ** 验证发现原来的歌单详情接口就有数据，不用请求两次！！ **
   /// 真正的歌单详情
   /// 因为歌单详情只能获取歌单信息，并不能获取到歌曲信息，所以要请求两个接口，先获取歌单详情，再获取歌曲详情
-  static Future<SongDetailData> getPlayListData(
+  static Future<SongDetailData> _getPlayListData(
     BuildContext context, {
     Map<String, dynamic> params,
   }) async {
-    var r = await _getPlayListData(context, params);
+    var r = await getPlayListData(context, params: params);
     var response = await getSongsDetailData(context, params: {
       'ids': r.playlist.trackIds.map((t) => t.id).toList().join(',')
     });

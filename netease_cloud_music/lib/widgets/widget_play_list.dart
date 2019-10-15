@@ -29,6 +29,7 @@ class PlayListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: onTap,
       child: Container(
         width: ScreenUtil().setWidth(200),

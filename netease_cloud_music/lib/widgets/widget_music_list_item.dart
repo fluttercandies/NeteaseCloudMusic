@@ -47,6 +47,8 @@ class WidgetMusicListItem extends StatelessWidget {
               children: <Widget>[
                 Text(
                   _data.songName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: commonTextStyle,
                 ),
                 VEmptyView(10),

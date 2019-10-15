@@ -56,6 +56,7 @@ class _HomePrePageState extends State<DiscoverPage>
       childrenDelegate: SliverChildBuilderDelegate(
             (context, index) {
           return GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               switch (index) {
                 case 0:

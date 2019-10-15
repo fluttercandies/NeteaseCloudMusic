@@ -177,20 +177,20 @@ class _PlayListPageState extends State<PlayListPage> {
             title: widget.data.name,
             count: _data == null ? null : _data.trackCount,
           ),
-          CustomSliverFutureBuilder<SongDetailData>(
+          CustomSliverFutureBuilder<PlayListData>(
             futureFunc: NetUtils.getPlayListData,
             params: {'id': widget.data.id},
             builder: (context, data) {
               setData(data.playlist);
               return SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                var d = data.songs[index];
+                var d = data.playlist.tracks[index];
                 return WidgetMusicListItem(MusicData(
                   mvid: d.mv,
                   index: index + 1,
                   songName: d.name,
                   artists:
-                      '${data.songs[index].ar.map((a) => a.name).toList().join('/')} - ${data.songs[index].al.name}',
+                      '${d.ar.map((a) => a.name).toList().join('/')} - ${d.al.name}',
                 ));
               }, childCount: data.playlist.trackIds.length));
             },
