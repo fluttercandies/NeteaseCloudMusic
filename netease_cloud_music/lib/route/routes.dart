@@ -10,6 +10,7 @@ class Routes {
   static String dailySongs = "/daily_songs";
   static String playList = "/play_list";
   static String topList = "/top_list";
+  static String playSongs = "/play_songs";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(
@@ -23,5 +24,6 @@ class Routes {
     router.define(dailySongs, handler: dailySongsHandler);
     router.define(playList, handler: playListHandler);
     router.define(topList, handler: topListHandler);
+    router.define(playSongs, handler: playSongsHandler);
   }
 }

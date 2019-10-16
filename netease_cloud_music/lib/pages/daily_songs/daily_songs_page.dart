@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/daily_songs.dart';
 import 'package:netease_cloud_music/model/music.dart';
+import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/widgets/flexible_detail_bar.dart';
 import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
@@ -74,12 +75,17 @@ class _DailySongsPageState extends State<DailySongsPage> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     var d = data.recommend[index];
-                    return WidgetMusicListItem(MusicData(
-                        mvid: d.mvid,
-                        picUrl: d.album.picUrl,
-                        songName: d.name,
-                        artists:
-                            "${d.artists.map((a) => a.name).toList().join('/')} - ${d.album.name}"));
+                    return WidgetMusicListItem(
+                      MusicData(
+                          mvid: d.mvid,
+                          picUrl: d.album.picUrl,
+                          songName: d.name,
+                          artists:
+                              "${d.artists.map((a) => a.name).toList().join('/')} - ${d.album.name}"),
+                      onTap: () {
+                        NavigatorUtil.goPlaySongsPage(context);
+                      },
+                    );
                   },
                   childCount: data.recommend.length,
                 ),
@@ -93,7 +99,7 @@ class _DailySongsPageState extends State<DailySongsPage> {
 
   void setCount(int count) {
     Future.delayed(Duration(milliseconds: 300), () {
-      if(mounted){
+      if (mounted) {
         setState(() {
           _count = count;
         });

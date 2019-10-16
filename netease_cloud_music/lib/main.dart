@@ -1,6 +1,8 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/pages/splash_page.dart';
+import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/route/navigate_service.dart';
 import 'package:netease_cloud_music/route/routes.dart';
@@ -16,12 +18,16 @@ void main() {
   Application.initSp();
   NetUtils.init();
   Application.setupLocator();
+  AudioPlayer.logEnabled = true;
 
 
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<UserModel>.value(
         value: UserModel(),
+      ),
+      ChangeNotifierProvider<PlaySongsModel>.value(
+        value: PlaySongsModel()..init(),
       ),
     ],
     child: MyApp(),

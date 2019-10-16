@@ -11,6 +11,7 @@ import 'package:netease_cloud_music/model/daily_songs.dart';
 import 'package:netease_cloud_music/model/mv.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
+import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/model/song_detail.dart';
 import 'package:netease_cloud_music/model/top_list.dart';
 import 'package:netease_cloud_music/model/user.dart';
@@ -31,7 +32,7 @@ class NetUtils {
     String tempPath = tempDir.path;
     CookieJar cj = PersistCookieJar(dir: tempPath);
     _dio = Dio(
-        BaseOptions(baseUrl: 'http://127.0.0.1:3000', followRedirects: false))
+        BaseOptions(baseUrl: 'http://192.168.31.196:3000', followRedirects: false))
       ..interceptors.add(CookieManager(cj))
       ..interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
@@ -160,4 +161,5 @@ class NetUtils {
     var response = await _get(context, '/toplist/detail');
     return TopListData.fromJson(response.data);
   }
+
 }

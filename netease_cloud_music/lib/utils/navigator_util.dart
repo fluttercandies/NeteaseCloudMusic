@@ -46,4 +46,9 @@ class NavigatorUtil {
   static void goTopListPage(BuildContext context) {
     _navigateTo(context, Routes.topList);
   }
+
+  /// 播放歌曲页面
+  static void goPlaySongsPage(BuildContext context) {
+    _navigateTo(context, Routes.playSongs);
+  }
 }
