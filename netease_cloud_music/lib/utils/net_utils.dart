@@ -46,7 +46,7 @@ class NetUtils {
     try {
       return await _dio.get(url, queryParameters: params);
     } on DioError catch (e) {
-      if (e.response == null) {
+      if (e.response.statusCode >= 300 && e.response.statusCode < 400) {
         Future.delayed(Duration(milliseconds: 200), () {
           Application.getIt<NavigateService>().pushNamed(Routes.login);
           Utils.showToast('登录失效，请重新登录');

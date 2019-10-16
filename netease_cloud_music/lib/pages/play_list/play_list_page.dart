@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/music.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
-import 'package:netease_cloud_music/model/song_detail.dart';
 import 'package:netease_cloud_music/pages/play_list/play_list_desc_dialog.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
@@ -31,18 +30,19 @@ class _PlayListPageState extends State<PlayListPage> {
   double _expandedHeight = ScreenUtil().setWidth(610);
   Playlist _data;
 
-
   /// 构建歌单简介
-  Widget buildDescription(){
+  Widget buildDescription() {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
+          pageBuilder: (BuildContext buildContext, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
             return PlayListDescDialog(_data);
           },
           barrierDismissible: true,
-          barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+          barrierLabel:
+              MaterialLocalizations.of(context).modalBarrierDismissLabel,
           transitionDuration: const Duration(milliseconds: 150),
           transitionBuilder: _buildMaterialDialogTransitions,
         );
@@ -53,16 +53,18 @@ class _PlayListPageState extends State<PlayListPage> {
             child: _data == null
                 ? Container()
                 : Text(
-              _data.description,
-              style: smallWhite70TextStyle,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+                    _data.description,
+                    style: smallWhite70TextStyle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
           ),
-          Icon(
-            Icons.keyboard_arrow_right,
-            color: Colors.white70,
-          ),
+          _data == null
+              ? Container()
+              : Icon(
+                  Icons.keyboard_arrow_right,
+                  color: Colors.white70,
+                ),
         ],
       ),
     );
@@ -97,6 +99,7 @@ class _PlayListPageState extends State<PlayListPage> {
                         HEmptyView(20),
                         Expanded(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Text(
@@ -108,17 +111,23 @@ class _PlayListPageState extends State<PlayListPage> {
                               VEmptyView(10),
                               Row(
                                 children: <Widget>[
-                                  OverImgWidget(
-                                      widget.data.creator.avatarUrl, 50),
+                                  _data == null
+                                      ? Container()
+                                      : OverImgWidget(
+                                          _data.creator.avatarUrl, 50),
                                   HEmptyView(5),
-                                  Text(
-                                    widget.data.creator.nickname,
-                                    style: commonWhite70TextStyle,
-                                  ),
-                                  Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: Colors.white70,
-                                  ),
+                                  _data == null
+                                      ? Container()
+                                      : Text(
+                                          _data.creator.nickname,
+                                          style: commonWhite70TextStyle,
+                                        ),
+                                  _data == null
+                                      ? Container()
+                                      : Icon(
+                                          Icons.keyboard_arrow_right,
+                                          color: Colors.white70,
+                                        ),
                                 ],
                               ),
                               VEmptyView(10),
@@ -210,7 +219,11 @@ class _PlayListPageState extends State<PlayListPage> {
     });
   }
 
-  Widget _buildMaterialDialogTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget _buildMaterialDialogTransitions(
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child) {
     return FadeTransition(
       opacity: CurvedAnimation(
         parent: animation,
@@ -219,5 +232,4 @@ class _PlayListPageState extends State<PlayListPage> {
       child: child,
     );
   }
-
 }

@@ -13,7 +13,6 @@ class PlayListDescDialog extends StatelessWidget {
 
   PlayListDescDialog(this._data);
 
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -79,14 +78,21 @@ class PlayListDescDialog extends StatelessWidget {
                             width: Application.screenWidth * 3 / 4,
                           ),
                           VEmptyView(20),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('标签：', style: common14WhiteTextStyle,),
-                              ..._data.tags.map((t) => TagWidget(t)).toList()
-                            ],
-                          ),
-                          VEmptyView(40),
+                          _data.tags.isEmpty
+                              ? Container()
+                              : Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      '标签：',
+                                      style: common14WhiteTextStyle,
+                                    ),
+                                    ..._data.tags
+                                        .map((t) => TagWidget(t))
+                                        .toList()
+                                  ],
+                                ),
+                          _data.tags.isEmpty ? Container() : VEmptyView(40),
                           Text(
                             _data.description,
                             style: common14WhiteTextStyle,
