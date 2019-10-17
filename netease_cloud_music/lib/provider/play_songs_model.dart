@@ -14,8 +14,14 @@ import 'package:netease_cloud_music/utils/utils.dart';
 class PlaySongsModel with ChangeNotifier {
   AudioPlayer _audioPlayer = AudioPlayer();
   AudioPlayer get audioPlayer => _audioPlayer;
-  List<Song> songs = [];
+  List<Song> _songs = [];
   int curIndex = 0;
+
+
+
+  List<Song> get allSongs => _songs;
+
+  Song get curSong => _songs[curIndex];
 
   void init(){
     _audioPlayer.setReleaseMode(ReleaseMode.STOP);
@@ -25,19 +31,23 @@ class PlaySongsModel with ChangeNotifier {
   }
 
   void playSong(Song song){
-    songs.insert(curIndex, song);
-    _play();
+    _songs.insert(curIndex, song);
+    play();
   }
 
   void playSongs(List<Song> songs, {int index}){
-    this.songs = songs;
+    this._songs = songs;
     if(index != null) curIndex = index;
-    _play();
+    play();
   }
 
-  void _play(){
-    print("https://music.163.com/song/media/outer/url?id=${this.songs[curIndex].id}.mp3");
-    _audioPlayer.play("https://music.163.com/song/media/outer/url?id=${this.songs[curIndex].id}.mp3");
+  void addSongs(List<Song> songs){
+    this._songs.addAll(songs);
+  }
+
+  void play(){
+    print("https://music.163.com/song/media/outer/url?id=${this._songs[curIndex].id}.mp3");
+    _audioPlayer.play("https://music.163.com/song/media/outer/url?id=${this._songs[curIndex].id}.mp3");
   }
 
   void pausePlay(){

@@ -33,17 +33,25 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
     _logoController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Future.delayed(Duration(milliseconds: 1000), () {
-          UserModel userModel = Provider.of<UserModel>(context);
-          userModel.initUser();
-          if (userModel.user != null) {
-            NetUtils.refreshLogin(context);
-            NavigatorUtil.goHomePage(context);
-          } else
-            NavigatorUtil.goLoginPage(context);
+        Future.delayed(Duration(milliseconds: 500), () {
+          goPage();
         });
       }
     });
+  }
+
+  void goPage() async{
+
+    UserModel userModel = Provider.of<UserModel>(context);
+    userModel.initUser();
+    if (userModel.user != null) {
+      await NetUtils.refreshLogin(context).then((value){
+        if(value.data != -1){
+          NavigatorUtil.goHomePage(context);
+        }
+      });
+    } else
+      NavigatorUtil.goLoginPage(context);
   }
 
   @override
