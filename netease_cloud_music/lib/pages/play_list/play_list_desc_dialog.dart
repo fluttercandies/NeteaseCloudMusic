@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/application.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/rounded_net_image.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
@@ -22,7 +24,7 @@ class PlayListDescDialog extends StatelessWidget {
         },
         child: Stack(
           children: <Widget>[
-            Image.network(
+            Utils.showNetImage(
               _data.coverImgUrl,
               width: double.infinity,
               height: double.infinity,

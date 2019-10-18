@@ -1,14 +1,18 @@
 import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/application.dart';
 import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
+import 'package:netease_cloud_music/widgets/widget_play_bottom_menu.dart';
+import 'package:netease_cloud_music/widgets/widget_song_progress.dart';
 import 'package:provider/provider.dart';
 
 class PlaySongsPage extends StatefulWidget {
@@ -16,16 +20,21 @@ class PlaySongsPage extends StatefulWidget {
   _PlaySongsPageState createState() => _PlaySongsPageState();
 }
 
-class _PlaySongsPageState extends State<PlaySongsPage> {
-  PlaySongsModel _playSongsModel;
+class _PlaySongsPageState extends State<PlaySongsPage>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((call) {
-      _playSongsModel = Provider.of<PlaySongsModel>(context);
-//      _playSongsModel.playSong(Song(188432));
-      print(_playSongsModel.allSongs);
+    _controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 20));
+    _controller.forward();
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _controller.reset();
+        _controller.forward();
+      }
     });
   }
 
@@ -36,7 +45,7 @@ class _PlaySongsPageState extends State<PlaySongsPage> {
       return Scaffold(
         body: Stack(
           children: <Widget>[
-            Image.network(
+            Utils.showNetImage(
               curSong.picUrl,
               width: Application.screenWidth,
               height: Application.screenHeight,
@@ -73,61 +82,40 @@ class _PlaySongsPageState extends State<PlaySongsPage> {
               ),
             ),
             Align(
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  prefix0.Image.asset(
-                    'images/bet.png',
-                    width: ScreenUtil().setWidth(530),
-                  ),
-                  OverImgWidget(curSong.picUrl, 350),
-                ],
-              ),
-              alignment: Alignment(0.0, -0.2),
-            ),
-            Align(
-              child: Container(
-                height: ScreenUtil().setWidth(200),
-                child: Row(
+              child: RotationTransition(
+                turns: _controller,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: <Widget>[
-                    Expanded(
-                      child: Image.asset(
-                        'images/icon_song_play_type_1.png',
-                        width: ScreenUtil().setWidth(80),
-                        height: ScreenUtil().setWidth(80),
-                      ),
+                    prefix0.Image.asset(
+                      'images/bet.png',
+                      width: ScreenUtil().setWidth(530),
                     ),
-                    Expanded(
-                      child: Image.asset(
-                        'images/icon_song_left.png',
-                        width: ScreenUtil().setWidth(80),
-                        height: ScreenUtil().setWidth(80),
-                      ),
-                    ),
-                    Expanded(
-                      child: Image.asset(
-                        'images/icon_song_play.png',
-                        width: ScreenUtil().setWidth(150),
-                        height: ScreenUtil().setWidth(150),
-                      ),
-                    ),
-                    Expanded(
-                      child: Image.asset(
-                        'images/icon_song_right.png',
-                        width: ScreenUtil().setWidth(80),
-                        height: ScreenUtil().setWidth(80),
-                      ),
-                    ),
-                    Expanded(
-                      child: Image.asset(
-                        'images/icon_play_songs.png',
-                        width: ScreenUtil().setWidth(80),
-                        height: ScreenUtil().setWidth(80),
-                      ),
-                    ),
+                    OverImgWidget(curSong.picUrl, 350),
                   ],
                 ),
               ),
+              alignment: Alignment(0.0, -0.3),
+            ),
+            Align(
+              child: Image.asset(
+                'images/bgm.png',
+                width: ScreenUtil().setWidth(300),
+                height: ScreenUtil().setWidth(400),
+                fit: BoxFit.fitHeight,
+              ),
+              alignment: Alignment(0.3, -0.8),
+            ),
+            Align(
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
+                child: SongProgressWidget(),
+              ),
+              alignment: Alignment(0.0, 0.78),
+            ),
+            Align(
+              child: PlayBottomMenuWidget(),
               alignment: Alignment(0.0, 0.95),
             ),
           ],
@@ -135,4 +123,5 @@ class _PlaySongsPageState extends State<PlaySongsPage> {
       );
     });
   }
+
 }

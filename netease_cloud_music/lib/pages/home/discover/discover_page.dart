@@ -1,5 +1,7 @@
 import 'package:common_utils/common_utils.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/model/album.dart';
 import 'package:netease_cloud_music/model/banner.dart' as prefix0;
@@ -202,7 +204,7 @@ class _HomePrePageState extends State<DiscoverPage>
                   ClipRRect(
                     borderRadius:
                     BorderRadius.all(Radius.circular(8)),
-                    child: Image.network(
+                    child: Utils.showNetImage(
                       data[index].cover,
                     ),
                   ),

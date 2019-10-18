@@ -18,7 +18,7 @@ void main() {
   Application.initSp();
   NetUtils.init();
   Application.setupLocator();
-  AudioPlayer.logEnabled = true;
+//  AudioPlayer.logEnabled = true;
 
 
   runApp(MultiProvider(
@@ -26,8 +26,9 @@ void main() {
       ChangeNotifierProvider<UserModel>.value(
         value: UserModel(),
       ),
-      ChangeNotifierProvider<PlaySongsModel>.value(
-        value: PlaySongsModel()..init(),
+      Provider<PlaySongsModel>(
+        builder: (_) => PlaySongsModel()..init(),
+        dispose: (_, PlaySongsModel model) => model.dispose(),
       ),
     ],
     child: MyApp(),

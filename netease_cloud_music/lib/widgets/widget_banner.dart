@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 
 class CustomBanner extends StatefulWidget {
   final List<String> _images;
@@ -102,7 +104,7 @@ class _CustomBannerState extends State<CustomBanner> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: Image.network(
+                  child: Utils.showNetImage(
                     widget._images[index % length],
                     fit: BoxFit.fitWidth,
                   ),
