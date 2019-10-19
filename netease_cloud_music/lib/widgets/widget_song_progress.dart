@@ -17,9 +17,6 @@ class SongProgressWidget extends StatelessWidget {
                 snapshot.data.substring(snapshot.data.indexOf('-') + 1);
             var curTime =
                 snapshot.data.substring(0, snapshot.data.indexOf('-'));
-            var value = (int.parse(curTime) / double.parse(totalTime)) * 400;
-            print(value);
-
             return Container(
               height: ScreenUtil().setWidth(120),
               child: Row(
@@ -37,16 +34,18 @@ class SongProgressWidget extends StatelessWidget {
                         ),
                       ),
                       child: Slider(
-                        value: value,
+                        value: double.parse(curTime),
                         onChanged: (data) {},
                         onChangeStart: (data){
-                          print('start');
+                          model.pausePlay();
                         },
-                        onChangeEnd: (data){},
+                        onChangeEnd: (data){
+                          model.seekPlay(data.toInt());
+                        },
                         activeColor: Colors.white,
                         inactiveColor: Colors.white30,
                         min: 0,
-                        max: 400,
+                        max: double.parse(totalTime),
                       ),
                     ),
                   ),

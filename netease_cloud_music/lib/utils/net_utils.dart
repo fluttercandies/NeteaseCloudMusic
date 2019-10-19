@@ -25,7 +25,7 @@ import '../application.dart';
 
 class NetUtils {
   static Dio _dio;
-  static final String baseUrl = 'http://192.168.31.196';
+  static final String baseUrl = 'http://118.24.63.15';
 
   static void init() async {
     Directory tempDir = await getTemporaryDirectory();

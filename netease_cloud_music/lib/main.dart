@@ -26,9 +26,8 @@ void main() {
       ChangeNotifierProvider<UserModel>.value(
         value: UserModel(),
       ),
-      Provider<PlaySongsModel>(
+      ChangeNotifierProvider<PlaySongsModel>(
         builder: (_) => PlaySongsModel()..init(),
-        dispose: (_, PlaySongsModel model) => model.dispose(),
       ),
     ],
     child: MyApp(),

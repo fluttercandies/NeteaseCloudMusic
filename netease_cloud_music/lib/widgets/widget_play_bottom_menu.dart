@@ -32,9 +32,7 @@ class _PlayBottomMenuWidgetState extends State<PlayBottomMenuWidget> {
                     : 'images/icon_song_play.png',
                 150,
                 onTap: () {
-                  setState(() {
-                    model.pausePlay();
-                  });
+                  model.pausePlay();
                 },
               ),
               BottomMenu(

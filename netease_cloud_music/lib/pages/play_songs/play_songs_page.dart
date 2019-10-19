@@ -21,16 +21,21 @@ class PlaySongsPage extends StatefulWidget {
 }
 
 class _PlaySongsPageState extends State<PlaySongsPage>
-    with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+    with TickerProviderStateMixin {
+  AnimationController _controller;      // 封面旋转控制器
+  AnimationController _stylusController; //唱针控制器
+  Animation<double> _stylusAnimation;
 
   @override
   void initState() {
     super.initState();
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 20));
-    _controller.forward();
+    _stylusController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _stylusAnimation = Tween<double>(begin: 0, end: -0.08).animate(_stylusController);
     _controller.addStatusListener((status) {
+      // 转完一圈之后继续
       if (status == AnimationStatus.completed) {
         _controller.reset();
         _controller.forward();
@@ -42,6 +47,15 @@ class _PlaySongsPageState extends State<PlaySongsPage>
   Widget build(BuildContext context) {
     return Consumer<PlaySongsModel>(builder: (context, model, child) {
       var curSong = model.curSong;
+      if (model.curState == AudioPlayerState.PLAYING) {
+        // 如果当前状态是在播放当中，则唱片一直旋转，
+        // 并且唱针是移除状态
+        _controller.forward();
+        _stylusController.reverse();
+      } else {
+        _controller.stop();
+        _stylusController.forward();
+      }
       return Scaffold(
         body: Stack(
           children: <Widget>[
@@ -98,13 +112,16 @@ class _PlaySongsPageState extends State<PlaySongsPage>
               alignment: Alignment(0.0, -0.3),
             ),
             Align(
-              child: Image.asset(
-                'images/bgm.png',
-                width: ScreenUtil().setWidth(300),
-                height: ScreenUtil().setWidth(400),
-                fit: BoxFit.fitHeight,
+              child: RotationTransition(
+                turns: _stylusAnimation,
+                alignment: Alignment(-1 + (ScreenUtil().setWidth(45 * 2) / (ScreenUtil().setWidth(293))), -1 + (ScreenUtil().setWidth(45 * 2) / (ScreenUtil().setWidth(504)))),
+                child: Image.asset(
+                  'images/bgm.png',
+                  width: ScreenUtil().setWidth(200),
+                  height: ScreenUtil().setWidth(344),
+                ),
               ),
-              alignment: Alignment(0.3, -0.8),
+              alignment: Alignment(0.24, -0.75),
             ),
             Align(
               child: Padding(
@@ -124,4 +141,10 @@ class _PlaySongsPageState extends State<PlaySongsPage>
     });
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    _stylusController.dispose();
+    super.dispose();
+  }
 }

@@ -12,7 +12,7 @@ import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 
-class PlaySongsModel{
+class PlaySongsModel with ChangeNotifier{
   AudioPlayer _audioPlayer = AudioPlayer();
   AudioPlayer get audioPlayer => _audioPlayer;
   StreamController<String> _curPositionController = StreamController<String>.broadcast();
@@ -30,18 +30,23 @@ class PlaySongsModel{
 
   void init() {
     _audioPlayer.setReleaseMode(ReleaseMode.STOP);
+    // 播放状态监听
     _audioPlayer.onPlayerStateChanged.listen((state) {
       _curState = state;
       /// 先做顺序播放
       if(state == AudioPlayerState.COMPLETED){
         nextPlay();
       }
+      // 其实也只有在播放状态更新时才需要通知。
+      notifyListeners();
     });
     _audioPlayer.onDurationChanged.listen((d) {
       curSongDuration = d;
     });
+    // 当前播放进度监听
     _audioPlayer.onAudioPositionChanged.listen((Duration p) {
-      _curPositionController.sink.add('${p.inMilliseconds}-${curSongDuration.inMilliseconds}');
+      print('${p.inMilliseconds}-${curSongDuration.inMilliseconds}');
+      _curPositionController.sink.add('${p.inMilliseconds > curSongDuration.inMilliseconds ? curSongDuration.inMilliseconds : p.inMilliseconds}-${curSongDuration.inMilliseconds}');
     });
   }
 
@@ -75,6 +80,12 @@ class PlaySongsModel{
     }
   }
 
+  /// 跳转到固定时间
+  void seekPlay(int milliseconds){
+    _audioPlayer.seek(Duration(milliseconds: milliseconds));
+    resumePlay();
+  }
+
   /// 恢复播放
   void resumePlay() {
     _audioPlayer.resume();
@@ -91,7 +102,6 @@ class PlaySongsModel{
   }
 
   void prePlay(){
-
     if(curIndex <= 0){
 
     }else{
@@ -100,8 +110,12 @@ class PlaySongsModel{
     }
   }
 
-  dispose(){
+  @override
+  void dispose() {
+    super.dispose();
     _curPositionController.close();
     _audioPlayer.dispose();
   }
+
+
 }
