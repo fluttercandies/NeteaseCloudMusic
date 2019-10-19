@@ -19,7 +19,13 @@ class _PlayBottomMenuWidgetState extends State<PlayBottomMenuWidget> {
           child: Row(
             children: <Widget>[
               BottomMenu('images/icon_song_play_type_1.png', 80),
-              BottomMenu('images/icon_song_left.png', 80),
+              BottomMenu(
+                'images/icon_song_left.png',
+                80,
+                onTap: () {
+                  model.prePlay();
+                },
+              ),
               BottomMenu(
                 model.curState != AudioPlayerState.PAUSED
                     ? 'images/icon_song_pause.png'
@@ -31,7 +37,13 @@ class _PlayBottomMenuWidgetState extends State<PlayBottomMenuWidget> {
                   });
                 },
               ),
-              BottomMenu('images/icon_song_right.png', 80),
+              BottomMenu(
+                'images/icon_song_right.png',
+                80,
+                onTap: () {
+                  model.nextPlay();
+                },
+              ),
               BottomMenu('images/icon_play_songs.png', 80),
             ],
           ),

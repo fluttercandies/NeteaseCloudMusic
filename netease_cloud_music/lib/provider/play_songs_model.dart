@@ -31,8 +31,11 @@ class PlaySongsModel{
   void init() {
     _audioPlayer.setReleaseMode(ReleaseMode.STOP);
     _audioPlayer.onPlayerStateChanged.listen((state) {
-      print('playState --- $state}');
       _curState = state;
+      /// 先做顺序播放
+      if(state == AudioPlayerState.COMPLETED){
+        nextPlay();
+      }
     });
     _audioPlayer.onDurationChanged.listen((d) {
       curSongDuration = d;
@@ -57,13 +60,13 @@ class PlaySongsModel{
     this._songs.addAll(songs);
   }
 
+  /// 播放
   void play() {
-    print(
-        "https://music.163.com/song/media/outer/url?id=${this._songs[curIndex].id}.mp3");
     _audioPlayer.play(
         "https://music.163.com/song/media/outer/url?id=${this._songs[curIndex].id}.mp3");
   }
 
+  /// 暂停、恢复
   void pausePlay() {
     if (_audioPlayer.state == AudioPlayerState.PAUSED) {
       resumePlay();
@@ -72,8 +75,29 @@ class PlaySongsModel{
     }
   }
 
+  /// 恢复播放
   void resumePlay() {
     _audioPlayer.resume();
+  }
+
+  /// 下一首
+  void nextPlay(){
+    if(curIndex >= _songs.length){
+
+    }else{
+      curIndex++;
+      play();
+    }
+  }
+
+  void prePlay(){
+
+    if(curIndex <= 0){
+
+    }else{
+      curIndex--;
+      play();
+    }
   }
 
   dispose(){
