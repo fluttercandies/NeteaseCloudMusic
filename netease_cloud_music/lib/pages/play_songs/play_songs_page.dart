@@ -7,9 +7,14 @@ import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/application.dart';
 import 'package:netease_cloud_music/model/song.dart';
+import 'package:netease_cloud_music/model/song_comment.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
+import 'package:netease_cloud_music/utils/net_utils.dart';
+import 'package:netease_cloud_music/utils/number_utils.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
+import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
+import 'package:netease_cloud_music/widgets/widget_img_menu.dart';
 import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_bottom_menu.dart';
 import 'package:netease_cloud_music/widgets/widget_song_progress.dart';
@@ -22,7 +27,7 @@ class PlaySongsPage extends StatefulWidget {
 
 class _PlaySongsPageState extends State<PlaySongsPage>
     with TickerProviderStateMixin {
-  AnimationController _controller;      // 封面旋转控制器
+  AnimationController _controller; // 封面旋转控制器
   AnimationController _stylusController; //唱针控制器
   Animation<double> _stylusAnimation;
 
@@ -33,7 +38,8 @@ class _PlaySongsPageState extends State<PlaySongsPage>
         AnimationController(vsync: this, duration: Duration(seconds: 20));
     _stylusController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    _stylusAnimation = Tween<double>(begin: 0, end: -0.08).animate(_stylusController);
+    _stylusAnimation =
+        Tween<double>(begin: 0, end: -0.08).animate(_stylusController);
     _controller.addStatusListener((status) {
       // 转完一圈之后继续
       if (status == AnimationStatus.completed) {
@@ -61,8 +67,8 @@ class _PlaySongsPageState extends State<PlaySongsPage>
           children: <Widget>[
             Utils.showNetImage(
               curSong.picUrl,
-              width: Application.screenWidth,
-              height: Application.screenHeight,
+              width: double.infinity,
+              height: double.infinity,
               fit: BoxFit.fitHeight,
             ),
             BackdropFilter(
@@ -114,7 +120,13 @@ class _PlaySongsPageState extends State<PlaySongsPage>
             Align(
               child: RotationTransition(
                 turns: _stylusAnimation,
-                alignment: Alignment(-1 + (ScreenUtil().setWidth(45 * 2) / (ScreenUtil().setWidth(293))), -1 + (ScreenUtil().setWidth(45 * 2) / (ScreenUtil().setWidth(504)))),
+                alignment: Alignment(
+                    -1 +
+                        (ScreenUtil().setWidth(45 * 2) /
+                            (ScreenUtil().setWidth(293))),
+                    -1 +
+                        (ScreenUtil().setWidth(45 * 2) /
+                            (ScreenUtil().setWidth(504)))),
                 child: Image.asset(
                   'images/bgm.png',
                   width: ScreenUtil().setWidth(200),
@@ -124,21 +136,82 @@ class _PlaySongsPageState extends State<PlaySongsPage>
               alignment: Alignment(0.24, -0.75),
             ),
             Align(
+              child: buildSongsHandle(model),
+              alignment: Alignment(0.0, 0.68),
+            ),
+            Align(
               child: Padding(
                 padding:
-                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
-                child: SongProgressWidget(),
+                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(30)),
+                child: SongProgressWidget(model),
               ),
               alignment: Alignment(0.0, 0.78),
             ),
             Align(
-              child: PlayBottomMenuWidget(),
+              child: PlayBottomMenuWidget(model),
               alignment: Alignment(0.0, 0.95),
             ),
           ],
         ),
       );
     });
+  }
+
+  Widget buildSongsHandle(PlaySongsModel model) {
+    return Container(
+      height: ScreenUtil().setWidth(150),
+      child: Row(
+        children: <Widget>[
+          ImageMenuWidget('images/icon_dislike.png', 80),
+          ImageMenuWidget(
+            'images/icon_song_download.png',
+            80,
+            onTap: () {},
+          ),
+          ImageMenuWidget(
+            'images/bfc.png',
+            80,
+            onTap: () {},
+          ),
+          Expanded(
+            child: CustomFutureBuilder<SongCommentData>(
+              futureFunc: NetUtils.getSongCommentData,
+              params: {'id': model.curSong.id, 'offset': 1},
+              loadingWidget: Image.asset(
+                'images/icon_song_comment.png',
+                width: ScreenUtil().setWidth(80),
+                height: ScreenUtil().setWidth(80),
+              ),
+              builder: (context, data) {
+                return GestureDetector(
+                  onTap: () {},
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'images/icon_song_comment.png',
+                        width: ScreenUtil().setWidth(80),
+                        height: ScreenUtil().setWidth(80),
+                      ),
+                      Container(
+                        width: ScreenUtil().setWidth(100),
+                        height: ScreenUtil().setWidth(60),
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          '${NumberUtils.formatNum(data.total)}',
+                          style: common10White70TextStyle,
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          ImageMenuWidget('images/icon_song_more.png', 80),
+        ],
+      ),
+    );
   }
 
   @override

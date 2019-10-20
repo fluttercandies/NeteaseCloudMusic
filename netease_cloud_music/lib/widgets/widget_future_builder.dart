@@ -14,12 +14,20 @@ class CustomFutureBuilder<T> extends StatefulWidget {
   final ValueWidgetBuilder<T> builder;
   final Function futureFunc;
   final Map<String, dynamic> params;
+  final Widget loadingWidget;
 
   CustomFutureBuilder({
     @required this.futureFunc,
     @required this.builder,
     this.params,
-  });
+    Widget loadingWidget,
+  }) : loadingWidget = loadingWidget == null
+            ? Container(
+                alignment: Alignment.center,
+                height: ScreenUtil().setWidth(200),
+                child: CupertinoActivityIndicator(),
+              )
+            : loadingWidget;
 
   @override
   _CustomFutureBuilderState<T> createState() => _CustomFutureBuilderState<T>();
@@ -46,13 +54,20 @@ class _CustomFutureBuilderState<T> extends State<CustomFutureBuilder<T>> {
   }
 
   @override
+  void didUpdateWidget(CustomFutureBuilder<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.futureFunc != widget.futureFunc ||
+        oldWidget.params != widget.params) {
+      WidgetsBinding.instance.addPostFrameCallback((call) {
+        _request();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _future == null
-        ? Container(
-            alignment: Alignment.center,
-            height: ScreenUtil().setWidth(200),
-            child: CupertinoActivityIndicator(),
-          )
+        ? widget.loadingWidget
         : FutureBuilder(
             future: _future,
             builder: (context, snapshot) {
@@ -60,11 +75,7 @@ class _CustomFutureBuilderState<T> extends State<CustomFutureBuilder<T>> {
                 case ConnectionState.none:
                 case ConnectionState.waiting:
                 case ConnectionState.active:
-                  return Container(
-                    alignment: Alignment.center,
-                    height: ScreenUtil().setWidth(200),
-                    child: CupertinoActivityIndicator(),
-                  );
+                  return widget.loadingWidget;
                 case ConnectionState.done:
                   if (snapshot.hasData) {
                     return widget.builder(context, snapshot.data);

@@ -45,7 +45,6 @@ class PlaySongsModel with ChangeNotifier{
     });
     // 当前播放进度监听
     _audioPlayer.onAudioPositionChanged.listen((Duration p) {
-      print('${p.inMilliseconds}-${curSongDuration.inMilliseconds}');
       _curPositionController.sink.add('${p.inMilliseconds > curSongDuration.inMilliseconds ? curSongDuration.inMilliseconds : p.inMilliseconds}-${curSongDuration.inMilliseconds}');
     });
   }

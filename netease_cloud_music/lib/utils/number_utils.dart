@@ -27,4 +27,12 @@ class NumberUtils {
     }
     return result;
   }
+
+  static String formatNum(num n){
+    if(n >= MILLION){
+      return '${n ~/ MILLION}w+';
+    }else{
+      return '$n';
+    }
+  }
 }

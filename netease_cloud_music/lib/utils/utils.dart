@@ -1,6 +1,5 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
@@ -26,16 +25,13 @@ class Utils {
               image: state.extendedImageInfo?.image,
               width: width,
               height: height,
+              fit: fit,
             );
           case LoadState.failed:
             return GestureDetector(
               child: Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
-                  Image.asset(
-                    "assets/failed.jpg",
-                    fit: BoxFit.fill,
-                  ),
                   Positioned(
                     bottom: 0.0,
                     left: 0.0,

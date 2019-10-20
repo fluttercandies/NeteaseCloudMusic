@@ -10,7 +10,7 @@ import 'package:netease_cloud_music/model/daily_songs.dart';
 import 'package:netease_cloud_music/model/mv.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
-import 'package:netease_cloud_music/model/song.dart';
+import 'package:netease_cloud_music/model/song_comment.dart' hide User;
 import 'package:netease_cloud_music/model/song_detail.dart';
 import 'package:netease_cloud_music/model/top_list.dart';
 import 'package:netease_cloud_music/model/user.dart';
@@ -31,8 +31,7 @@ class NetUtils {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
     CookieJar cj = PersistCookieJar(dir: tempPath);
-    _dio = Dio(
-        BaseOptions(baseUrl: '$baseUrl:3000', followRedirects: false))
+    _dio = Dio(BaseOptions(baseUrl: '$baseUrl:3000', followRedirects: false))
       ..interceptors.add(CookieManager(cj))
       ..interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
@@ -74,7 +73,7 @@ class NetUtils {
     return User.fromJson(response.data);
   }
 
-  static Future<Response> refreshLogin(BuildContext context) async{
+  static Future<Response> refreshLogin(BuildContext context) async {
     return await _get(context, '/login/refresh', isShowLoading: false);
   }
 
@@ -94,7 +93,7 @@ class NetUtils {
   static Future<AlbumData> getAlbumData(
     BuildContext context, {
     Map<String, dynamic> params = const {
-      'offset': 0,
+      'offset': 1,
       'limit': 10,
     },
   }) async {
@@ -106,7 +105,7 @@ class NetUtils {
   static Future<MVData> getTopMvData(
     BuildContext context, {
     Map<String, dynamic> params = const {
-      'offset': 0,
+      'offset': 1,
       'limit': 10,
     },
   }) async {
@@ -162,4 +161,12 @@ class NetUtils {
     return TopListData.fromJson(response.data);
   }
 
+  /// 获取评论列表
+  static Future<SongCommentData> getSongCommentData(
+    BuildContext context, {
+    @required Map<String, dynamic> params,
+  }) async {
+    var response = await _get(context, '/comment/music', params: params);
+    return SongCommentData.fromJson(response.data);
+  }
 }
