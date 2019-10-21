@@ -54,7 +54,12 @@ class PlayListAppBarWidget extends StatelessWidget {
                     height: double.infinity,
                     fit: BoxFit.cover,
                   )
-                : Image.asset(backgroundImg),
+                : Image.asset(
+                    backgroundImg,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
             BackdropFilter(
               filter: ImageFilter.blur(
                 sigmaY: sigma,

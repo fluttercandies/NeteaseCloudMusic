@@ -174,38 +174,46 @@ class _PlaySongsPageState extends State<PlaySongsPage>
             onTap: () {},
           ),
           Expanded(
-            child: CustomFutureBuilder<SongCommentData>(
-              futureFunc: NetUtils.getSongCommentData,
-              params: {'id': model.curSong.id, 'offset': 1},
-              loadingWidget: Image.asset(
-                'images/icon_song_comment.png',
-                width: ScreenUtil().setWidth(80),
+            child: Align(
+              child: Container(
+                width: ScreenUtil().setWidth(130),
                 height: ScreenUtil().setWidth(80),
-              ),
-              builder: (context, data) {
-                return GestureDetector(
-                  onTap: () {},
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        'images/icon_song_comment.png',
-                        width: ScreenUtil().setWidth(80),
-                        height: ScreenUtil().setWidth(80),
-                      ),
-                      Container(
-                        width: ScreenUtil().setWidth(100),
-                        height: ScreenUtil().setWidth(60),
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          '${NumberUtils.formatNum(data.total)}',
-                          style: common10White70TextStyle,
-                        ),
-                      )
-                    ],
+                child: CustomFutureBuilder<SongCommentData>(
+                  futureFunc: NetUtils.getSongCommentData,
+                  params: {'id': model.curSong.id, 'offset': 1},
+                  loadingWidget: Image.asset(
+                    'images/icon_song_comment.png',
+                    width: ScreenUtil().setWidth(80),
+                    height: ScreenUtil().setWidth(80),
                   ),
-                );
-              },
+                  builder: (context, data) {
+                    return GestureDetector(
+                      onTap: () {},
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            'images/icon_song_comment.png',
+                            width: ScreenUtil().setWidth(80),
+                            height: ScreenUtil().setWidth(80),
+                          ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                              margin: EdgeInsets.only(top: ScreenUtil().setWidth(12)),
+                              width: ScreenUtil().setWidth(58),
+                              child: Text(
+                                '${NumberUtils.formatNum(data.total)}',
+                                style: common10White70TextStyle,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
           ),
           ImageMenuWidget('images/icon_song_more.png', 80),

@@ -56,11 +56,23 @@ class _CustomFutureBuilderState<T> extends State<CustomFutureBuilder<T>> {
   @override
   void didUpdateWidget(CustomFutureBuilder<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.futureFunc != widget.futureFunc ||
-        oldWidget.params != widget.params) {
+    print('did');
+    // 如果方法不一样了，那么则重新请求
+    if (oldWidget.futureFunc != widget.futureFunc) {
+      print('func not');
       WidgetsBinding.instance.addPostFrameCallback((call) {
         _request();
       });
+    }
+
+    // 如果方法还一样，但是参数不一样了，则重新请求
+    if ((oldWidget.futureFunc == widget.futureFunc) && oldWidget.params != null && widget.params != null) {
+      print('params not');
+      if (oldWidget.params.values.join() != widget.params.values.join()) {
+        WidgetsBinding.instance.addPostFrameCallback((call) {
+          _request();
+        });
+      }
     }
   }
 

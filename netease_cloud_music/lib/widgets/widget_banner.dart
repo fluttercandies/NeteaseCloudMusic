@@ -56,8 +56,8 @@ class _CustomBannerState extends State<CustomBanner> {
             padding: const EdgeInsets.symmetric(horizontal: 3.0),
             child: ClipOval(
               child: Container(
-                width: 8,
-                height: 8,
+                width: ScreenUtil().setWidth(12),
+                height: ScreenUtil().setWidth(12),
                 color: s == widget._images[_curIndex % length]
                     ? Colors.red
                     : Colors.grey,
@@ -103,7 +103,7 @@ class _CustomBannerState extends State<CustomBanner> {
                   horizontal: ScreenUtil().setWidth(15),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(10))),
                   child: Utils.showNetImage(
                     widget._images[index % length],
                     fit: BoxFit.fitWidth,

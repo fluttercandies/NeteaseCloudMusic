@@ -30,7 +30,8 @@ class NumberUtils {
 
   static String formatNum(num n){
     if(n >= MILLION){
-      return '${n ~/ MILLION}w+';
+      var r = n ~/ MILLION;
+      return '${r >= 10 ? 10 : r}w+';
     }else{
       return '$n';
     }

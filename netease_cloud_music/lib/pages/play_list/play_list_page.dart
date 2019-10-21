@@ -106,6 +106,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                 widget.data.name,
                                 softWrap: true,
                                 maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: mWhiteBoldTextStyle,
                               ),
                               VEmptyView(10),
@@ -116,12 +117,16 @@ class _PlayListPageState extends State<PlayListPage> {
                                       : OverImgWidget(
                                           _data.creator.avatarUrl, 50),
                                   HEmptyView(5),
-                                  _data == null
-                                      ? Container()
-                                      : Text(
-                                          _data.creator.nickname,
-                                          style: commonWhite70TextStyle,
-                                        ),
+                                  Expanded(
+                                    child: _data == null
+                                        ? Container()
+                                        : Text(
+                                            _data.creator.nickname,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: commonWhite70TextStyle,
+                                          ),
+                                  ),
                                   _data == null
                                       ? Container()
                                       : Icon(

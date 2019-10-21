@@ -166,7 +166,7 @@ class NetUtils {
     BuildContext context, {
     @required Map<String, dynamic> params,
   }) async {
-    var response = await _get(context, '/comment/music', params: params);
+    var response = await _get(context, '/comment/music', params: params, isShowLoading: false);
     return SongCommentData.fromJson(response.data);
   }
 }
