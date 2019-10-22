@@ -9,8 +9,9 @@ class NumberUtils {
     //最终返回的结果值
     String result = amount.toString();
 
-    //金额大于1百万小于1亿
-    if (amount > MILLIONS && amount <= BILLION) {
+    if(amount > MILLION * 10 && amount <= MILLIONS){
+      result = '${(amount / MILLION).toStringAsFixed(1)}$MILLION_UNIT';
+    }else if (amount > MILLIONS && amount <= BILLION) {
       //如果值刚好是10000万，则要变成1亿
       if (amount == BILLION) {
         result = '${amount ~/ BILLION}$BILLION_UNIT';

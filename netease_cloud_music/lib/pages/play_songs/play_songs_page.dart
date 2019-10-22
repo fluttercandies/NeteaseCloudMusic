@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/application.dart';
+import 'package:netease_cloud_music/model/comment_head.dart';
 import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/model/song_comment.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
+import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/utils/number_utils.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
@@ -37,7 +39,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 20));
     _stylusController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _stylusAnimation =
         Tween<double>(begin: 0, end: -0.08).animate(_stylusController);
     _controller.addStatusListener((status) {
@@ -102,38 +104,46 @@ class _PlaySongsPageState extends State<PlaySongsPage>
               ),
             ),
             Align(
-              child: RotationTransition(
-                turns: _controller,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    prefix0.Image.asset(
-                      'images/bet.png',
-                      width: ScreenUtil().setWidth(530),
-                    ),
-                    OverImgWidget(curSong.picUrl, 350),
-                  ],
+              alignment: Alignment.topCenter,
+              child: Container(
+                margin: EdgeInsets.only(top: ScreenUtil().setWidth(310)),
+                width: ScreenUtil().setWidth(530),
+                height: ScreenUtil().setWidth(530),
+                child: RotationTransition(
+                  turns: _controller,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      prefix0.Image.asset(
+                        'images/bet.png',
+                        width: ScreenUtil().setWidth(530),
+                      ),
+                      OverImgWidget(curSong.picUrl, 350),
+                    ],
+                  ),
                 ),
               ),
-              alignment: Alignment(0.0, -0.3),
             ),
             Align(
-              child: RotationTransition(
-                turns: _stylusAnimation,
-                alignment: Alignment(
-                    -1 +
-                        (ScreenUtil().setWidth(45 * 2) /
-                            (ScreenUtil().setWidth(293))),
-                    -1 +
-                        (ScreenUtil().setWidth(45 * 2) /
-                            (ScreenUtil().setWidth(504)))),
-                child: Image.asset(
-                  'images/bgm.png',
-                  width: ScreenUtil().setWidth(200),
-                  height: ScreenUtil().setWidth(344),
+              child: Container(
+                margin: EdgeInsets.only(top: ScreenUtil().setWidth(150)),
+                child: RotationTransition(
+                  turns: _stylusAnimation,
+                  alignment: Alignment(
+                      -1 +
+                          (ScreenUtil().setWidth(45 * 2) /
+                              (ScreenUtil().setWidth(293))),
+                      -1 +
+                          (ScreenUtil().setWidth(45 * 2) /
+                              (ScreenUtil().setWidth(504)))),
+                  child: Image.asset(
+                    'images/bgm.png',
+                    width: ScreenUtil().setWidth(146.5),
+                    height: ScreenUtil().setWidth(252),
+                  ),
                 ),
               ),
-              alignment: Alignment(0.24, -0.75),
+              alignment: Alignment(0.16, -1),
             ),
             Align(
               child: buildSongsHandle(model),
@@ -188,7 +198,9 @@ class _PlaySongsPageState extends State<PlaySongsPage>
                   ),
                   builder: (context, data) {
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        NavigatorUtil.goCommentPage(context, data: CommentHead(model.curSong.picUrl, model.curSong.name, model.curSong.artists, data.total, model.curSong.id));
+                      },
                       child: Stack(
                         alignment: Alignment.center,
                         children: <Widget>[

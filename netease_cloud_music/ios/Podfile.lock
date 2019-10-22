@@ -6,7 +6,7 @@ PODS:
     - Flutter
   - path_provider (0.0.1):
     - Flutter
-  - permission_handler (3.2.2):
+  - permission_handler (3.3.0):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
@@ -37,9 +37,9 @@ SPEC CHECKSUMS:
   audioplayers: 84f968cea3f2deab00ec4f8ff53358b3c0b3992c
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
-  path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
-  permission_handler: d59f41439f5bc6c4d1005f3355e98f05ddc68ece
-  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
+  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
+  shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
 
 PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
 

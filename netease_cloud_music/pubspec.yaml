@@ -37,6 +37,7 @@ dependencies:
   extended_image: ^0.6.1
   get_it: ^3.0.1
   audioplayers: ^0.13.2
+  flutter_easyrefresh: ^2.0.4
 
 dev_dependencies:
   flutter_test:

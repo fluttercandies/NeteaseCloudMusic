@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:netease_cloud_music/model/comment_head.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
 import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/fluro_convert_utils.dart';
@@ -50,5 +51,13 @@ class NavigatorUtil {
   /// 播放歌曲页面
   static void goPlaySongsPage(BuildContext context) {
     _navigateTo(context, Routes.playSongs);
+  }
+
+
+  /// 评论页面
+  static void goCommentPage(BuildContext context,
+      {@required CommentHead data}) {
+    _navigateTo(context,
+        "${Routes.comment}?data=${FluroConvertUtils.object2string(data)}");
   }
 }
