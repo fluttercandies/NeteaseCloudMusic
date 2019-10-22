@@ -23,6 +23,7 @@ class DailySongsPage extends StatefulWidget {
 class _DailySongsPageState extends State<DailySongsPage> {
   double _expandedHeight = ScreenUtil().setWidth(340);
   int _count;
+  DailySongsData data;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,9 @@ class _DailySongsPageState extends State<DailySongsPage> {
           PlayListAppBarWidget(
             backgroundImg: 'images/bg_daily.png',
             count: _count,
+            playOnTap: (model) {
+              playSongs(model, 0);
+            },
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -77,6 +81,7 @@ class _DailySongsPageState extends State<DailySongsPage> {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
+                        this.data = data;
                         var d = data.recommend[index];
                         return WidgetMusicListItem(
                           MusicData(
@@ -86,19 +91,7 @@ class _DailySongsPageState extends State<DailySongsPage> {
                               artists:
                                   "${d.artists.map((a) => a.name).toList().join('/')} - ${d.album.name}"),
                           onTap: () {
-                            model.playSongs(
-                              data.recommend
-                                  .map((r) => Song(
-                                        r.id,
-                                        name: r.name,
-                                        picUrl: r.album.picUrl,
-                                        artists:
-                                            '${r.artists.map((a) => a.name).toList().join('/')}',
-                                      ))
-                                  .toList(),
-                              index: index,
-                            );
-                            NavigatorUtil.goPlaySongsPage(context);
+                            playSongs(model, index);
                           },
                         );
                       },
@@ -112,6 +105,21 @@ class _DailySongsPageState extends State<DailySongsPage> {
         ],
       ),
     );
+  }
+
+  void playSongs(PlaySongsModel model, int index) {
+    model.playSongs(
+      data.recommend
+          .map((r) => Song(
+                r.id,
+                name: r.name,
+                picUrl: r.album.picUrl,
+                artists: '${r.artists.map((a) => a.name).toList().join('/')}',
+              ))
+          .toList(),
+      index: index,
+    );
+    NavigatorUtil.goPlaySongsPage(context);
   }
 
   void setCount(int count) {

@@ -13,7 +13,7 @@ class PlayListAppBarWidget extends StatelessWidget {
   final String backgroundImg;
   final String title;
   final double sigma;
-  final VoidCallback playOnTap;
+  final PlayModelCallback playOnTap;
   final int count;
 
   PlayListAppBarWidget({

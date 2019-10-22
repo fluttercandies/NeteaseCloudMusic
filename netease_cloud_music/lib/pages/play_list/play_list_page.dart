@@ -5,7 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/music.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
+import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/pages/play_list/play_list_desc_dialog.dart';
+import 'package:netease_cloud_music/provider/play_songs_model.dart';
+import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/h_empty_view.dart';
@@ -16,6 +19,7 @@ import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_app_bar.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_cover.dart';
 import 'package:netease_cloud_music/widgets/widget_sliver_future_builder.dart';
+import 'package:provider/provider.dart';
 
 class PlayListPage extends StatefulWidget {
   final Recommend data;
@@ -78,6 +82,9 @@ class _PlayListPageState extends State<PlayListPage> {
         slivers: <Widget>[
           PlayListAppBarWidget(
             sigma: 20,
+            playOnTap: (model){
+              playSongs(model, 0);
+            },
             content: SafeArea(
               child: Padding(
                 padding: EdgeInsets.only(
@@ -196,22 +203,44 @@ class _PlayListPageState extends State<PlayListPage> {
             params: {'id': widget.data.id},
             builder: (context, data) {
               setData(data.playlist);
-              return SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                var d = data.playlist.tracks[index];
-                return WidgetMusicListItem(MusicData(
-                  mvid: d.mv,
-                  index: index + 1,
-                  songName: d.name,
-                  artists:
-                      '${d.ar.map((a) => a.name).toList().join('/')} - ${d.al.name}',
-                ));
-              }, childCount: data.playlist.trackIds.length));
+              return Consumer<PlaySongsModel>(builder: (context, model, child) {
+                return SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                  var d = data.playlist.tracks[index];
+                  return WidgetMusicListItem(
+                    MusicData(
+                      mvid: d.mv,
+                      index: index + 1,
+                      songName: d.name,
+                      artists:
+                          '${d.ar.map((a) => a.name).toList().join('/')} - ${d.al.name}',
+                    ),
+                    onTap: () {
+                      playSongs(model, index);
+                    },
+                  );
+                }, childCount: data.playlist.trackIds.length));
+              });
             },
           ),
         ],
       ),
     );
+  }
+
+  void playSongs(PlaySongsModel model, int index) {
+    model.playSongs(
+      _data.tracks
+          .map((r) => Song(
+                r.id,
+                name: r.name,
+                picUrl: r.al.picUrl,
+                artists: '${r.ar.map((a) => a.name).toList().join('/')}',
+              ))
+          .toList(),
+      index: index,
+    );
+    NavigatorUtil.goPlaySongsPage(context);
   }
 
   void setData(Playlist data) {
