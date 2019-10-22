@@ -160,7 +160,7 @@ class _CommentPageState extends State<CommentPage> {
               Text(
                 data.content,
                 style:
-                    TextStyle(fontSize: 16, color: Colors.black87, height: 1.7),
+                    TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
               )
             ],
           ),
