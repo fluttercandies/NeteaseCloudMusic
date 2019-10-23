@@ -33,7 +33,7 @@ class PlayListPage extends StatefulWidget {
 }
 
 class _PlayListPageState extends State<PlayListPage> {
-  double _expandedHeight = ScreenUtil().setWidth(620);
+  double _expandedHeight = ScreenUtil().setWidth(630);
   Playlist _data;
 
   /// 构建歌单简介
@@ -98,7 +98,7 @@ class _PlayListPageState extends State<PlayListPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         PlayListCoverWidget(
                           widget.data.picUrl,
@@ -124,7 +124,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                   _data == null
                                       ? Container()
                                       : OverImgWidget(
-                                          _data.creator.avatarUrl, 50),
+                                          _data.creator.avatarUrl, 40),
                                   HEmptyView(5),
                                   Expanded(
                                     child: _data == null
@@ -151,47 +151,29 @@ class _PlayListPageState extends State<PlayListPage> {
                         ),
                       ],
                     ),
-                    VEmptyView(15),
-                    Row(
-                      children: <Widget>[
-                        FooterTabWidget(
-                            'images/icon_comment.png',
-                            '${_data == null ? "评论" : _data.commentCount}',
-                            () {
-                              NavigatorUtil.goCommentPage(context, data: CommentHead(_data.coverImgUrl, _data.name, _data.creator.nickname, _data.commentCount,_data.id, CommentType.playList.index));
-                            }),
-                        FooterTabWidget(
-                            'images/icon_share.png',
-                            '${_data == null ? "分享" : _data.shareCount}',
-                            () {}),
-                        FooterTabWidget(
-                            'images/icon_download.png', '下载', () {}),
-                        Expanded(
-                          child: GestureDetector(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  width: ScreenUtil().setWidth(70),
-                                  height: ScreenUtil().setWidth(70),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Image.asset(
-                                      'images/icon_multi_select.png',
-                                      width: ScreenUtil().setWidth(40),
-                                      height: ScreenUtil().setWidth(40),
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  '多选',
-                                  style: common14White70TextStyle,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                    VEmptyView(10),
+                    Container(
+                      margin: EdgeInsets.only(top: ScreenUtil().setWidth(12)),
+                      alignment: Alignment.center,
+                      child: Row(
+                        children: <Widget>[
+                          FooterTabWidget(
+                              'images/icon_comment.png',
+                              '${_data == null ? "评论" : _data.commentCount}',
+                                  () {
+                                NavigatorUtil.goCommentPage(context, data: CommentHead(_data.coverImgUrl, _data.name, _data.creator.nickname, _data.commentCount,_data.id, CommentType.playList.index));
+                              }),
+                          FooterTabWidget(
+                              'images/icon_share.png',
+                              '${_data == null ? "分享" : _data.shareCount}',
+                                  () {}),
+                          FooterTabWidget(
+                              'images/icon_download.png', '下载', () {}),
+                          FooterTabWidget(
+                              'images/icon_multi_select.png', '多选', () {}),
+
+                        ],
+                      ),
                     )
                   ],
                 ),

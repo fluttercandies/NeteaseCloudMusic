@@ -237,6 +237,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
 
   @override
   void dispose() {
+    print('play page dispose ');
     _controller.dispose();
     _stylusController.dispose();
     super.dispose();

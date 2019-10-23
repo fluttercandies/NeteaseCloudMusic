@@ -4,12 +4,18 @@ PODS:
   - Flutter (1.0.0)
   - fluttertoast (0.0.2):
     - Flutter
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - path_provider (0.0.1):
     - Flutter
   - permission_handler (3.3.0):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
+  - sqflite (0.0.1):
+    - Flutter
+    - FMDB (~> 2.7.2)
 
 DEPENDENCIES:
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
@@ -18,6 +24,11 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - FMDB
 
 EXTERNAL SOURCES:
   audioplayers:
@@ -32,14 +43,18 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
   audioplayers: 84f968cea3f2deab00ec4f8ff53358b3c0b3992c
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+  sqflite: ff1d9da63c06588cc8d1faf7256d741f16989d5a
 
 PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
 

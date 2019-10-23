@@ -18,7 +18,8 @@ class FooterTabWidget extends StatelessWidget {
         onTap: onTap,
         child: Column(
           children: <Widget>[
-            Image.asset(img, width: ScreenUtil().setWidth(70), height: ScreenUtil().setWidth(70), fit: BoxFit.fitWidth,),
+            Image.asset(img, width: ScreenUtil().setWidth(50), height: ScreenUtil().setWidth(50),),
+            VEmptyView(8),
             Text(text, style: common14White70TextStyle,)
           ],
         ),
