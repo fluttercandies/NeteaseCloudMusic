@@ -51,6 +51,7 @@ class SongCommentData {
   int code;
   List<Comments> comments;
   List<Comments> hotComments;
+  Comments comment;
   int total;
   bool more;
 
@@ -63,6 +64,7 @@ class SongCommentData {
     this.total,
     this.more,
     this.hotComments,
+    this.comment,
   });
 
   factory SongCommentData.fromJson(jsonRes) {
@@ -109,6 +111,7 @@ class SongCommentData {
       code: convertValueByType(jsonRes['code'], int,
           stack: "SongCommentData-code"),
       comments: comments,
+      comment: Comments.fromJson(jsonRes['comment']),
       total: convertValueByType(jsonRes['total'], int,
           stack: "SongCommentData-total"),
       more: convertValueByType(jsonRes['more'], bool,
@@ -125,6 +128,7 @@ class SongCommentData {
         'comments': comments,
         'total': total,
         'more': more,
+        'comment': comment,
       };
 
   @override

@@ -14,6 +14,7 @@ import 'package:netease_cloud_music/model/song_comment.dart' hide User;
 import 'package:netease_cloud_music/model/song_detail.dart';
 import 'package:netease_cloud_music/model/top_list.dart';
 import 'package:netease_cloud_music/model/user.dart';
+import 'package:netease_cloud_music/pages/comment/comment_type.dart';
 import 'package:netease_cloud_music/route/navigate_service.dart';
 import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
@@ -167,6 +168,46 @@ class NetUtils {
     @required Map<String, dynamic> params,
   }) async {
     var response = await _get(context, '/comment/music', params: params, isShowLoading: false);
+    return SongCommentData.fromJson(response.data);
+  }
+
+  /// 获取评论列表
+  static Future<SongCommentData> getCommentData(
+    BuildContext context, int type, {
+    @required Map<String, dynamic> params,
+  }) async {
+    var funcName;
+    switch(type){
+      case 0: // song
+        funcName = 'music';
+        break;
+      case 1: // mv
+        funcName = 'mv';
+        break;
+      case 2: // 歌单
+        funcName = 'playlist';
+        break;
+      case 3: // 专辑
+        funcName = 'album';
+        break;
+      case 4: // 电台
+        funcName = 'dj';
+        break;
+      case 5: // 视频
+        funcName = 'video';
+        break;
+        // 动态评论需要threadId，后续再做
+    }
+    var response = await _get(context, '/comment/$funcName', params: params, isShowLoading: false);
+    return SongCommentData.fromJson(response.data);
+  }
+
+  /// 获取评论列表
+  static Future<SongCommentData> sendComment(
+    BuildContext context, {
+    @required Map<String, dynamic> params,
+  }) async {
+    var response = await _get(context, '/comment', params: params, isShowLoading: true);
     return SongCommentData.fromJson(response.data);
   }
 }

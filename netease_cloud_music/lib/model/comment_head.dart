@@ -1,12 +1,15 @@
+import 'package:netease_cloud_music/pages/comment/comment_type.dart';
+
 /// 用于传给评论页面
 class CommentHead{
-  String img;
-  String title;
-  String author;
-  int count;
-  int id;
+  String img; // 图片
+  String title; // 标题
+  String author;  // 作者
+  int count;  // 评论数
+  int id; // id
+  int type; //类型（歌曲还是歌单之类的）
 
-  CommentHead(this.img, this.title, this.author, this.count, this.id);
+  CommentHead(this.img, this.title, this.author, this.count, this.id, this.type);
 
 
 
@@ -16,6 +19,7 @@ class CommentHead{
     author = json['author'];
     count = json['count'];
     id = json['id'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -25,6 +29,7 @@ class CommentHead{
     data['author'] = this.author;
     data['count'] = this.count;
     data['id'] = this.id;
+    data['type'] = this.type;
     return data;
   }
 }

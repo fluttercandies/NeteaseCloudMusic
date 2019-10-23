@@ -19,4 +19,5 @@ class Application{
   static setupLocator(){
     getIt.registerSingleton(NavigateService());
   }
+
 }

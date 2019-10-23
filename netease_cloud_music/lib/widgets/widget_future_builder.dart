@@ -49,8 +49,10 @@ class _CustomFutureBuilderState<T> extends State<CustomFutureBuilder<T>> {
     setState(() {
       if (widget.params == null)
         _future = widget.futureFunc(context);
-      else
+      else {
         _future = widget.futureFunc(context, params: widget.params);
+        oldParams = widget.params.values.join();
+      }
     });
   }
 
@@ -67,7 +69,6 @@ class _CustomFutureBuilderState<T> extends State<CustomFutureBuilder<T>> {
 
     // 如果方法还一样，但是参数不一样了，则重新请求
     if ((oldWidget.futureFunc == widget.futureFunc) && oldWidget.params != null && widget.params != null) {
-      print('${oldParams} --- ${widget.params.values}');
       if (oldParams != widget.params.values.join()) {
         print('params not');
         oldParams = widget.params.values.join();

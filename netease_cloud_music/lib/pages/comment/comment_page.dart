@@ -1,10 +1,13 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloud_music/model/comment_head.dart';
 import 'package:netease_cloud_music/model/song_comment.dart';
+import 'package:netease_cloud_music/pages/comment/comment_type.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/utils/number_utils.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/rounded_net_image.dart';
@@ -12,6 +15,8 @@ import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:netease_cloud_music/widgets/widget_load_footer.dart';
 import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
+
+import 'comment_input_widget.dart';
 
 class CommentPage extends StatefulWidget {
   final CommentHead commentHead;
@@ -26,6 +31,7 @@ class _CommentPageState extends State<CommentPage> {
   Map<String, int> params;
   List<Comments> commentData = [];
   EasyRefreshController _controller;
+  FocusNode _blankNode = FocusNode();
 
   @override
   void initState() {
@@ -38,7 +44,7 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   void _request() async {
-    var r = await NetUtils.getSongCommentData(context, params: params);
+    var r = await NetUtils.getCommentData(context, widget.commentHead.type, params: params);
     setState(() {
       if (r.hotComments != null && r.hotComments.isNotEmpty) {
         commentData.add(Comments(isTitle: true, title: "精彩评论"));
@@ -59,53 +65,79 @@ class _CommentPageState extends State<CommentPage> {
           elevation: 0,
           title: Text('评论(${widget.commentHead.count})'),
         ),
-        body: EasyRefresh(
-          footer: LoadFooter(),
-          controller: _controller,
-          onLoad: () async {
-            params['offset'] == null
-                ? params['offset'] = 2
-                : params['offset']++;
-            _request();
-            _controller.finishLoad(
-                noMore: commentData.length >= widget.commentHead.count);
-          },
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                buildHead(),
-                Container(
-                  height: ScreenUtil().setWidth(20),
-                  color: Color(0xfff5f5f5),
-                ),
-                ListView.separated(
-                    padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(30),
-                        right: ScreenUtil().setWidth(30),
-                        bottom: ScreenUtil().setWidth(50)),
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return buildCommentItem(commentData[index]);
-                    },
-                    separatorBuilder: (context, index) {
-                      if (commentData[index].isTitle)
-                        return Container(
-                          margin:
-                              EdgeInsets.only(top: ScreenUtil().setWidth(30)),
-                        );
-                      return Container(
-                        margin: EdgeInsets.symmetric(
-                            vertical: ScreenUtil().setWidth(30)),
-                        height: ScreenUtil().setWidth(1.5),
+        body: Stack(
+          children: <Widget>[
+            Listener(
+              onPointerDown: (d){
+                FocusScope.of(context).requestFocus(_blankNode);
+              },
+              child: EasyRefresh(
+                footer: LoadFooter(),
+                controller: _controller,
+                onLoad: () async {
+                  params['offset'] == null
+                      ? params['offset'] = 2
+                      : params['offset']++;
+                  _request();
+                  _controller.finishLoad(
+                      noMore: commentData.length >= widget.commentHead.count);
+                },
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      buildHead(),
+                      Container(
+                        height: ScreenUtil().setWidth(20),
                         color: Color(0xfff5f5f5),
-                      );
-                    },
-                    itemCount: commentData.length),
-              ],
+                      ),
+                      ListView.separated(
+                          padding: EdgeInsets.only(
+                              left: ScreenUtil().setWidth(30),
+                              right: ScreenUtil().setWidth(30),
+                              bottom: ScreenUtil().setWidth(50)),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return buildCommentItem(commentData[index]);
+                          },
+                          separatorBuilder: (context, index) {
+                            if (commentData[index].isTitle)
+                              return Container(
+                                margin: EdgeInsets.only(
+                                    top: ScreenUtil().setWidth(30)),
+                              );
+                            return Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: ScreenUtil().setWidth(30)),
+                              height: ScreenUtil().setWidth(1.5),
+                              color: Color(0xfff5f5f5),
+                            );
+                          },
+                          itemCount: commentData.length),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
+            Align(
+              child: CommentInputWidget((content){
+                // 提交评论
+                NetUtils.sendComment(context, params: {
+                  't': 1,
+                  'type': widget.commentHead.type,
+                  'id': widget.commentHead.id,
+                  'content': content
+                }).then((r){
+                  Utils.showToast('评论成功！');
+                  setState(() {
+                    commentData.insert(commentData.map((c) => c.title).toList().indexOf('最新评论')+1, r.comment);
+                  });
+                });
+              }),
+              alignment: Alignment.bottomCenter,
+            )
+          ],
         ));
   }
 

@@ -2,10 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:netease_cloud_music/model/comment_head.dart';
 import 'package:netease_cloud_music/model/music.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
 import 'package:netease_cloud_music/model/song.dart';
+import 'package:netease_cloud_music/pages/comment/comment_type.dart';
 import 'package:netease_cloud_music/pages/play_list/play_list_desc_dialog.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
@@ -31,7 +33,7 @@ class PlayListPage extends StatefulWidget {
 }
 
 class _PlayListPageState extends State<PlayListPage> {
-  double _expandedHeight = ScreenUtil().setWidth(610);
+  double _expandedHeight = ScreenUtil().setWidth(620);
   Playlist _data;
 
   /// 构建歌单简介
@@ -149,13 +151,15 @@ class _PlayListPageState extends State<PlayListPage> {
                         ),
                       ],
                     ),
-                    VEmptyView(10),
+                    VEmptyView(15),
                     Row(
                       children: <Widget>[
                         FooterTabWidget(
                             'images/icon_comment.png',
                             '${_data == null ? "评论" : _data.commentCount}',
-                            () {}),
+                            () {
+                              NavigatorUtil.goCommentPage(context, data: CommentHead(_data.coverImgUrl, _data.name, _data.creator.nickname, _data.commentCount,_data.id, CommentType.playList.index));
+                            }),
                         FooterTabWidget(
                             'images/icon_share.png',
                             '${_data == null ? "分享" : _data.shareCount}',
@@ -248,6 +252,7 @@ class _PlayListPageState extends State<PlayListPage> {
       if (mounted) {
         setState(() {
           _data = data;
+
         });
       }
     });

@@ -9,6 +9,7 @@ import 'package:netease_cloud_music/application.dart';
 import 'package:netease_cloud_music/model/comment_head.dart';
 import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/model/song_comment.dart';
+import 'package:netease_cloud_music/pages/comment/comment_type.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
@@ -147,7 +148,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
             ),
             Align(
               child: buildSongsHandle(model),
-              alignment: Alignment(0.0, 0.68),
+              alignment: Alignment(0.0, 0.64),
             ),
             Align(
               child: Padding(
@@ -199,7 +200,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
                   builder: (context, data) {
                     return GestureDetector(
                       onTap: () {
-                        NavigatorUtil.goCommentPage(context, data: CommentHead(model.curSong.picUrl, model.curSong.name, model.curSong.artists, data.total, model.curSong.id));
+                        NavigatorUtil.goCommentPage(context, data: CommentHead(model.curSong.picUrl, model.curSong.name, model.curSong.artists, data.total, model.curSong.id, CommentType.song.index));
                       },
                       child: Stack(
                         alignment: Alignment.center,
