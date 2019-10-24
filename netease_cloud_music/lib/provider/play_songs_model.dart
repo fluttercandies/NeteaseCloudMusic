@@ -45,8 +45,12 @@ class PlaySongsModel with ChangeNotifier{
     });
     // 当前播放进度监听
     _audioPlayer.onAudioPositionChanged.listen((Duration p) {
-      _curPositionController.sink.add('${p.inMilliseconds > curSongDuration.inMilliseconds ? curSongDuration.inMilliseconds : p.inMilliseconds}-${curSongDuration.inMilliseconds}');
+      sinkProgress(p.inMilliseconds > curSongDuration.inMilliseconds ? curSongDuration.inMilliseconds : p.inMilliseconds);
     });
+  }
+
+  void sinkProgress(int m){
+    _curPositionController.sink.add('$m-${curSongDuration.inMilliseconds}');
   }
 
   void playSong(Song song) {
@@ -71,12 +75,17 @@ class PlaySongsModel with ChangeNotifier{
   }
 
   /// 暂停、恢复
-  void pausePlay() {
+  void togglePlay(){
     if (_audioPlayer.state == AudioPlayerState.PAUSED) {
       resumePlay();
     } else {
-      _audioPlayer.pause();
+      pausePlay();
     }
+  }
+
+  // 暂停
+  void pausePlay() {
+    _audioPlayer.pause();
   }
 
   /// 跳转到固定时间

@@ -4,28 +4,35 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 
-class SongProgressWidget extends StatelessWidget {
-
+class SongProgressWidget extends StatefulWidget {
   final PlaySongsModel model;
 
   SongProgressWidget(this.model);
 
   @override
+  _SongProgressWidgetState createState() => _SongProgressWidgetState();
+}
+
+class _SongProgressWidgetState extends State<SongProgressWidget> {
+  double curTime;
+  var curTimeStr;
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<String>(
-      stream: model.curPositionStream,
+      stream: widget.model.curPositionStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var totalTime =
           snapshot.data.substring(snapshot.data.indexOf('-') + 1);
-          var curTime =
-          snapshot.data.substring(0, snapshot.data.indexOf('-'));
+          curTime = double.parse(snapshot.data.substring(0, snapshot.data.indexOf('-')));
+          curTimeStr = DateUtil.formatDateMs(curTime.toInt(), format: "mm:ss");
           return Container(
             height: ScreenUtil().setWidth(120),
             child: Row(
               children: <Widget>[
                 Text(
-                  DateUtil.formatDateMs(int.parse(curTime), format: "mm:ss"),
+                  curTimeStr,
                   style: smallWhiteTextStyle,
                 ),
                 Expanded(
@@ -37,13 +44,15 @@ class SongProgressWidget extends StatelessWidget {
                       ),
                     ),
                     child: Slider(
-                      value: double.parse(curTime),
-                      onChanged: (data) {},
-                      onChangeStart: (data){
-                        model.pausePlay();
+                      value: curTime,
+                      onChanged: (data) {
+                        widget.model.sinkProgress(data.toInt());
                       },
-                      onChangeEnd: (data){
-                        model.seekPlay(data.toInt());
+                      onChangeStart: (data) {
+                        widget.model.pausePlay();
+                      },
+                      onChangeEnd: (data) {
+                        widget.model.seekPlay(data.toInt());
                       },
                       activeColor: Colors.white,
                       inactiveColor: Colors.white30,
@@ -68,3 +77,5 @@ class SongProgressWidget extends StatelessWidget {
     );
   }
 }
+
+

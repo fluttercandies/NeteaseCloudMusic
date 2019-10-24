@@ -30,7 +30,7 @@ class PlayBottomMenuWidget extends StatelessWidget {
                 : 'images/icon_song_play.png',
             150,
             onTap: () {
-              model.pausePlay();
+              model.togglePlay();
             },
           ),
           ImageMenuWidget(

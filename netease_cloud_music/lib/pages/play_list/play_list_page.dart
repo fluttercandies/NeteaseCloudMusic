@@ -61,7 +61,7 @@ class _PlayListPageState extends State<PlayListPage> {
                 : Text(
                     _data.description,
                     style: smallWhite70TextStyle,
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
           ),
@@ -151,7 +151,7 @@ class _PlayListPageState extends State<PlayListPage> {
                         ),
                       ],
                     ),
-                    VEmptyView(10),
+                    VEmptyView(15),
                     Container(
                       margin: EdgeInsets.only(top: ScreenUtil().setWidth(12)),
                       alignment: Alignment.center,
