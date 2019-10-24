@@ -19,53 +19,55 @@ class SongProgressWidget extends StatelessWidget {
           snapshot.data.substring(snapshot.data.indexOf('-') + 1);
           var curTime = double.parse(snapshot.data.substring(0, snapshot.data.indexOf('-')));
           var curTimeStr = DateUtil.formatDateMs(curTime.toInt(), format: "mm:ss");
-          return Container(
-            height: ScreenUtil().setWidth(120),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  curTimeStr,
-                  style: smallWhiteTextStyle,
-                ),
-                Expanded(
-                  child: SliderTheme(
-                    data: SliderThemeData(
-                      trackHeight: ScreenUtil().setWidth(2),
-                      thumbShape: RoundSliderThumbShape(
-                        enabledThumbRadius: ScreenUtil().setWidth(10),
-                      ),
-                    ),
-                    child: Slider(
-                      value: curTime,
-                      onChanged: (data) {
-                        model.sinkProgress(data.toInt());
-                      },
-                      onChangeStart: (data) {
-                        model.pausePlay();
-                      },
-                      onChangeEnd: (data) {
-                        model.seekPlay(data.toInt());
-                      },
-                      activeColor: Colors.white,
-                      inactiveColor: Colors.white30,
-                      min: 0,
-                      max: double.parse(totalTime),
-                    ),
-                  ),
-                ),
-                Text(
-                  DateUtil.formatDateMs(int.parse(totalTime), format: "mm:ss"),
-                  style: smallWhite30TextStyle,
-                ),
-              ],
-            ),
-          );
+          return buildProgress(curTime, totalTime, curTimeStr);
         } else {
-          return Container(
-            height: ScreenUtil().setWidth(120),
-          );
+          return buildProgress(0, "0", "00:00");
         }
       },
+    );
+  }
+
+  Widget buildProgress(double curTime, String totalTime, String curTimeStr){
+    return Container(
+      height: ScreenUtil().setWidth(120),
+      child: Row(
+        children: <Widget>[
+          Text(
+            curTimeStr,
+            style: smallWhiteTextStyle,
+          ),
+          Expanded(
+            child: SliderTheme(
+              data: SliderThemeData(
+                trackHeight: ScreenUtil().setWidth(2),
+                thumbShape: RoundSliderThumbShape(
+                  enabledThumbRadius: ScreenUtil().setWidth(10),
+                ),
+              ),
+              child: Slider(
+                value: curTime,
+                onChanged: (data) {
+                  model.sinkProgress(data.toInt());
+                },
+                onChangeStart: (data) {
+                  model.pausePlay();
+                },
+                onChangeEnd: (data) {
+                  model.seekPlay(data.toInt());
+                },
+                activeColor: Colors.white,
+                inactiveColor: Colors.white30,
+                min: 0,
+                max: double.parse(totalTime),
+              ),
+            ),
+          ),
+          Text(
+            DateUtil.formatDateMs(int.parse(totalTime), format: "mm:ss"),
+            style: smallWhite30TextStyle,
+          ),
+        ],
+      ),
     );
   }
 }

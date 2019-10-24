@@ -14,7 +14,6 @@ import 'package:netease_cloud_music/utils/utils.dart';
 
 class PlaySongsModel with ChangeNotifier{
   AudioPlayer _audioPlayer = AudioPlayer();
-  AudioPlayer get audioPlayer => _audioPlayer;
   StreamController<String> _curPositionController = StreamController<String>.broadcast();
 
   List<Song> _songs = [];
@@ -24,7 +23,7 @@ class PlaySongsModel with ChangeNotifier{
 
   List<Song> get allSongs => _songs;
   Song get curSong => _songs[curIndex];
-  get curPositionStream => _curPositionController.stream;
+  Stream<String> get curPositionStream => _curPositionController.stream;
   AudioPlayerState get curState => _curState;
 
 
@@ -49,21 +48,25 @@ class PlaySongsModel with ChangeNotifier{
     });
   }
 
+  // 歌曲进度
   void sinkProgress(int m){
     _curPositionController.sink.add('$m-${curSongDuration.inMilliseconds}');
   }
 
+  // 播放一首歌
   void playSong(Song song) {
     _songs.insert(curIndex, song);
     play();
   }
 
+  // 播放很多歌
   void playSongs(List<Song> songs, {int index}) {
     this._songs = songs;
     if (index != null) curIndex = index;
     play();
   }
 
+  // 添加歌曲
   void addSongs(List<Song> songs) {
     this._songs.addAll(songs);
   }
@@ -102,20 +105,20 @@ class PlaySongsModel with ChangeNotifier{
   /// 下一首
   void nextPlay(){
     if(curIndex >= _songs.length){
-
+      curIndex = 0;
     }else{
       curIndex++;
-      play();
     }
+    play();
   }
 
   void prePlay(){
     if(curIndex <= 0){
-
+      curIndex = _songs.length - 1;
     }else{
       curIndex--;
-      play();
     }
+    play();
   }
 
   @override

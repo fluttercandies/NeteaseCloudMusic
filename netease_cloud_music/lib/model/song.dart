@@ -10,6 +10,4 @@ class Song{
   String toString() {
     return 'Song{id: $id, name: $name, artists: $artists}';
   }
-
-
 }
