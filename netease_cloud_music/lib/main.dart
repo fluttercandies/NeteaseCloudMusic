@@ -15,7 +15,6 @@ void main() {
   Router router = Router();
   Routes.configureRoutes(router);
   Application.router = router;
-  Application.initSp();
   NetUtils.init();
   Application.setupLocator();
 //  AudioPlayer.logEnabled = true;

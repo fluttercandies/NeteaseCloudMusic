@@ -42,6 +42,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
   void goPage() async{
 
+    await Application.initSp();
     UserModel userModel = Provider.of<UserModel>(context);
     userModel.initUser();
     if (userModel.user != null) {

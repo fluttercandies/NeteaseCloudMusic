@@ -50,6 +50,7 @@ class _HomePrePageState extends State<DiscoverPage>
 
     return GridView.custom(
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.only(bottom: 10),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: keys.length,
