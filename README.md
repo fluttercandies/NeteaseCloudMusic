@@ -1,18 +1,40 @@
 # Flutter实战 | 从 0 搭建「网易云音乐」APP
 
+**@所有人：**
+
+**该APP还在开发当中，具体开发完成哪些功能可以看下面的图片，没传图的就是还没开发完成！**
+
+**另外，本人也只是下班时间才能开发该APP，所以项目进度不会很快！请悉知！**
+
+**用我原来IP地址的同学，请自己本地跑服务！**
+
+**该APP所使用的账号密码就是你本人网易云的账号密码！请不要再尝试登录我的账号了！我自己都登录不上去了！**
+
+
+
+接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+
+
+请本地跑本项目时，先按照上面项目的步骤跑起本地服务！！！
+
+请本地跑本项目时，先按照上面项目的步骤跑起本地服务！！！
+
+请本地跑本项目时，先按照上面项目的步骤跑起本地服务！！！
+
+
+
 该APP 功能的思维导图：
 
 ![](http://pic.d3collection.cn/2019-10-09-140344.png)
 
 
 
-接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
-接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
-
-接口用的是[Binaryify大佬的 - NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
-
-请本地跑本项目时，先按照上面项目的步骤跑起本地服务。
 
 
 
