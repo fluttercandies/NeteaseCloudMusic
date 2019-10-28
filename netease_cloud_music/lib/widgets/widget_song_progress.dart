@@ -29,7 +29,7 @@ class SongProgressWidget extends StatelessWidget {
 
   Widget buildProgress(double curTime, String totalTime, String curTimeStr){
     return Container(
-      height: ScreenUtil().setWidth(120),
+      height: ScreenUtil().setWidth(50),
       child: Row(
         children: <Widget>[
           Text(

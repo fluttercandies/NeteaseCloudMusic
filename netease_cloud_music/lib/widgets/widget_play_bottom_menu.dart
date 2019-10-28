@@ -14,6 +14,7 @@ class PlayBottomMenuWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: ScreenUtil().setWidth(150),
+      alignment: Alignment.topCenter,
       child: Row(
         children: <Widget>[
           ImageMenuWidget('images/icon_song_play_type_1.png', 80),

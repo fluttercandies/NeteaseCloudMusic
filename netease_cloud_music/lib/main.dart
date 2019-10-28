@@ -7,9 +7,11 @@ import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/route/navigate_service.dart';
 import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'application.dart';
+import 'model/lyric.dart';
 
 void main() {
   Router router = Router();
@@ -18,7 +20,6 @@ void main() {
   NetUtils.init();
   Application.setupLocator();
 //  AudioPlayer.logEnabled = true;
-
 
   runApp(MultiProvider(
     providers: [

@@ -10,6 +10,7 @@ class Application{
   static SharedPreferences sp;
   static double screenWidth;
   static double screenHeight;
+  static double statusBarHeight;
   static GetIt getIt = GetIt.instance;
 
   static initSp() async{

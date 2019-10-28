@@ -61,6 +61,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     final size = MediaQuery.of(context).size;
     Application.screenWidth = size.width;
     Application.screenHeight = size.height;
+    Application.statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(

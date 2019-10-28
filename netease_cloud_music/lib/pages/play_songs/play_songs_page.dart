@@ -10,18 +10,22 @@ import 'package:netease_cloud_music/model/comment_head.dart';
 import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/model/song_comment.dart';
 import 'package:netease_cloud_music/pages/comment/comment_type.dart';
+import 'package:netease_cloud_music/pages/play_songs/widget_lyric.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/utils/number_utils.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
+import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
 import 'package:netease_cloud_music/widgets/widget_img_menu.dart';
 import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_bottom_menu.dart';
 import 'package:netease_cloud_music/widgets/widget_song_progress.dart';
 import 'package:provider/provider.dart';
+
+import 'lyric_page.dart';
 
 class PlaySongsPage extends StatefulWidget {
   @override
@@ -33,6 +37,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
   AnimationController _controller; // 封面旋转控制器
   AnimationController _stylusController; //唱针控制器
   Animation<double> _stylusAnimation;
+  int switchIndex = 0; //用于切换歌词
 
   @override
   void initState() {
@@ -42,7 +47,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
     _stylusController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _stylusAnimation =
-        Tween<double>(begin: 0, end: -0.08).animate(_stylusController);
+        Tween<double>(begin: -0.03, end: -0.10).animate(_stylusController);
     _controller.addStatusListener((status) {
       // 转完一圈之后继续
       if (status == AnimationStatus.completed) {
@@ -85,6 +90,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
                 height: double.infinity,
               ),
             ),
+
             AppBar(
               centerTitle: true,
               brightness: Brightness.dark,
@@ -104,64 +110,83 @@ class _PlaySongsPageState extends State<PlaySongsPage>
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setWidth(310)),
-                width: ScreenUtil().setWidth(530),
-                height: ScreenUtil().setWidth(530),
-                child: RotationTransition(
-                  turns: _controller,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      prefix0.Image.asset(
-                        'images/bet.png',
-                        width: ScreenUtil().setWidth(530),
+            Container(
+              margin: EdgeInsets.only(top: kToolbarHeight + Application.statusBarHeight),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: (){
+                        setState(() {
+                          if(switchIndex == 0){
+                            switchIndex = 1;
+                          }else{
+                            switchIndex = 0;
+                          }
+                        });
+                      },
+                      child: IndexedStack(
+                        index: switchIndex,
+                        children: <Widget>[
+                          Stack(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                  margin: EdgeInsets.only(top: ScreenUtil().setWidth(150)),
+                                  child: RotationTransition(
+                                    turns: _controller,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: <Widget>[
+                                        prefix0.Image.asset(
+                                          'images/bet.png',
+                                          width: ScreenUtil().setWidth(550),
+                                        ),
+                                        OverImgWidget(curSong.picUrl, 370),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                child: RotationTransition(
+                                  turns: _stylusAnimation,
+                                  alignment: Alignment(
+                                      -1 +
+                                          (ScreenUtil().setWidth(45 * 2) /
+                                              (ScreenUtil().setWidth(293))),
+                                      -1 +
+                                          (ScreenUtil().setWidth(45 * 2) /
+                                              (ScreenUtil().setWidth(504)))),
+                                  child: Image.asset(
+                                    'images/bgm.png',
+                                    width: ScreenUtil().setWidth(205),
+                                    height: ScreenUtil().setWidth(352.8),
+                                  ),
+                                ),
+                                alignment: Alignment(0.25, -1),
+                              ),
+                            ],
+                          ),
+                          LyricPage(),
+                        ],
                       ),
-                      OverImgWidget(curSong.picUrl, 350),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-            Align(
-              child: Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setWidth(150)),
-                child: RotationTransition(
-                  turns: _stylusAnimation,
-                  alignment: Alignment(
-                      -1 +
-                          (ScreenUtil().setWidth(45 * 2) /
-                              (ScreenUtil().setWidth(293))),
-                      -1 +
-                          (ScreenUtil().setWidth(45 * 2) /
-                              (ScreenUtil().setWidth(504)))),
-                  child: Image.asset(
-                    'images/bgm.png',
-                    width: ScreenUtil().setWidth(146.5),
-                    height: ScreenUtil().setWidth(252),
-                  ),
-                ),
-              ),
-              alignment: Alignment(0.16, -1),
-            ),
-            Align(
-              child: buildSongsHandle(model),
-              alignment: Alignment(0.0, 0.64),
-            ),
-            Align(
-              child: Padding(
-                padding:
+
+                  buildSongsHandle(model),
+                  Padding(
+                    padding:
                     EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(30)),
-                child: SongProgressWidget(model),
+                    child: SongProgressWidget(model),
+                  ),
+                  PlayBottomMenuWidget(model),
+                  VEmptyView(20),
+                ],
               ),
-              alignment: Alignment(0.0, 0.78),
-            ),
-            Align(
-              child: PlayBottomMenuWidget(model),
-              alignment: Alignment(0.0, 0.95),
-            ),
+            )
           ],
         ),
       );
@@ -170,7 +195,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
 
   Widget buildSongsHandle(PlaySongsModel model) {
     return Container(
-      height: ScreenUtil().setWidth(150),
+      height: ScreenUtil().setWidth(100),
       child: Row(
         children: <Widget>[
           ImageMenuWidget('images/icon_dislike.png', 80),
@@ -237,7 +262,6 @@ class _PlaySongsPageState extends State<PlaySongsPage>
 
   @override
   void dispose() {
-    print('play page dispose ');
     _controller.dispose();
     _stylusController.dispose();
     super.dispose();
