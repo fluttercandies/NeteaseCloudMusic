@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloud_music/model/album.dart';
 import 'package:netease_cloud_music/model/banner.dart' as mBanner;
 import 'package:netease_cloud_music/model/daily_songs.dart';
+import 'package:netease_cloud_music/model/lyric.dart';
 import 'package:netease_cloud_music/model/mv.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
@@ -48,7 +49,6 @@ class NetUtils {
       return await _dio.get(url, queryParameters: params);
     } on DioError catch  (e) {
       if(e == null){
-        _reLogin();
         return Future.error(Response(data: -1));
       }else if(e.response != null){
         if (e.response.statusCode >= 300 && e.response.statusCode < 400) {
@@ -57,6 +57,8 @@ class NetUtils {
         } else {
           return Future.value(e.response);
         }
+      }else{
+        return Future.error(Response(data: -1));
       }
     } finally {
       Loading.hideLoading(context);
@@ -82,7 +84,9 @@ class NetUtils {
   }
 
   static Future<Response> refreshLogin(BuildContext context) async {
-    return await _get(context, '/login/refresh', isShowLoading: false);
+    return await _get(context, '/login/refresh', isShowLoading: false).catchError((e){
+      Utils.showToast('网络错误！');
+    });
   }
 
   /// 首页 Banner
@@ -217,4 +221,14 @@ class NetUtils {
     var response = await _get(context, '/comment', params: params, isShowLoading: true);
     return SongCommentData.fromJson(response.data);
   }
+
+  /// 获取歌词
+  static Future<LyricData> getLyricData(
+    BuildContext context, {
+    @required Map<String, dynamic> params,
+  }) async {
+    var response = await _get(context, '/lyric', params: params, isShowLoading: false);
+    return LyricData.fromJson(response.data);
+  }
+
 }

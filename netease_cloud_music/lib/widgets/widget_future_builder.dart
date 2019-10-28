@@ -21,13 +21,12 @@ class CustomFutureBuilder<T> extends StatefulWidget {
     @required this.builder,
     this.params,
     Widget loadingWidget,
-  }) : loadingWidget = loadingWidget == null
-            ? Container(
-                alignment: Alignment.center,
-                height: ScreenUtil().setWidth(200),
-                child: CupertinoActivityIndicator(),
-              )
-            : loadingWidget;
+  }) : loadingWidget = loadingWidget ??
+            Container(
+              alignment: Alignment.center,
+              height: ScreenUtil().setWidth(200),
+              child: CupertinoActivityIndicator(),
+            );
 
   @override
   _CustomFutureBuilderState<T> createState() => _CustomFutureBuilderState<T>();
@@ -68,7 +67,9 @@ class _CustomFutureBuilderState<T> extends State<CustomFutureBuilder<T>> {
     }
 
     // 如果方法还一样，但是参数不一样了，则重新请求
-    if ((oldWidget.futureFunc == widget.futureFunc) && oldWidget.params != null && widget.params != null) {
+    if ((oldWidget.futureFunc == widget.futureFunc) &&
+        oldWidget.params != null &&
+        widget.params != null) {
       if (oldParams != widget.params.values.join()) {
         print('params not');
         oldParams = widget.params.values.join();
