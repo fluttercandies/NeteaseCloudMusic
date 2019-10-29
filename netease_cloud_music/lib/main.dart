@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/pages/splash_page.dart';
@@ -7,11 +6,10 @@ import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/route/navigate_service.dart';
 import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
-import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'application.dart';
-import 'model/lyric.dart';
+import 'utils/log_util.dart';
 
 void main() {
   Router router = Router();
@@ -19,6 +17,7 @@ void main() {
   Application.router = router;
   NetUtils.init();
   Application.setupLocator();
+  LogUtil.init(tag: 'NETEASE_MUSIC');
 //  AudioPlayer.logEnabled = true;
 
   runApp(MultiProvider(
