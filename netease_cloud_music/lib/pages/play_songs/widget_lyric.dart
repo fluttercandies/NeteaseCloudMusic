@@ -56,6 +56,7 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
     }
   }
 
+  /// 计算传入行和第一行的偏移量
   double computeScrollY(int curLine){
     return (lyricPaints[0].height + ScreenUtil().setWidth(30)) * (curLine + 1);
   }
