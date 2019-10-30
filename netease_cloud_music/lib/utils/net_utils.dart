@@ -24,6 +24,7 @@ import 'package:netease_cloud_music/widgets/loading.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../application.dart';
+import 'custom_log_interceptor.dart';
 
 class NetUtils {
   static Dio _dio;
@@ -35,7 +36,7 @@ class NetUtils {
     CookieJar cj = PersistCookieJar(dir: tempPath);
     _dio = Dio(BaseOptions(baseUrl: '$baseUrl:3000', followRedirects: false))
       ..interceptors.add(CookieManager(cj))
-      ..interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
+      ..interceptors.add(CustomLogInterceptor(responseBody: true, requestBody: true));
   }
 
   static Future<Response> _get(
@@ -229,6 +230,15 @@ class NetUtils {
   }) async {
     var response = await _get(context, '/lyric', params: params, isShowLoading: false);
     return LyricData.fromJson(response.data);
+  }
+
+  /// 获取个人歌单
+  static Future<MyPlayListData> getSelfPlaylistData(
+    BuildContext context, {
+    @required Map<String, dynamic> params,
+  }) async {
+    var response = await _get(context, '/user/playlist', params: params, isShowLoading: false);
+    return MyPlayListData.fromJson(response.data);
   }
 
 }

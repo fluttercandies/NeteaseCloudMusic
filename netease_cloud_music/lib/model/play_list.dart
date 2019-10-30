@@ -1,3 +1,32 @@
+class MyPlayListData{
+  num _code;
+  List<Playlist> playlist;
+
+  MyPlayListData.fromJson(Map<String, dynamic> json) {
+    _code = json['code'];
+
+    if (json['playlist'] != null) {
+      playlist = new List<Playlist>();
+      json['playlist'].forEach((v) {
+        playlist.add(new Playlist.fromJson(v));
+      });
+    }
+
+
+    Map<String, dynamic> toJson() {
+      final Map<String, dynamic> data = new Map<String, dynamic>();
+      data['code'] = this._code;
+      if (this.playlist != null) {
+        data['playlist'] = this.playlist.map((v) => v.toJson()).toList();
+      }
+      return data;
+    }
+
+  }
+}
+
+
+
 class PlayListData {
   num _code;
   Null _relatedVideos;

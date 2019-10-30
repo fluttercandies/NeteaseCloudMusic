@@ -3,6 +3,7 @@ import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/widgets/widget_play.dart';
 import 'discover/discover_page.dart';
+import 'my/my_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     controller: _tabController,
                     children: [
                       DiscoverPage(),
-                      DiscoverPage(),
+                      MyPage(),
                       DiscoverPage(),
                     ],
                   ),

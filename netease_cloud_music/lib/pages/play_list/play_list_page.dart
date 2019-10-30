@@ -53,26 +53,24 @@ class _PlayListPageState extends State<PlayListPage> {
           transitionBuilder: _buildMaterialDialogTransitions,
         );
       },
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: _data == null
-                ? Container()
-                : Text(
+      child: _data != null && _data.description != null
+          ? Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
                     _data.description,
                     style: smallWhite70TextStyle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-          ),
-          _data == null
-              ? Container()
-              : Icon(
+                ),
+                Icon(
                   Icons.keyboard_arrow_right,
                   color: Colors.white70,
                 ),
-        ],
-      ),
+              ],
+            )
+          : Container(),
     );
   }
 
@@ -84,7 +82,7 @@ class _PlayListPageState extends State<PlayListPage> {
         slivers: <Widget>[
           PlayListAppBarWidget(
             sigma: 20,
-            playOnTap: (model){
+            playOnTap: (model) {
               playSongs(model, 0);
             },
             content: SafeArea(
@@ -157,21 +155,26 @@ class _PlayListPageState extends State<PlayListPage> {
                       alignment: Alignment.center,
                       child: Row(
                         children: <Widget>[
-                          FooterTabWidget(
-                              'images/icon_comment.png',
+                          FooterTabWidget('images/icon_comment.png',
                               '${_data == null ? "评论" : _data.commentCount}',
-                                  () {
-                                NavigatorUtil.goCommentPage(context, data: CommentHead(_data.coverImgUrl, _data.name, _data.creator.nickname, _data.commentCount,_data.id, CommentType.playList.index));
-                              }),
+                              () {
+                            NavigatorUtil.goCommentPage(context,
+                                data: CommentHead(
+                                    _data.coverImgUrl,
+                                    _data.name,
+                                    _data.creator.nickname,
+                                    _data.commentCount,
+                                    _data.id,
+                                    CommentType.playList.index));
+                          }),
                           FooterTabWidget(
                               'images/icon_share.png',
                               '${_data == null ? "分享" : _data.shareCount}',
-                                  () {}),
+                              () {}),
                           FooterTabWidget(
                               'images/icon_download.png', '下载', () {}),
                           FooterTabWidget(
                               'images/icon_multi_select.png', '多选', () {}),
-
                         ],
                       ),
                     )
@@ -234,7 +237,6 @@ class _PlayListPageState extends State<PlayListPage> {
       if (mounted) {
         setState(() {
           _data = data;
-
         });
       }
     });

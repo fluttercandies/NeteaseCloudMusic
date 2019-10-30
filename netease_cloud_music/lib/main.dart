@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: Application.getIt<NavigateService>().key,
       theme: ThemeData(
         primaryColor: Colors.white,
+        splashColor: Colors.transparent,
       ),
       home: SplashPage(),
       onGenerateRoute: Application.router.generator,
