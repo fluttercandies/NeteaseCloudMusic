@@ -24,4 +24,6 @@ final bold16TextStyle = TextStyle(fontSize: 16, color: Colors.black87, fontWeigh
 final common14WhiteTextStyle = TextStyle(fontSize: 14, color: Colors.white);
 final common10White70TextStyle = TextStyle(fontSize: 10, color: Colors.white70);
 final common14GrayTextStyle = TextStyle(fontSize: 14, color: Colors.grey);
+final common15GrayTextStyle = TextStyle(fontSize: 15, color: Colors.grey);
+final common16GrayTextStyle = TextStyle(fontSize: 16, color: Colors.grey);
 final common14White70TextStyle = TextStyle(fontSize: 14, color: Colors.white70);

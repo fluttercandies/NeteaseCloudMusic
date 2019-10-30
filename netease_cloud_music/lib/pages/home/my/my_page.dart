@@ -7,8 +7,8 @@ import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
-import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/rounded_net_image.dart';
+import 'package:netease_cloud_music/widgets/widget_create_play_list.dart';
 import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class MyPage extends StatefulWidget {
   _MyPageState createState() => _MyPageState();
 }
 
-class _MyPageState extends State<MyPage> {
+class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
   Map<String, String> topMenuData = {
     '本地音乐': 'images/icon_music.png',
     '最近播放': 'images/icon_late_play.png',
@@ -88,13 +88,13 @@ class _MyPageState extends State<MyPage> {
         itemBuilder: (context, index) {
           var curPlayList = data[index];
           return ListTile(
-            onTap: (){
-              NavigatorUtil.goPlayListPage(context, data: Recommend(
-                picUrl: curPlayList.coverImgUrl,
-                name: curPlayList.name,
-                playcount: curPlayList.playCount,
-                id: curPlayList.id
-              ));
+            onTap: () {
+              NavigatorUtil.goPlayListPage(context,
+                  data: Recommend(
+                      picUrl: curPlayList.coverImgUrl,
+                      name: curPlayList.name,
+                      playcount: curPlayList.playCount,
+                      id: curPlayList.id));
             },
             contentPadding: EdgeInsets.zero,
             title: Padding(
@@ -161,7 +161,13 @@ class _MyPageState extends State<MyPage> {
                             Icons.add,
                             color: Colors.black87,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return CreatePlayListWidget();
+                                });
+                          },
                           padding: EdgeInsets.zero,
                         ),
                       )),
@@ -194,6 +200,7 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -210,4 +217,7 @@ class _MyPageState extends State<MyPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -57,7 +57,6 @@ class _CustomFutureBuilderState<T> extends State<CustomFutureBuilder<T>> {
 
   @override
   void didUpdateWidget(CustomFutureBuilder<T> oldWidget) {
-    print('did');
     // 如果方法不一样了，那么则重新请求
     if (oldWidget.futureFunc != widget.futureFunc) {
       print('func not');
