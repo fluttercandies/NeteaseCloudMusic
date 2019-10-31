@@ -4,15 +4,24 @@ import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 
 import 'common_text_style.dart';
 
+typedef SubmitCallback = Function(String name, bool isPrivate);
+
 class CreatePlayListWidget extends StatefulWidget {
+
+
+  final SubmitCallback submitCallback;
+
+  CreatePlayListWidget({@required this.submitCallback});
+
   @override
   _CreatePlayListWidgetState createState() => _CreatePlayListWidgetState();
+
 }
 
 class _CreatePlayListWidgetState extends State<CreatePlayListWidget> {
   bool isPrivatePlayList = false;
   TextEditingController _editingController;
-  VoidCallback submitCallback;
+  SubmitCallback submitCallback;
 
   @override
   void initState() {
@@ -26,7 +35,7 @@ class _CreatePlayListWidgetState extends State<CreatePlayListWidget> {
       }else{
         setState(() {
           if(submitCallback == null){
-            submitCallback = (){};
+            submitCallback = widget.submitCallback;
           }
         });
       }
@@ -95,7 +104,9 @@ class _CreatePlayListWidgetState extends State<CreatePlayListWidget> {
           textColor: Colors.red,
         ),
         FlatButton(
-          onPressed: submitCallback,
+          onPressed: () {
+            submitCallback(_editingController.text, isPrivatePlayList);
+          },
           child: Text('提交'),
           textColor: Colors.red,
         ),

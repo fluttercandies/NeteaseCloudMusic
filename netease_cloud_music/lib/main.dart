@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       navigatorKey: Application.getIt<NavigateService>().key,
       theme: ThemeData(
+        brightness: Brightness.light,
         primaryColor: Colors.white,
         splashColor: Colors.transparent,
       ),

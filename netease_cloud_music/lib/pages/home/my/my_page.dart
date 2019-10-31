@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
 import 'package:netease_cloud_music/pages/home/my/playlist_title.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/rounded_net_image.dart';
 import 'package:netease_cloud_music/widgets/widget_create_play_list.dart';
@@ -29,6 +31,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
   List<String> topMenuKeys;
   bool selfPlayListOffstage = false;
   bool collectPlayListOffstage = false;
+  List<Playlist> playListData;
 
   @override
   void initState() {
@@ -128,6 +131,66 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
         itemCount: data.length);
   }
 
+  Widget _realBuildPlayList(UserModel model){
+    var selfCreatePlayList = playListData
+        .where((p) => p.creator.userId == model.user.account.id)
+        .toList();
+    var collectPlayList = playListData
+        .where((p) => p.creator.userId != model.user.account.id)
+        .toList();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        PlaylistTitle("创建的歌单", selfCreatePlayList.length, () {
+          setState(() {
+            selfPlayListOffstage = !selfPlayListOffstage;
+          });
+        }, () {},
+            trailing: SizedBox(
+              height: ScreenUtil().setWidth(50),
+              width: ScreenUtil().setWidth(70),
+              child: IconButton(
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.black87,
+                ),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CreatePlayListWidget(
+                          submitCallback: (name, isPrivate) {
+                            _createPlaylist(name, isPrivate);
+                          },
+                        );
+                      });
+                },
+                padding: EdgeInsets.zero,
+              ),
+            )),
+        Offstage(
+          offstage: selfPlayListOffstage,
+          child: _buildPlayListItem(selfCreatePlayList),
+        ),
+        PlaylistTitle(
+          "收藏的歌单",
+          collectPlayList.length,
+              () {
+            setState(() {
+              collectPlayListOffstage = !collectPlayListOffstage;
+            });
+          },
+              () {},
+        ),
+        Offstage(
+          offstage: collectPlayListOffstage,
+          child: _buildPlayListItem(collectPlayList),
+        ),
+      ],
+    );
+  }
+
   /// 构建歌单
   Widget _buildPlayList() {
     return Padding(
@@ -138,64 +201,28 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
             futureFunc: NetUtils.getSelfPlaylistData,
             params: {'uid': model.user.account.id},
             builder: (context, data) {
-              var selfCreatePlayList = data.playlist
-                  .where((p) => p.creator.userId == model.user.account.id)
-                  .toList();
-              var collectPlayList = data.playlist
-                  .where((p) => p.creator.userId != model.user.account.id)
-                  .toList();
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  PlaylistTitle("创建的歌单", selfCreatePlayList.length, () {
-                    setState(() {
-                      selfPlayListOffstage = !selfPlayListOffstage;
-                    });
-                  }, () {},
-                      trailing: SizedBox(
-                        height: ScreenUtil().setWidth(50),
-                        width: ScreenUtil().setWidth(70),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.add,
-                            color: Colors.black87,
-                          ),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return CreatePlayListWidget();
-                                });
-                          },
-                          padding: EdgeInsets.zero,
-                        ),
-                      )),
-                  Offstage(
-                    offstage: selfPlayListOffstage,
-                    child: _buildPlayListItem(selfCreatePlayList),
-                  ),
-                  PlaylistTitle(
-                    "收藏的歌单",
-                    collectPlayList.length,
-                    () {
-                      setState(() {
-                        collectPlayListOffstage = !collectPlayListOffstage;
-                      });
-                    },
-                    () {},
-                  ),
-                  Offstage(
-                    offstage: collectPlayListOffstage,
-                    child: _buildPlayListItem(collectPlayList),
-                  ),
-                ],
-              );
+              playListData = data.playlist;
+              return _realBuildPlayList(model);
             },
           );
         },
       ),
     );
+  }
+
+  /// 创建歌单
+  void _createPlaylist(String name, bool isPrivate) async {
+    NetUtils.createPlaylist(context,
+            params: {'name': name, 'privacy': isPrivate ? '10' : null})
+        .catchError((e) {
+      Utils.showToast('创建失败');
+    }).then((result) {
+      Utils.showToast('创建成功');
+      Navigator.of(context).pop();
+      setState(() {
+        playListData.add(result.playlist..creator = playListData[0].creator);
+      });
+    });
   }
 
   @override

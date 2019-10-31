@@ -241,4 +241,13 @@ class NetUtils {
     return MyPlayListData.fromJson(response.data);
   }
 
+  /// 创建歌单
+  static Future<PlayListData> createPlaylist(
+    BuildContext context, {
+    @required Map<String, dynamic> params,
+  }) async {
+    var response = await _get(context, '/playlist/create', params: params, isShowLoading: true);
+    return PlayListData.fromJson(response.data);
+  }
+
 }
