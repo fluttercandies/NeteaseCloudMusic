@@ -5,7 +5,6 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/lyric.dart';
-import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 
 class LyricWidget extends CustomPainter with ChangeNotifier {
@@ -17,11 +16,25 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
   bool isDragging = false; // 是否正在人为拖动
   double totalHeight = 0; // 总长度
   TextPainter draggingLineTimeTextPainter; // 正在拖动中当前行的时间
+  Size canvasSize = Size.zero;
 
   get offsetY => _offsetY;
 
   set offsetY(double value) {
-    _offsetY = value;
+    // 判断如果是在拖动状态下
+    if (isDragging) {
+      // 不能小于最开始的位置
+      if (_offsetY.abs() < lyricPaints[0].height + ScreenUtil().setWidth(30)) {
+        _offsetY = (lyricPaints[0].height + ScreenUtil().setWidth(30)) * -1;
+      } else if (_offsetY.abs() > totalHeight) {
+        // 不能大于最大位置
+        _offsetY = totalHeight * -1;
+      } else {
+        _offsetY = value;
+      }
+    } else {
+      _offsetY = value;
+    }
     notifyListeners();
   }
 
@@ -40,16 +53,15 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvasSize = size;
     var y = _offsetY + size.height / 2 + lyricPaints[0].height / 2;
 
     for (int i = 0; i < lyric.length; i++) {
       if (y > size.height || y < (0 - lyricPaints[i].height / 2)) {
       } else {
         // 画每一行歌词
-//        if(isDragging) {
-//          print("${totalHeight} ------- ${(_offsetY).abs()} ------- ${(_offsetY / (lyricPaints[0].height + ScreenUtil().setWidth(30))).abs().round()}");
-//        }
         if (curLine == i) {
+          // 如果是当前行
           lyricPaints[i].text =
               TextSpan(text: lyric[i].lyric, style: commonWhiteTextStyle);
           lyricPaints[i].layout();
@@ -59,6 +71,7 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
                         .abs()
                         .round() -
                     1) {
+          // 如果是拖动状态中的当前行
           lyricPaints[i].text =
               TextSpan(text: lyric[i].lyric, style: commonWhite70TextStyle);
           lyricPaints[i].layout();
@@ -78,8 +91,9 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
       lyric[i].offset = y;
     }
 
+    // 拖动状态下显示的东西
     if (isDragging) {
-      // 画 icon
+      // 画 icon，Icon 其实是个字体，所以用画
       final icon = Icons.play_arrow;
       var builder = prefix0.ParagraphBuilder(prefix0.ParagraphStyle(
         fontFamily: icon.fontFamily,
@@ -95,21 +109,26 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
           Offset(ScreenUtil().setWidth(10),
               size.height / 2 - ScreenUtil().setWidth(60)));
 
+      // 画线
       canvas.drawLine(
           Offset(ScreenUtil().setWidth(80),
               size.height / 2 - ScreenUtil().setWidth(30)),
           Offset(size.width - ScreenUtil().setWidth(120),
               size.height / 2 - ScreenUtil().setWidth(30)),
           linePaint);
+      // 画当前行的时间
       draggingLineTimeTextPainter = TextPainter(
         text: TextSpan(
-            text: DateUtil.formatDateMs(lyric[(_offsetY /
-                (lyricPaints[0].height + ScreenUtil().setWidth(30)))
-                .abs()
-                .round() -
-                1]
-                .startTime
-                .inMilliseconds, format: "mm:ss"),
+            text: DateUtil.formatDateMs(
+                lyric[(_offsetY /
+                                (lyricPaints[0].height +
+                                    ScreenUtil().setWidth(30)))
+                            .abs()
+                            .round() -
+                        1]
+                    .startTime
+                    .inMilliseconds,
+                format: "mm:ss"),
             style: smallGrayTextStyle),
         textDirection: TextDirection.ltr,
       );
@@ -129,6 +148,7 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
   void _layoutTextPainters() {
     lyricPaints.forEach((lp) => lp.layout());
 
+    // 延迟一下计算总高度
     Future.delayed(Duration(milliseconds: 300), () {
       totalHeight = (lyricPaints[0].height + ScreenUtil().setWidth(30)) *
           (lyricPaints.length - 1);
@@ -137,6 +157,7 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
 
   @override
   bool shouldRepaint(LyricWidget oldDelegate) {
-    return oldDelegate._offsetY != _offsetY;
+    return oldDelegate._offsetY != _offsetY ||
+        oldDelegate.isDragging != isDragging;
   }
 }
