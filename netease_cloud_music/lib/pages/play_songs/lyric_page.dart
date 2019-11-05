@@ -39,7 +39,11 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
     });
 
     dragEndFunc = () {
-      _lyricWidget.isDragging = false;
+      if (_lyricWidget.isDragging) {
+        setState(() {
+          _lyricWidget.isDragging = false;
+        });
+      }
     };
   }
 
@@ -73,22 +77,31 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
                 ),
               )
             : GestureDetector(
-                onVerticalDragDown: (e) {
-                  _lyricWidget.isDragging = true;
-                },
+                onTapDown: _lyricWidget.isDragging
+                    ? (e) {
+                        if (e.localPosition.dx > 0 &&
+                            e.localPosition.dx < ScreenUtil().setWidth(100) &&
+                            e.localPosition.dy >
+                                _lyricWidget.canvasSize.height / 2 -
+                                    ScreenUtil().setWidth(100) &&
+                            e.localPosition.dy <
+                                _lyricWidget.canvasSize.height / 2 +
+                                    ScreenUtil().setWidth(100)) {
+                          widget.model.seekPlay(_lyricWidget.dragLineTime);
+                        }
+                      }
+                    : null,
                 onVerticalDragUpdate: (e) {
-                  _lyricWidget.isDragging = true;
+                  if (!_lyricWidget.isDragging) {
+                    setState(() {
+                      _lyricWidget.isDragging = true;
+                    });
+                  }
                   _lyricWidget.offsetY += e.delta.dy;
                 },
                 onVerticalDragEnd: (e) {
                   // 拖动防抖
-                  if (dragEndTimer != null) {
-                    if (dragEndTimer.isActive) {
-                      dragEndTimer.cancel();
-                      dragEndTimer = null;
-                    }
-                  }
-                  dragEndTimer = Timer(dragEndDuration, dragEndFunc);
+                  cancelDragTimer();
                 },
                 child: StreamBuilder<String>(
                   stream: widget.model.curPositionStream,
@@ -120,6 +133,16 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
                   },
                 ),
               ));
+  }
+
+  void cancelDragTimer() {
+    if (dragEndTimer != null) {
+      if (dragEndTimer.isActive) {
+        dragEndTimer.cancel();
+        dragEndTimer = null;
+      }
+    }
+    dragEndTimer = Timer(dragEndDuration, dragEndFunc);
   }
 
   /// 开始下一行动画

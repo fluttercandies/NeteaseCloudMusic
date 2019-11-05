@@ -17,6 +17,7 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
   double totalHeight = 0; // 总长度
   TextPainter draggingLineTimeTextPainter; // 正在拖动中当前行的时间
   Size canvasSize = Size.zero;
+  int dragLineTime;
 
   get offsetY => _offsetY;
 
@@ -26,9 +27,9 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
       // 不能小于最开始的位置
       if (_offsetY.abs() < lyricPaints[0].height + ScreenUtil().setWidth(30)) {
         _offsetY = (lyricPaints[0].height + ScreenUtil().setWidth(30)) * -1;
-      } else if (_offsetY.abs() > totalHeight) {
+      } else if (_offsetY.abs() > (totalHeight + lyricPaints[0].height + ScreenUtil().setWidth(30))) {
         // 不能大于最大位置
-        _offsetY = totalHeight * -1;
+        _offsetY = (totalHeight + lyricPaints[0].height + ScreenUtil().setWidth(30)) * -1;
       } else {
         _offsetY = value;
       }
@@ -69,8 +70,7 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
             i ==
                 (_offsetY / (lyricPaints[0].height + ScreenUtil().setWidth(30)))
                         .abs()
-                        .round() -
-                    1) {
+                        .round() - 1) {
           // 如果是拖动状态中的当前行
           lyricPaints[i].text =
               TextSpan(text: lyric[i].lyric, style: commonWhite70TextStyle);
@@ -93,7 +93,7 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
 
     // 拖动状态下显示的东西
     if (isDragging) {
-      // 画 icon，Icon 其实是个字体，所以用画
+      // 画 icon
       final icon = Icons.play_arrow;
       var builder = prefix0.ParagraphBuilder(prefix0.ParagraphStyle(
         fontFamily: icon.fontFamily,
@@ -117,17 +117,15 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
               size.height / 2 - ScreenUtil().setWidth(30)),
           linePaint);
       // 画当前行的时间
+      dragLineTime = lyric[
+              (_offsetY / (lyricPaints[0].height + ScreenUtil().setWidth(30)))
+                      .abs()
+                      .round() -
+                  1]
+          .startTime.inMilliseconds;
       draggingLineTimeTextPainter = TextPainter(
         text: TextSpan(
-            text: DateUtil.formatDateMs(
-                lyric[(_offsetY /
-                                (lyricPaints[0].height +
-                                    ScreenUtil().setWidth(30)))
-                            .abs()
-                            .round() -
-                        1]
-                    .startTime
-                    .inMilliseconds,
+            text: DateUtil.formatDateMs(dragLineTime,
                 format: "mm:ss"),
             style: smallGrayTextStyle),
         textDirection: TextDirection.ltr,
