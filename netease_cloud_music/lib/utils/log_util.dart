@@ -23,9 +23,9 @@ class LogUtil {
     String da = object.toString();
     String _tag = (tag == null || tag.isEmpty) ? TAG : tag;
     while (da.isNotEmpty) {
-      if (da.length > 2048) {
-        print("$_tag $stag ${da.substring(0, 2048)}");
-        da = da.substring(2048, da.length);
+      if (da.length > 1024) {
+        print("$_tag $stag ${da.substring(0, 1024)}");
+        da = da.substring(1024, da.length);
       } else {
         print("$_tag $stag $da");
         da = "";

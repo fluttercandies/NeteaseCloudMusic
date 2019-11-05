@@ -23,6 +23,7 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
   List<Lyric> lyrics;
   AnimationController _lyricOffsetYController;
   int curSongId;
+  bool isDragging = false; // 是否正在人为拖动
 
   @override
   void initState() {
@@ -63,8 +64,19 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
                 ),
               )
             : GestureDetector(
+                onVerticalDragDown: (e) {
+                  isDragging = true;
+                  _lyricWidget.isDragging = true;
+                },
                 onVerticalDragUpdate: (e) {
                   _lyricWidget.offsetY += e.delta.dy;
+                },
+                onVerticalDragEnd: (e) {
+//                  Future.delayed(Duration(milliseconds: 1000), (){
+                    isDragging = false;
+                    _lyricWidget.isDragging = false;
+//                  });
+                print('end');
                 },
                 child: StreamBuilder<String>(
                   stream: widget.model.curPositionStream,
@@ -74,7 +86,11 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
                           .substring(0, snapshot.data.indexOf('-')));
                       // 获取当前在哪一行
                       int curLine = Utils.findLyricIndex(curTime, lyrics);
-                      startLineAnim(curLine);
+                      if(!isDragging){
+                        startLineAnim(curLine);
+                      }
+                      // 给 customPaint 赋值当前行
+                      _lyricWidget.curLine = curLine;
                       return CustomPaint(
                         size: Size(
                             Application.screenWidth,
@@ -125,8 +141,6 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
       });
       // 启动动画
       _lyricOffsetYController.forward();
-      // 给 customPaint 赋值当前行
-      _lyricWidget.curLine = curLine;
     }
   }
 }

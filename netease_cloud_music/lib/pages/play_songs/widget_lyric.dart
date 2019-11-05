@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:ui' as prefix0;
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/lyric.dart';
@@ -12,6 +13,10 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
   List<TextPainter> lyricPaints = []; // 其他歌词
   double _offsetY = 0;
   int curLine;
+  Paint linePaint;
+  bool isDragging = false; // 是否正在人为拖动
+  double totalHeight = 0; // 总长度
+  TextPainter draggingLineTimeTextPainter; // 正在拖动中当前行的时间
 
   get offsetY => _offsetY;
 
@@ -21,6 +26,9 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
   }
 
   LyricWidget(this.lyric, this.curLine) {
+    linePaint = Paint()
+      ..color = Colors.white12
+      ..strokeWidth = ScreenUtil().setWidth(1);
     lyricPaints.addAll(lyric
         .map((l) => TextPainter(
             text: TextSpan(text: l.lyric, style: commonGrayTextStyle),
@@ -33,19 +41,33 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
   @override
   void paint(Canvas canvas, Size size) {
     var y = _offsetY + size.height / 2 + lyricPaints[0].height / 2;
+
     for (int i = 0; i < lyric.length; i++) {
       if (y > size.height || y < (0 - lyricPaints[i].height / 2)) {
       } else {
         // 画每一行歌词
+//        if(isDragging) {
+//          print("${totalHeight} ------- ${(_offsetY).abs()} ------- ${(_offsetY / (lyricPaints[0].height + ScreenUtil().setWidth(30))).abs().round()}");
+//        }
         if (curLine == i) {
           lyricPaints[i].text =
               TextSpan(text: lyric[i].lyric, style: commonWhiteTextStyle);
+          lyricPaints[i].layout();
+        } else if (isDragging &&
+            i ==
+                (_offsetY / (lyricPaints[0].height + ScreenUtil().setWidth(30)))
+                        .abs()
+                        .round() -
+                    1) {
+          lyricPaints[i].text =
+              TextSpan(text: lyric[i].lyric, style: commonWhite70TextStyle);
           lyricPaints[i].layout();
         } else {
           lyricPaints[i].text =
               TextSpan(text: lyric[i].lyric, style: commonGrayTextStyle);
           lyricPaints[i].layout();
         }
+
         lyricPaints[i].paint(
           canvas,
           Offset((size.width - lyricPaints[i].width) / 2, y),
@@ -53,16 +75,64 @@ class LyricWidget extends CustomPainter with ChangeNotifier {
       }
       // 计算偏移量
       y += lyricPaints[i].height + ScreenUtil().setWidth(30);
+      lyric[i].offset = y;
+    }
+
+    if (isDragging) {
+      // 画 icon
+      final icon = Icons.play_arrow;
+      var builder = prefix0.ParagraphBuilder(prefix0.ParagraphStyle(
+        fontFamily: icon.fontFamily,
+        fontSize: ScreenUtil().setWidth(60),
+      ))
+        ..addText(String.fromCharCode(icon.codePoint));
+      var para = builder.build();
+      para.layout(prefix0.ParagraphConstraints(
+        width: ScreenUtil().setWidth(60),
+      ));
+      canvas.drawParagraph(
+          para,
+          Offset(ScreenUtil().setWidth(10),
+              size.height / 2 - ScreenUtil().setWidth(60)));
+
+      canvas.drawLine(
+          Offset(ScreenUtil().setWidth(80),
+              size.height / 2 - ScreenUtil().setWidth(30)),
+          Offset(size.width - ScreenUtil().setWidth(120),
+              size.height / 2 - ScreenUtil().setWidth(30)),
+          linePaint);
+      draggingLineTimeTextPainter = TextPainter(
+        text: TextSpan(
+            text: DateUtil.formatDateMs(lyric[(_offsetY /
+                (lyricPaints[0].height + ScreenUtil().setWidth(30)))
+                .abs()
+                .round() -
+                1]
+                .startTime
+                .inMilliseconds, format: "mm:ss"),
+            style: smallGrayTextStyle),
+        textDirection: TextDirection.ltr,
+      );
+      draggingLineTimeTextPainter.layout();
+      draggingLineTimeTextPainter.paint(
+          canvas,
+          Offset(size.width - ScreenUtil().setWidth(80),
+              size.height / 2 - ScreenUtil().setWidth(45)));
     }
   }
 
   /// 计算传入行和第一行的偏移量
-  double computeScrollY(int curLine){
+  double computeScrollY(int curLine) {
     return (lyricPaints[0].height + ScreenUtil().setWidth(30)) * (curLine + 1);
   }
 
   void _layoutTextPainters() {
     lyricPaints.forEach((lp) => lp.layout());
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      totalHeight = (lyricPaints[0].height + ScreenUtil().setWidth(30)) *
+          (lyricPaints.length - 1);
+    });
   }
 
   @override

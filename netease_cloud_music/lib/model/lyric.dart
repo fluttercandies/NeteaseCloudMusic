@@ -6,8 +6,9 @@ class Lyric{
   String lyric;
   Duration startTime;
   Duration endTime;
+  double offset;
 
-  Lyric(this.lyric, {this.startTime, this.endTime});
+  Lyric(this.lyric, {this.startTime, this.endTime, this.offset});
 
   @override
   String toString() {
