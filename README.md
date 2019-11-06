@@ -50,7 +50,7 @@
 | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
 | ![](http://pic.d3collection.cn/2019-10-13-125844.png) | ![](http://pic.d3collection.cn/2019-10-13-130202.png) | ![](http://pic.d3collection.cn/2019-10-13-130248.png) |
 | ![](http://pic.d3collection.cn/2019-10-14-151915.png) | ![](http://pic.d3collection.cn/2019-10-16-062303.png) | ![](http://pic.d3collection.cn/2019-10-22-074251.png) |
-|                 ![](http://pic.d3collection.cn/2019-10-30-063952.png)                                    |        ![](http://pic.d3collection.cn/2019-10-30-091021.png)                                               |                                                       |
+|                 ![](http://pic.d3collection.cn/2019-10-30-063952.png)                                    |        ![](http://pic.d3collection.cn/2019-10-30-091021.png)                                               |    ![](http://pic.d3collection.cn/2019-11-06-081431.png)                                                   |
 
 ---
 
@@ -59,7 +59,7 @@
 | 播放 |  暂停    | 评论 |
 | :-----------------------------------------------------: | :----: | ------------------------------------------------------- |
 |                                 ![](http://pic.d3collection.cn/2019-10-21-025741.jpg)                      |  ![](http://pic.d3collection.cn/2019-10-21-025618.jpg)    | ![](http://pic.d3collection.cn/2019-10-23-073549.gif) |
-| ![](http://pic.d3collection.cn/2019-10-28-112602.gif) | ![](http://pic.d3collection.cn/2019-11-05-234037.gif) |  |
+| ![](http://pic.d3collection.cn/2019-10-28-112602.gif) |  | ![](http://pic.d3collection.cn/2019-11-05-234037.gif) |
 
 
 
