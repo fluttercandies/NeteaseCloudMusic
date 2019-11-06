@@ -12,6 +12,7 @@ import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/rounded_net_image.dart';
 import 'package:netease_cloud_music/widgets/widget_create_play_list.dart';
 import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
+import 'package:netease_cloud_music/widgets/widget_play_list_menu.dart';
 import 'package:provider/provider.dart';
 
 class MyPage extends StatefulWidget {
@@ -122,7 +123,22 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
                   Icons.more_vert,
                   color: Colors.grey,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet<bool>(
+                          context: context,
+                          builder: (context) {
+                            return PlayListMenuWidget(curPlayList);
+                          },
+                          backgroundColor: Colors.transparent)
+                      .then((v) {
+                    if (v != null && v) {
+                      Utils.showToast('删除成功');
+                      setState(() {
+                        playListData.remove(curPlayList);
+                      });
+                    }
+                  });
+                },
                 padding: EdgeInsets.zero,
               ),
             ),
@@ -131,7 +147,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
         itemCount: data.length);
   }
 
-  Widget _realBuildPlayList(UserModel model){
+  Widget _realBuildPlayList(UserModel model) {
     var selfCreatePlayList = playListData
         .where((p) => p.creator.userId == model.user.account.id)
         .toList();
@@ -176,12 +192,12 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
         PlaylistTitle(
           "收藏的歌单",
           collectPlayList.length,
-              () {
+          () {
             setState(() {
               collectPlayListOffstage = !collectPlayListOffstage;
             });
           },
-              () {},
+          () {},
         ),
         Offstage(
           offstage: collectPlayListOffstage,

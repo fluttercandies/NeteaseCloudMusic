@@ -30,6 +30,7 @@ class NetUtils {
   static Dio _dio;
   static final String baseUrl = 'http://127.0.0.1';
 
+
   static void init() async {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
@@ -247,6 +248,15 @@ class NetUtils {
     @required Map<String, dynamic> params,
   }) async {
     var response = await _get(context, '/playlist/create', params: params, isShowLoading: true);
+    return PlayListData.fromJson(response.data);
+  }
+
+  /// 创建歌单
+  static Future<PlayListData> deletePlaylist(
+    BuildContext context, {
+    @required Map<String, dynamic> params,
+  }) async {
+    var response = await _get(context, '/playlist/delete', params: params, isShowLoading: true);
     return PlayListData.fromJson(response.data);
   }
 

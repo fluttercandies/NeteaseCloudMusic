@@ -84,3 +84,5 @@ doc/api/
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+netease_cloud_music/android/app/release/output.json
+netease_cloud_music/android/app/release/网易云音乐.apk

@@ -44,6 +44,9 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primaryColor: Colors.white,
         splashColor: Colors.transparent,
+        tooltipTheme: TooltipThemeData(
+            verticalOffset: -100000
+        )
       ),
       home: SplashPage(),
       onGenerateRoute: Application.router.generator,
