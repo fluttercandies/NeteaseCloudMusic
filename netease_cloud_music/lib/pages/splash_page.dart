@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/application.dart';
 import 'package:netease_cloud_music/model/user.dart';
+import 'package:netease_cloud_music/provider/play_list_model.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,6 +46,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     await Application.initSp();
     UserModel userModel = Provider.of<UserModel>(context);
     userModel.initUser();
+    Provider.of<PlayListModel>(context).user = userModel.user;
     if (userModel.user != null) {
       await NetUtils.refreshLogin(context).then((value){
         if(value.data != -1){

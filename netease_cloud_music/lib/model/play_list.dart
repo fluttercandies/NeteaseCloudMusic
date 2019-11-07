@@ -97,6 +97,7 @@ class Playlist {
   num _id;
   num _shareCount;
   num _commentCount;
+  int type; // 1 为删除，2 为更改
 
   Playlist(
       {List<Subscribers> subscribers,

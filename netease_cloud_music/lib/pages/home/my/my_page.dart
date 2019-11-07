@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
 import 'package:netease_cloud_music/pages/home/my/playlist_title.dart';
+import 'package:netease_cloud_music/provider/play_list_model.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
@@ -32,12 +34,16 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
   List<String> topMenuKeys;
   bool selfPlayListOffstage = false;
   bool collectPlayListOffstage = false;
-  List<Playlist> playListData;
+  PlayListModel _playListModel;
 
   @override
   void initState() {
     super.initState();
     topMenuKeys = topMenuData.keys.toList();
+    WidgetsBinding.instance.addPostFrameCallback((d){
+      _playListModel = Provider.of<PlayListModel>(context);
+      _playListModel.getSelfPlaylistData(context);
+    });
   }
 
   Widget _buildTopMenu() {
@@ -124,18 +130,19 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
                   color: Colors.grey,
                 ),
                 onPressed: () {
-                  showModalBottomSheet<bool>(
+                  showModalBottomSheet<Playlist>(
                           context: context,
                           builder: (context) {
-                            return PlayListMenuWidget(curPlayList);
+                            return PlayListMenuWidget(curPlayList, _playListModel);
                           },
                           backgroundColor: Colors.transparent)
                       .then((v) {
-                    if (v != null && v) {
-                      Utils.showToast('删除成功');
-                      setState(() {
-                        playListData.remove(curPlayList);
-                      });
+                    if (v != null) {
+                      // 1 为删除
+                      if(v.type == 1) {
+                        Utils.showToast('删除成功');
+                        _playListModel.delPlayList(curPlayList);
+                      }
                     }
                   });
                 },
@@ -147,18 +154,13 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
         itemCount: data.length);
   }
 
-  Widget _realBuildPlayList(UserModel model) {
-    var selfCreatePlayList = playListData
-        .where((p) => p.creator.userId == model.user.account.id)
-        .toList();
-    var collectPlayList = playListData
-        .where((p) => p.creator.userId != model.user.account.id)
-        .toList();
+  Widget _realBuildPlayList() {
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        PlaylistTitle("创建的歌单", selfCreatePlayList.length, () {
+        PlaylistTitle("创建的歌单", _playListModel.selfCreatePlayList.length, () {
           setState(() {
             selfPlayListOffstage = !selfPlayListOffstage;
           });
@@ -187,11 +189,11 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
             )),
         Offstage(
           offstage: selfPlayListOffstage,
-          child: _buildPlayListItem(selfCreatePlayList),
+          child: _buildPlayListItem(_playListModel.selfCreatePlayList),
         ),
         PlaylistTitle(
           "收藏的歌单",
-          collectPlayList.length,
+          _playListModel.collectPlayList.length,
           () {
             setState(() {
               collectPlayListOffstage = !collectPlayListOffstage;
@@ -201,7 +203,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
         ),
         Offstage(
           offstage: collectPlayListOffstage,
-          child: _buildPlayListItem(collectPlayList),
+          child: _buildPlayListItem(_playListModel.collectPlayList),
         ),
       ],
     );
@@ -211,18 +213,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
   Widget _buildPlayList() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20)),
-      child: Consumer<UserModel>(
-        builder: (context, model, child) {
-          return CustomFutureBuilder<MyPlayListData>(
-            futureFunc: NetUtils.getSelfPlaylistData,
-            params: {'uid': model.user.account.id},
-            builder: (context, data) {
-              playListData = data.playlist;
-              return _realBuildPlayList(model);
-            },
-          );
-        },
-      ),
+      child: _realBuildPlayList(),
     );
   }
 
@@ -235,9 +226,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
     }).then((result) {
       Utils.showToast('创建成功');
       Navigator.of(context).pop();
-      setState(() {
-        playListData.add(result.playlist..creator = playListData[0].creator);
-      });
+      _playListModel.addPlayList(result.playlist..creator = _playListModel.selfCreatePlayList[0].creator);
     });
   }
 
@@ -254,7 +243,11 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
               color: Color(0xfff5f5f5),
               height: ScreenUtil().setWidth(25),
             ),
-            _buildPlayList(),
+            _playListModel == null ? Container(
+              height: ScreenUtil().setWidth(400),
+              alignment: Alignment.center,
+              child: CupertinoActivityIndicator(),
+            ) : _buildPlayList(),
           ],
         ),
       ),

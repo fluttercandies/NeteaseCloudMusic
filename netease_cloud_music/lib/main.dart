@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/pages/splash_page.dart';
+import 'package:netease_cloud_music/provider/play_list_model.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/route/navigate_service.dart';
@@ -19,7 +20,7 @@ void main() {
   Application.setupLocator();
   LogUtil.init(tag: 'NETEASE_MUSIC');
 //  AudioPlayer.logEnabled = true;
-
+  Provider.debugCheckInvalidValueType = null;
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<UserModel>.value(
@@ -27,6 +28,9 @@ void main() {
       ),
       ChangeNotifierProvider<PlaySongsModel>(
         builder: (_) => PlaySongsModel()..init(),
+      ),
+      ChangeNotifierProvider<PlayListModel>(
+        builder: (_) => PlayListModel(),
       ),
     ],
     child: MyApp(),
@@ -41,13 +45,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       navigatorKey: Application.getIt<NavigateService>().key,
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.white,
-        splashColor: Colors.transparent,
-        tooltipTheme: TooltipThemeData(
-            verticalOffset: -100000
-        )
-      ),
+          brightness: Brightness.light,
+          primaryColor: Colors.white,
+          splashColor: Colors.transparent,
+          tooltipTheme: TooltipThemeData(verticalOffset: -100000)),
       home: SplashPage(),
       onGenerateRoute: Application.router.generator,
     );
