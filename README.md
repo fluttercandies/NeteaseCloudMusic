@@ -12,9 +12,9 @@
 
 <br/>
 
-下载体验：[点击下载，也可以扫描二维码](http://www.d3collection.cn/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90.apk)
+下载体验：[点击下载，也可以扫描二维码](https://www.pgyer.com/qNNy)
 
-<img src="http://pic.d3collection.cn/2019-11-06-042814.png" style="zoom:50%;" />
+<img src="https://www.pgyer.com/app/qrcode/qNNy" style="zoom:50%;" />
 
 <br/>
 
