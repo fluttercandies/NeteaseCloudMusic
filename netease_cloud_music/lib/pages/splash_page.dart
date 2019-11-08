@@ -46,19 +46,20 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     await Application.initSp();
     UserModel userModel = Provider.of<UserModel>(context);
     userModel.initUser();
-    Provider.of<PlayListModel>(context).user = userModel.user;
     if (userModel.user != null) {
       await NetUtils.refreshLogin(context).then((value){
         if(value.data != -1){
           NavigatorUtil.goHomePage(context);
         }
       });
+      Provider.of<PlayListModel>(context).user = userModel.user;
     } else
       NavigatorUtil.goLoginPage(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    NetUtils.init();
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     final size = MediaQuery.of(context).size;
     Application.screenWidth = size.width;

@@ -16,7 +16,6 @@ void main() {
   Router router = Router();
   Routes.configureRoutes(router);
   Application.router = router;
-  NetUtils.init();
   Application.setupLocator();
   LogUtil.init(tag: 'NETEASE_MUSIC');
 //  AudioPlayer.logEnabled = true;

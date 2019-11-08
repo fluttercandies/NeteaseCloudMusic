@@ -22,16 +22,16 @@ class UserModel with ChangeNotifier {
   }
 
   /// 登录
-  void login(BuildContext context, String phone, String pwd) async {
+  Future<User> login(BuildContext context, String phone, String pwd) async {
 
     User user = await NetUtils.login(context, phone, pwd);
     if (user.code > 299) {
       Utils.showToast(user.msg ?? '登录失败，请检查账号密码');
-      return;
+      return null;
     }
     Utils.showToast(user.msg ?? '登录成功');
     _saveUserInfo(user);
-    NavigatorUtil.goHomePage(context);
+    return user;
   }
 
   /// 保存用户信息到 sp

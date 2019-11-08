@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:netease_cloud_music/provider/play_list_model.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
+import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_button.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
@@ -142,7 +144,12 @@ class __LoginWidgetState extends State<_LoginWidget> {
                     context,
                     phone,
                     pwd,
-                  );
+                  ).then((value){
+                    if(value != null){
+                      Provider.of<PlayListModel>(context).user = value;
+                      NavigatorUtil.goHomePage(context);
+                    }
+                  });
                 },
                 content: 'Login',
                 width: double.infinity,
