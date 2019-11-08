@@ -51,7 +51,7 @@
 | ![](http://pic.d3collection.cn/2019-10-13-125844.png) | ![](http://pic.d3collection.cn/2019-10-13-130202.png) | ![](http://pic.d3collection.cn/2019-10-13-130248.png) |
 | ![](http://pic.d3collection.cn/2019-10-14-151915.png) | ![](http://pic.d3collection.cn/2019-10-16-062303.png) | ![](http://pic.d3collection.cn/2019-10-22-074251.png) |
 | ![](http://pic.d3collection.cn/2019-10-30-063952.png) | ![](http://pic.d3collection.cn/2019-10-30-091021.png) | ![](http://pic.d3collection.cn/2019-11-06-081431.png) |
-|                   ![](http://pic.d3collection.cn/2019-11-08-071856.png)                                    |  |                                                       |
+| ![](http://pic.d3collection.cn/2019-11-08-073204.png) |                                                       |                                                       |
 
 ---
 

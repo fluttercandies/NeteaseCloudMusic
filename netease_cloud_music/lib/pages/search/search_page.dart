@@ -101,26 +101,45 @@ class _SearchPageState extends State<SearchPage> {
                 var curData = data.data[index];
 
                 return Padding(
-                  padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
+                  padding:
+                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
                   child: Row(
                     children: <Widget>[
-                      Text(index.toString(), style: index < 3 ? bold18RedTextStyle : bold18GrayTextStyle,),
+                      Text(
+                        '${index + 1}',
+                        style: index < 3
+                            ? bold18RedTextStyle
+                            : bold18GrayTextStyle,
+                      ),
                       HEmptyView(20),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(5)),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: ScreenUtil().setWidth(5)),
                               child: Row(
                                 children: <Widget>[
-                                  Text(curData.searchWord, style: index < 3 ? w500_18TextStyle : common18TextStyle,),
+                                  Text(
+                                    curData.searchWord,
+                                    style: index < 3
+                                        ? w500_18TextStyle
+                                        : common18TextStyle,
+                                  ),
                                   Spacer(),
-                                  Text(curData.score.toString(), style: common14GrayTextStyle, textAlign: TextAlign.right,),
+                                  Text(
+                                    curData.score.toString(),
+                                    style: common14GrayTextStyle,
+                                    textAlign: TextAlign.right,
+                                  ),
                                 ],
                               ),
                             ),
-                            Text(curData.content, style: common15GrayTextStyle,),
+                            Text(
+                              curData.content,
+                              style: common15GrayTextStyle,
+                            ),
                           ],
                         ),
                       ),
