@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/application.dart';
 import 'package:netease_cloud_music/model/hot_search.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
+import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
@@ -99,7 +100,6 @@ class _SearchPageState extends State<SearchPage> {
             return ListView.builder(
               itemBuilder: (context, index) {
                 var curData = data.data[index];
-
                 return Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
@@ -127,6 +127,15 @@ class _SearchPageState extends State<SearchPage> {
                                         ? w500_18TextStyle
                                         : common18TextStyle,
                                   ),
+                                  Offstage(
+                                      offstage: curData.iconUrl == null,
+                                      child: HEmptyView(10)),
+                                  Offstage(
+                                      offstage: curData.iconUrl == null,
+                                      child: UnconstrainedBox(
+                                        child: Utils.showNetImage(curData.iconUrl,
+                                            height: ScreenUtil().setHeight(25),),
+                                      )),
                                   Spacer(),
                                   Text(
                                     curData.score.toString(),
