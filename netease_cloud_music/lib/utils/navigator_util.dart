@@ -60,4 +60,10 @@ class NavigatorUtil {
     _navigateTo(context,
         "${Routes.comment}?data=${FluroConvertUtils.object2string(data)}");
   }
+
+  /// 搜索页面
+  static void goSearchPage(BuildContext context) {
+    _navigateTo(context, Routes.search);
+  }
+
 }

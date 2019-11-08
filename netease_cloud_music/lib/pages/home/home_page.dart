@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/widgets/widget_play.dart';
@@ -68,7 +69,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           size: ScreenUtil().setWidth(50),
                           color: Colors.black87,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          NavigatorUtil.goSearchPage(context);
+                        },
                       ),
                     ),
                   ],

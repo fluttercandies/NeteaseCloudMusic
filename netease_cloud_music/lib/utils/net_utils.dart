@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloud_music/model/album.dart';
 import 'package:netease_cloud_music/model/banner.dart' as mBanner;
 import 'package:netease_cloud_music/model/daily_songs.dart';
+import 'package:netease_cloud_music/model/hot_search.dart';
 import 'package:netease_cloud_music/model/lyric.dart';
 import 'package:netease_cloud_music/model/mv.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
@@ -30,14 +31,14 @@ class NetUtils {
   static Dio _dio;
   static final String baseUrl = 'http://127.0.0.1';
 
-
   static void init() async {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
     CookieJar cj = PersistCookieJar(dir: tempPath);
     _dio = Dio(BaseOptions(baseUrl: '$baseUrl:3000', followRedirects: false))
       ..interceptors.add(CookieManager(cj))
-      ..interceptors.add(CustomLogInterceptor(responseBody: true, requestBody: true));
+      ..interceptors
+          .add(CustomLogInterceptor(responseBody: true, requestBody: true));
   }
 
   static Future<Response> _get(
@@ -49,17 +50,17 @@ class NetUtils {
     if (isShowLoading) Loading.showLoading(context);
     try {
       return await _dio.get(url, queryParameters: params);
-    } on DioError catch  (e) {
-      if(e == null){
+    } on DioError catch (e) {
+      if (e == null) {
         return Future.error(Response(data: -1));
-      }else if(e.response != null){
+      } else if (e.response != null) {
         if (e.response.statusCode >= 300 && e.response.statusCode < 400) {
           _reLogin();
           return Future.error(Response(data: -1));
         } else {
           return Future.value(e.response);
         }
-      }else{
+      } else {
         return Future.error(Response(data: -1));
       }
     } finally {
@@ -67,7 +68,7 @@ class NetUtils {
     }
   }
 
-  static void _reLogin(){
+  static void _reLogin() {
     Future.delayed(Duration(milliseconds: 200), () {
       Application.getIt<NavigateService>().popAndPushNamed(Routes.login);
       Utils.showToast('登录失效，请重新登录');
@@ -86,7 +87,8 @@ class NetUtils {
   }
 
   static Future<Response> refreshLogin(BuildContext context) async {
-    return await _get(context, '/login/refresh', isShowLoading: false).catchError((e){
+    return await _get(context, '/login/refresh', isShowLoading: false)
+        .catchError((e) {
       Utils.showToast('网络错误！');
     });
   }
@@ -180,17 +182,19 @@ class NetUtils {
     BuildContext context, {
     @required Map<String, dynamic> params,
   }) async {
-    var response = await _get(context, '/comment/music', params: params, isShowLoading: false);
+    var response = await _get(context, '/comment/music',
+        params: params, isShowLoading: false);
     return SongCommentData.fromJson(response.data);
   }
 
   /// 获取评论列表
   static Future<SongCommentData> getCommentData(
-    BuildContext context, int type, {
+    BuildContext context,
+    int type, {
     @required Map<String, dynamic> params,
   }) async {
     var funcName;
-    switch(type){
+    switch (type) {
       case 0: // song
         funcName = 'music';
         break;
@@ -209,9 +213,10 @@ class NetUtils {
       case 5: // 视频
         funcName = 'video';
         break;
-        // 动态评论需要threadId，后续再做
+      // 动态评论需要threadId，后续再做
     }
-    var response = await _get(context, '/comment/$funcName', params: params, isShowLoading: false);
+    var response = await _get(context, '/comment/$funcName',
+        params: params, isShowLoading: false);
     return SongCommentData.fromJson(response.data);
   }
 
@@ -220,7 +225,8 @@ class NetUtils {
     BuildContext context, {
     @required Map<String, dynamic> params,
   }) async {
-    var response = await _get(context, '/comment', params: params, isShowLoading: true);
+    var response =
+        await _get(context, '/comment', params: params, isShowLoading: true);
     return SongCommentData.fromJson(response.data);
   }
 
@@ -229,7 +235,8 @@ class NetUtils {
     BuildContext context, {
     @required Map<String, dynamic> params,
   }) async {
-    var response = await _get(context, '/lyric', params: params, isShowLoading: false);
+    var response =
+        await _get(context, '/lyric', params: params, isShowLoading: false);
     return LyricData.fromJson(response.data);
   }
 
@@ -238,7 +245,8 @@ class NetUtils {
     BuildContext context, {
     @required Map<String, dynamic> params,
   }) async {
-    var response = await _get(context, '/user/playlist', params: params, isShowLoading: false);
+    var response = await _get(context, '/user/playlist',
+        params: params, isShowLoading: false);
     return MyPlayListData.fromJson(response.data);
   }
 
@@ -247,7 +255,8 @@ class NetUtils {
     BuildContext context, {
     @required Map<String, dynamic> params,
   }) async {
-    var response = await _get(context, '/playlist/create', params: params, isShowLoading: true);
+    var response = await _get(context, '/playlist/create',
+        params: params, isShowLoading: true);
     return PlayListData.fromJson(response.data);
   }
 
@@ -256,8 +265,15 @@ class NetUtils {
     BuildContext context, {
     @required Map<String, dynamic> params,
   }) async {
-    var response = await _get(context, '/playlist/delete', params: params, isShowLoading: true);
+    var response = await _get(context, '/playlist/delete',
+        params: params, isShowLoading: true);
     return PlayListData.fromJson(response.data);
   }
 
+  /// 获取热门搜索数据
+  static Future<HotSearchData> getHotSearchData(BuildContext context) async {
+    var response =
+        await _get(context, '/search/hot/detail', isShowLoading: false);
+    return HotSearchData.fromJson(response.data);
+  }
 }
