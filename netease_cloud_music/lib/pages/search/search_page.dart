@@ -15,9 +15,19 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  List<String> historySearchList;
+  TextEditingController _searchController = TextEditingController();
+  FocusNode _blankNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    historySearchList = Application.sp.getStringList("search_history") ?? [];
+  }
+
   Widget _buildHistorySearch() {
     return Offstage(
-      offstage: false,
+      offstage: historySearchList.isEmpty,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,56 +45,56 @@ class _SearchPageState extends State<SearchPage> {
                   Icons.delete_outline,
                   color: Colors.grey,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(context: context, builder: (context){
+                    return AlertDialog(
+                      content: Text("确定清空全部历史记录？", style: common14GrayTextStyle,),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('取消'),
+                          textColor: Colors.red,
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              historySearchList.clear();
+                              Application.sp.remove("search_history");
+                            });
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('清空'),
+                          textColor: Colors.red,
+                        ),
+                      ],
+                    );
+                  });
+                },
               )
             ],
           ),
           Wrap(
             spacing: ScreenUtil().setWidth(20),
-            children: <Widget>[
-              Chip(
-                label: Text(
-                  "Please Dont't Go",
-                  style: common14TextStyle,
-                ),
-                backgroundColor: Color(0xFFf2f2f2),
-              ),
-              Chip(
-                label: Text(
-                  "林俊杰",
-                  style: common14TextStyle,
-                ),
-                backgroundColor: Color(0xFFf2f2f2),
-              ),
-              Chip(
-                label: Text(
-                  "周杰伦",
-                  style: common14TextStyle,
-                ),
-                backgroundColor: Color(0xFFf2f2f2),
-              ),
-              Chip(
-                label: Text(
-                  "野狼disco",
-                  style: common14TextStyle,
-                ),
-                backgroundColor: Color(0xFFf2f2f2),
-              ),
-              Chip(
-                label: Text(
-                  "大田后生仔",
-                  style: common14TextStyle,
-                ),
-                backgroundColor: Color(0xFFf2f2f2),
-              ),
-            ],
-          )
+            children: historySearchList
+                .map((v) => Chip(
+                      label: Text(
+                        v,
+                        style: common14TextStyle,
+                      ),
+                      backgroundColor: Color(0xFFf2f2f2),
+                    ))
+                .toList(),
+          ),
+          VEmptyView(50),
         ],
       ),
     );
   }
 
-  Widget _buildHostSearch() {
+  // 热搜
+  Widget _buildHotSearch() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,8 +134,8 @@ class _SearchPageState extends State<SearchPage> {
                                   Text(
                                     curData.searchWord,
                                     style: index < 3
-                                        ? w500_18TextStyle
-                                        : common18TextStyle,
+                                        ? w500_16TextStyle
+                                        : common16TextStyle,
                                   ),
                                   Offstage(
                                       offstage: curData.iconUrl == null,
@@ -133,8 +143,10 @@ class _SearchPageState extends State<SearchPage> {
                                   Offstage(
                                       offstage: curData.iconUrl == null,
                                       child: UnconstrainedBox(
-                                        child: Utils.showNetImage(curData.iconUrl,
-                                            height: ScreenUtil().setHeight(25),),
+                                        child: Utils.showNetImage(
+                                          curData.iconUrl,
+                                          height: ScreenUtil().setHeight(18),
+                                        ),
                                       )),
                                   Spacer(),
                                   Text(
@@ -147,7 +159,7 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             Text(
                               curData.content,
-                              style: common15GrayTextStyle,
+                              style: common13GrayTextStyle,
                             ),
                           ],
                         ),
@@ -155,14 +167,6 @@ class _SearchPageState extends State<SearchPage> {
                     ],
                   ),
                 );
-//
-//                return ListTile(
-//                  contentPadding: EdgeInsets.zero,
-//                  dense: true,
-//                  leading: Text(index.toString(), style: index < 3 ? bold16RedTextStyle : bold16GrayTextStyle,),
-//                  title: Text(curData.searchWord, style: index < 3 ? bold16TextStyle : common16TextStyle,),
-//                  subtitle: Text(curData.content, style: common14GrayTextStyle,),
-//                );
               },
               itemCount: data.data.length,
               shrinkWrap: true,
@@ -174,6 +178,19 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  // 保存搜索的文字
+  void _saveSearchText(String searchText){
+    setState(() {
+      if(historySearchList.contains(searchText)) historySearchList.remove(searchText);
+      historySearchList.insert(0, searchText);
+      if(historySearchList.length > 5){
+        historySearchList.removeAt(historySearchList.length - 1);
+      }
+      _searchController.text = "";
+    });
+    Application.sp.setStringList("search_history", historySearchList);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,22 +199,32 @@ class _SearchPageState extends State<SearchPage> {
         elevation: 0,
         title: Theme(
           child: TextField(
+            controller: _searchController,
             cursorColor: Colors.red,
+            textInputAction: TextInputAction.search,
+            onEditingComplete: (){
+              var searchText = _searchController.text.isEmpty ? '林俊杰' : _searchController.text;
+              _saveSearchText(searchText);
+            },
             decoration: InputDecoration(
                 hintText: "林俊杰", hintStyle: commonGrayTextStyle),
           ),
           data: Theme.of(context).copyWith(primaryColor: Colors.black54),
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(
-            horizontal: ScreenUtil().setWidth(40),
-            vertical: ScreenUtil().setWidth(30)),
-        children: <Widget>[
-          _buildHistorySearch(),
-          VEmptyView(50),
-          _buildHostSearch(),
-        ],
+      body: Listener(
+        onPointerDown: (d){
+          FocusScope.of(context).requestFocus(_blankNode);
+        },
+        child: ListView(
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setWidth(40),
+              vertical: ScreenUtil().setWidth(30)),
+          children: <Widget>[
+            _buildHistorySearch(),
+            _buildHotSearch(),
+          ],
+        ),
       ),
     );
   }
