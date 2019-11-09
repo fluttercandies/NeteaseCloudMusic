@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloud_music/model/album.dart';
 import 'package:netease_cloud_music/model/banner.dart' as mBanner;
 import 'package:netease_cloud_music/model/daily_songs.dart';
@@ -12,14 +11,13 @@ import 'package:netease_cloud_music/model/lyric.dart';
 import 'package:netease_cloud_music/model/mv.dart';
 import 'package:netease_cloud_music/model/play_list.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
+import 'package:netease_cloud_music/model/search_result.dart' hide User;
 import 'package:netease_cloud_music/model/song_comment.dart' hide User;
 import 'package:netease_cloud_music/model/song_detail.dart';
 import 'package:netease_cloud_music/model/top_list.dart';
 import 'package:netease_cloud_music/model/user.dart';
-import 'package:netease_cloud_music/pages/comment/comment_type.dart';
 import 'package:netease_cloud_music/route/navigate_service.dart';
 import 'package:netease_cloud_music/route/routes.dart';
-import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/loading.dart';
 import 'package:path_provider/path_provider.dart';
@@ -276,4 +274,15 @@ class NetUtils {
         await _get(context, '/search/hot/detail', isShowLoading: false);
     return HotSearchData.fromJson(response.data);
   }
+
+  /// 综合搜索
+  static Future<SearchMultipleData> searchMultiple(
+      BuildContext context, {
+        @required Map<String, dynamic> params,
+      }) async {
+    var response = await _get(context, '/search',
+        params: params, isShowLoading: true);
+    return SearchMultipleData.fromJson(response.data);
+  }
+
 }
