@@ -1,6 +1,6 @@
-
 import 'dart:convert' show json;
 import 'package:flutter/foundation.dart';
+
 dynamic convertValueByType(value, Type type, {String stack: ""}) {
   if (value == null) {
     if (type == String) {
@@ -35,9 +35,7 @@ dynamic convertValueByType(value, Type type, {String stack: ""}) {
   }
 }
 
-
 class SearchMultipleData {
-
   Result result;
   int code;
 
@@ -46,22 +44,26 @@ class SearchMultipleData {
     this.code,
   });
 
-  factory SearchMultipleData.fromJson(jsonRes)=>jsonRes == null? null:SearchMultipleData(
-    result : Result.fromJson(jsonRes['result']),
-    code : convertValueByType(jsonRes['code'],int,stack:"SearchMultipleData-code"),);
+  factory SearchMultipleData.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : SearchMultipleData(
+          result: Result.fromJson(jsonRes['result']),
+          code: convertValueByType(jsonRes['code'], int,
+              stack: "SearchMultipleData-code"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'result': result,
-    'code': code,
-  };
+        'result': result,
+        'code': code,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Result {
-
   Song song;
   int code;
   Mlog mlog;
@@ -69,7 +71,7 @@ class Result {
   Artist artist;
   Album album;
   Video video;
-  Sim_query sim_query;
+  SimQuery sim_query;
   DjRadio djRadio;
   Object rec_type;
   Talk talk;
@@ -94,61 +96,69 @@ class Result {
     this.order,
   });
 
-  factory Result.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Result.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Object> rec_query = jsonRes['rec_query'] is List ? []: null;
-  if(rec_query!=null) {
-    for (var item in jsonRes['rec_query']) { if (item != null) { rec_query.add(item);  }
+    List<Object> rec_query = jsonRes['rec_query'] is List ? [] : null;
+    if (rec_query != null) {
+      for (var item in jsonRes['rec_query']) {
+        if (item != null) {
+          rec_query.add(item);
+        }
+      }
     }
-  }
 
-
-  List<String> order = jsonRes['order'] is List ? []: null;
-  if(order!=null) {
-    for (var item in jsonRes['order']) { if (item != null) { order.add(item);  }
+    List<String> order = jsonRes['order'] is List ? [] : null;
+    if (order != null) {
+      for (var item in jsonRes['order']) {
+        if (item != null) {
+          order.add(item);
+        }
+      }
     }
+    return Result(
+      song: Song.fromJson(jsonRes['song']),
+      code: convertValueByType(jsonRes['code'], int, stack: "Result-code"),
+      mlog: Mlog.fromJson(jsonRes['mlog']),
+      playList: PlayList.fromJson(jsonRes['playList']),
+      artist: Artist.fromJson(jsonRes['artist']),
+      album: Album.fromJson(jsonRes['album']),
+      video: Video.fromJson(jsonRes['video']),
+      sim_query: SimQuery.fromJson(jsonRes['sim_query']),
+      djRadio: DjRadio.fromJson(jsonRes['djRadio']),
+      rec_type: convertValueByType(jsonRes['rec_type'], Null,
+          stack: "Result-rec_type"),
+      talk: Talk.fromJson(jsonRes['talk']),
+      rec_query: rec_query,
+      user: User.fromJson(jsonRes['user']),
+      order: order,
+    );
   }
-  return Result(
-    song : Song.fromJson(jsonRes['song']),
-    code : convertValueByType(jsonRes['code'],int,stack:"Result-code"),
-    mlog : Mlog.fromJson(jsonRes['mlog']),
-    playList : PlayList.fromJson(jsonRes['playList']),
-    artist : Artist.fromJson(jsonRes['artist']),
-    album : Album.fromJson(jsonRes['album']),
-    video : Video.fromJson(jsonRes['video']),
-    sim_query : Sim_query.fromJson(jsonRes['sim_query']),
-    djRadio : DjRadio.fromJson(jsonRes['djRadio']),
-    rec_type : convertValueByType(jsonRes['rec_type'],Null,stack:"Result-rec_type"),
-    talk : Talk.fromJson(jsonRes['talk']),
-    rec_query:rec_query,
-    user : User.fromJson(jsonRes['user']),
-    order:order,);}
 
   Map<String, dynamic> toJson() => {
-    'song': song,
-    'code': code,
-    'mlog': mlog,
-    'playList': playList,
-    'artist': artist,
-    'album': album,
-    'video': video,
-    'sim_query': sim_query,
-    'djRadio': djRadio,
-    'rec_type': rec_type,
-    'talk': talk,
-    'rec_query': rec_query,
-    'user': user,
-    'order': order,
-  };
+        'song': song,
+        'code': code,
+        'mlog': mlog,
+        'playList': playList,
+        'artist': artist,
+        'album': album,
+        'video': video,
+        'sim_query': sim_query,
+        'djRadio': djRadio,
+        'rec_type': rec_type,
+        'talk': talk,
+        'rec_query': rec_query,
+        'user': user,
+        'order': order,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Song {
-
   String moreText;
   List<Songs> songs;
   bool more;
@@ -161,41 +171,49 @@ class Song {
     this.resourceIds,
   });
 
-  factory Song.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Song.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Songs> songs = jsonRes['songs'] is List ? []: null;
-  if(songs!=null) {
-    for (var item in jsonRes['songs']) { if (item != null) { songs.add(Songs.fromJson(item));  }
+    List<Songs> songs = jsonRes['songs'] is List ? [] : null;
+    if (songs != null) {
+      for (var item in jsonRes['songs']) {
+        if (item != null) {
+          songs.add(Songs.fromJson(item));
+        }
+      }
     }
-  }
 
-
-  List<int> resourceIds = jsonRes['resourceIds'] is List ? []: null;
-  if(resourceIds!=null) {
-    for (var item in jsonRes['resourceIds']) { if (item != null) { resourceIds.add(item);  }
+    List<int> resourceIds = jsonRes['resourceIds'] is List ? [] : null;
+    if (resourceIds != null) {
+      for (var item in jsonRes['resourceIds']) {
+        if (item != null) {
+          resourceIds.add(item);
+        }
+      }
     }
+    return Song(
+      moreText: convertValueByType(jsonRes['moreText'], String,
+          stack: "Song-moreText"),
+      songs: songs,
+      more: convertValueByType(jsonRes['more'], bool, stack: "Song-more"),
+      resourceIds: resourceIds,
+    );
   }
-  return Song(
-    moreText : convertValueByType(jsonRes['moreText'],String,stack:"Song-moreText"),
-    songs:songs,
-    more : convertValueByType(jsonRes['more'],bool,stack:"Song-more"),
-    resourceIds:resourceIds,);}
 
   Map<String, dynamic> toJson() => {
-    'moreText': moreText,
-    'songs': songs,
-    'more': more,
-    'resourceIds': resourceIds,
-  };
+        'moreText': moreText,
+        'songs': songs,
+        'more': more,
+        'resourceIds': resourceIds,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Songs {
-
   String name;
   int id;
   int pst;
@@ -278,125 +296,140 @@ class Songs {
     this.alg,
   });
 
-  factory Songs.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Songs.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Ar> ar = jsonRes['ar'] is List ? []: null;
-  if(ar!=null) {
-    for (var item in jsonRes['ar']) { if (item != null) { ar.add(Ar.fromJson(item));  }
+    List<Ar> ar = jsonRes['ar'] is List ? [] : null;
+    if (ar != null) {
+      for (var item in jsonRes['ar']) {
+        if (item != null) {
+          ar.add(Ar.fromJson(item));
+        }
+      }
     }
-  }
 
-
-  List<Object> alia = jsonRes['alia'] is List ? []: null;
-  if(alia!=null) {
-    for (var item in jsonRes['alia']) { if (item != null) { alia.add(item);  }
+    List<Object> alia = jsonRes['alia'] is List ? [] : null;
+    if (alia != null) {
+      for (var item in jsonRes['alia']) {
+        if (item != null) {
+          alia.add(item);
+        }
+      }
     }
-  }
 
-
-  List<Object> rtUrls = jsonRes['rtUrls'] is List ? []: null;
-  if(rtUrls!=null) {
-    for (var item in jsonRes['rtUrls']) { if (item != null) { rtUrls.add(item);  }
+    List<Object> rtUrls = jsonRes['rtUrls'] is List ? [] : null;
+    if (rtUrls != null) {
+      for (var item in jsonRes['rtUrls']) {
+        if (item != null) {
+          rtUrls.add(item);
+        }
+      }
     }
-  }
 
-
-  List<Object> officialTags = jsonRes['officialTags'] is List ? []: null;
-  if(officialTags!=null) {
-    for (var item in jsonRes['officialTags']) { if (item != null) { officialTags.add(item);  }
+    List<Object> officialTags = jsonRes['officialTags'] is List ? [] : null;
+    if (officialTags != null) {
+      for (var item in jsonRes['officialTags']) {
+        if (item != null) {
+          officialTags.add(item);
+        }
+      }
     }
+    return Songs(
+      name: convertValueByType(jsonRes['name'], String, stack: "Songs-name"),
+      id: convertValueByType(jsonRes['id'], int, stack: "Songs-id"),
+      pst: convertValueByType(jsonRes['pst'], int, stack: "Songs-pst"),
+      t: convertValueByType(jsonRes['t'], int, stack: "Songs-t"),
+      ar: ar,
+      alia: alia,
+      pop: convertValueByType(jsonRes['pop'], int, stack: "Songs-pop"),
+      st: convertValueByType(jsonRes['st'], int, stack: "Songs-st"),
+      rt: convertValueByType(jsonRes['rt'], String, stack: "Songs-rt"),
+      fee: convertValueByType(jsonRes['fee'], int, stack: "Songs-fee"),
+      v: convertValueByType(jsonRes['v'], int, stack: "Songs-v"),
+      crbt: convertValueByType(jsonRes['crbt'], Null, stack: "Songs-crbt"),
+      cf: convertValueByType(jsonRes['cf'], String, stack: "Songs-cf"),
+      al: Al.fromJson(jsonRes['al']),
+      dt: convertValueByType(jsonRes['dt'], int, stack: "Songs-dt"),
+      h: H.fromJson(jsonRes['h']),
+      m: M.fromJson(jsonRes['m']),
+      l: L.fromJson(jsonRes['l']),
+      a: convertValueByType(jsonRes['a'], Null, stack: "Songs-a"),
+      cd: convertValueByType(jsonRes['cd'], String, stack: "Songs-cd"),
+      no: convertValueByType(jsonRes['no'], int, stack: "Songs-no"),
+      rtUrl: convertValueByType(jsonRes['rtUrl'], Null, stack: "Songs-rtUrl"),
+      ftype: convertValueByType(jsonRes['ftype'], int, stack: "Songs-ftype"),
+      rtUrls: rtUrls,
+      djId: convertValueByType(jsonRes['djId'], int, stack: "Songs-djId"),
+      copyright: convertValueByType(jsonRes['copyright'], int,
+          stack: "Songs-copyright"),
+      s_id: convertValueByType(jsonRes['s_id'], int, stack: "Songs-s_id"),
+      mark: convertValueByType(jsonRes['mark'], int, stack: "Songs-mark"),
+      mst: convertValueByType(jsonRes['mst'], int, stack: "Songs-mst"),
+      cp: convertValueByType(jsonRes['cp'], int, stack: "Songs-cp"),
+      mv: convertValueByType(jsonRes['mv'], int, stack: "Songs-mv"),
+      rtype: convertValueByType(jsonRes['rtype'], int, stack: "Songs-rtype"),
+      rurl: convertValueByType(jsonRes['rurl'], Null, stack: "Songs-rurl"),
+      publishTime: convertValueByType(jsonRes['publishTime'], int,
+          stack: "Songs-publishTime"),
+      showRecommend: convertValueByType(jsonRes['showRecommend'], bool,
+          stack: "Songs-showRecommend"),
+      recommendText: convertValueByType(jsonRes['recommendText'], String,
+          stack: "Songs-recommendText"),
+      officialTags: officialTags,
+      privilege: Privilege.fromJson(jsonRes['privilege']),
+      alg: convertValueByType(jsonRes['alg'], String, stack: "Songs-alg"),
+    );
   }
-  return Songs(
-    name : convertValueByType(jsonRes['name'],String,stack:"Songs-name"),
-    id : convertValueByType(jsonRes['id'],int,stack:"Songs-id"),
-    pst : convertValueByType(jsonRes['pst'],int,stack:"Songs-pst"),
-    t : convertValueByType(jsonRes['t'],int,stack:"Songs-t"),
-    ar:ar,
-    alia:alia,
-    pop : convertValueByType(jsonRes['pop'],int,stack:"Songs-pop"),
-    st : convertValueByType(jsonRes['st'],int,stack:"Songs-st"),
-    rt : convertValueByType(jsonRes['rt'],String,stack:"Songs-rt"),
-    fee : convertValueByType(jsonRes['fee'],int,stack:"Songs-fee"),
-    v : convertValueByType(jsonRes['v'],int,stack:"Songs-v"),
-    crbt : convertValueByType(jsonRes['crbt'],Null,stack:"Songs-crbt"),
-    cf : convertValueByType(jsonRes['cf'],String,stack:"Songs-cf"),
-    al : Al.fromJson(jsonRes['al']),
-    dt : convertValueByType(jsonRes['dt'],int,stack:"Songs-dt"),
-    h : H.fromJson(jsonRes['h']),
-    m : M.fromJson(jsonRes['m']),
-    l : L.fromJson(jsonRes['l']),
-    a : convertValueByType(jsonRes['a'],Null,stack:"Songs-a"),
-    cd : convertValueByType(jsonRes['cd'],String,stack:"Songs-cd"),
-    no : convertValueByType(jsonRes['no'],int,stack:"Songs-no"),
-    rtUrl : convertValueByType(jsonRes['rtUrl'],Null,stack:"Songs-rtUrl"),
-    ftype : convertValueByType(jsonRes['ftype'],int,stack:"Songs-ftype"),
-    rtUrls:rtUrls,
-    djId : convertValueByType(jsonRes['djId'],int,stack:"Songs-djId"),
-    copyright : convertValueByType(jsonRes['copyright'],int,stack:"Songs-copyright"),
-    s_id : convertValueByType(jsonRes['s_id'],int,stack:"Songs-s_id"),
-    mark : convertValueByType(jsonRes['mark'],int,stack:"Songs-mark"),
-    mst : convertValueByType(jsonRes['mst'],int,stack:"Songs-mst"),
-    cp : convertValueByType(jsonRes['cp'],int,stack:"Songs-cp"),
-    mv : convertValueByType(jsonRes['mv'],int,stack:"Songs-mv"),
-    rtype : convertValueByType(jsonRes['rtype'],int,stack:"Songs-rtype"),
-    rurl : convertValueByType(jsonRes['rurl'],Null,stack:"Songs-rurl"),
-    publishTime : convertValueByType(jsonRes['publishTime'],int,stack:"Songs-publishTime"),
-    showRecommend : convertValueByType(jsonRes['showRecommend'],bool,stack:"Songs-showRecommend"),
-    recommendText : convertValueByType(jsonRes['recommendText'],String,stack:"Songs-recommendText"),
-    officialTags:officialTags,
-    privilege : Privilege.fromJson(jsonRes['privilege']),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"Songs-alg"),);}
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'pst': pst,
-    't': t,
-    'ar': ar,
-    'alia': alia,
-    'pop': pop,
-    'st': st,
-    'rt': rt,
-    'fee': fee,
-    'v': v,
-    'crbt': crbt,
-    'cf': cf,
-    'al': al,
-    'dt': dt,
-    'h': h,
-    'm': m,
-    'l': l,
-    'a': a,
-    'cd': cd,
-    'no': no,
-    'rtUrl': rtUrl,
-    'ftype': ftype,
-    'rtUrls': rtUrls,
-    'djId': djId,
-    'copyright': copyright,
-    's_id': s_id,
-    'mark': mark,
-    'mst': mst,
-    'cp': cp,
-    'mv': mv,
-    'rtype': rtype,
-    'rurl': rurl,
-    'publishTime': publishTime,
-    'showRecommend': showRecommend,
-    'recommendText': recommendText,
-    'officialTags': officialTags,
-    'privilege': privilege,
-    'alg': alg,
-  };
+        'name': name,
+        'id': id,
+        'pst': pst,
+        't': t,
+        'ar': ar,
+        'alia': alia,
+        'pop': pop,
+        'st': st,
+        'rt': rt,
+        'fee': fee,
+        'v': v,
+        'crbt': crbt,
+        'cf': cf,
+        'al': al,
+        'dt': dt,
+        'h': h,
+        'm': m,
+        'l': l,
+        'a': a,
+        'cd': cd,
+        'no': no,
+        'rtUrl': rtUrl,
+        'ftype': ftype,
+        'rtUrls': rtUrls,
+        'djId': djId,
+        'copyright': copyright,
+        's_id': s_id,
+        'mark': mark,
+        'mst': mst,
+        'cp': cp,
+        'mv': mv,
+        'rtype': rtype,
+        'rurl': rurl,
+        'publishTime': publishTime,
+        'showRecommend': showRecommend,
+        'recommendText': recommendText,
+        'officialTags': officialTags,
+        'privilege': privilege,
+        'alg': alg,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Ar {
-
   int id;
   String name;
   List<Object> tns;
@@ -411,50 +444,59 @@ class Ar {
     this.alia,
   });
 
-  factory Ar.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Ar.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Object> tns = jsonRes['tns'] is List ? []: null;
-  if(tns!=null) {
-    for (var item in jsonRes['tns']) { if (item != null) { tns.add(item);  }
+    List<Object> tns = jsonRes['tns'] is List ? [] : null;
+    if (tns != null) {
+      for (var item in jsonRes['tns']) {
+        if (item != null) {
+          tns.add(item);
+        }
+      }
     }
-  }
 
-
-  List<String> alias = jsonRes['alias'] is List ? []: null;
-  if(alias!=null) {
-    for (var item in jsonRes['alias']) { if (item != null) { alias.add(item);  }
+    List<String> alias = jsonRes['alias'] is List ? [] : null;
+    if (alias != null) {
+      for (var item in jsonRes['alias']) {
+        if (item != null) {
+          alias.add(item);
+        }
+      }
     }
-  }
 
-
-  List<String> alia = jsonRes['alia'] is List ? []: null;
-  if(alia!=null) {
-    for (var item in jsonRes['alia']) { if (item != null) { alia.add(item);  }
+    List<String> alia = jsonRes['alia'] is List ? [] : null;
+    if (alia != null) {
+      for (var item in jsonRes['alia']) {
+        if (item != null) {
+          alia.add(item);
+        }
+      }
     }
+    return Ar(
+      id: convertValueByType(jsonRes['id'], int, stack: "Ar-id"),
+      name: convertValueByType(jsonRes['name'], String, stack: "Ar-name"),
+      tns: tns,
+      alias: alias,
+      alia: alia,
+    );
   }
-  return Ar(
-    id : convertValueByType(jsonRes['id'],int,stack:"Ar-id"),
-    name : convertValueByType(jsonRes['name'],String,stack:"Ar-name"),
-    tns:tns,
-    alias:alias,
-    alia:alia,);}
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'tns': tns,
-    'alias': alias,
-    'alia': alia,
-  };
+        'id': id,
+        'name': name,
+        'tns': tns,
+        'alias': alias,
+        'alia': alia,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Al {
-
   int id;
   String name;
   String picUrl;
@@ -471,38 +513,44 @@ class Al {
     this.pic,
   });
 
-  factory Al.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Al.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Object> tns = jsonRes['tns'] is List ? []: null;
-  if(tns!=null) {
-    for (var item in jsonRes['tns']) { if (item != null) { tns.add(item);  }
+    List<Object> tns = jsonRes['tns'] is List ? [] : null;
+    if (tns != null) {
+      for (var item in jsonRes['tns']) {
+        if (item != null) {
+          tns.add(item);
+        }
+      }
     }
+    return Al(
+      id: convertValueByType(jsonRes['id'], int, stack: "Al-id"),
+      name: convertValueByType(jsonRes['name'], String, stack: "Al-name"),
+      picUrl: convertValueByType(jsonRes['picUrl'], String, stack: "Al-picUrl"),
+      tns: tns,
+      pic_str:
+          convertValueByType(jsonRes['pic_str'], String, stack: "Al-pic_str"),
+      pic: convertValueByType(jsonRes['pic'], int, stack: "Al-pic"),
+    );
   }
-  return Al(
-    id : convertValueByType(jsonRes['id'],int,stack:"Al-id"),
-    name : convertValueByType(jsonRes['name'],String,stack:"Al-name"),
-    picUrl : convertValueByType(jsonRes['picUrl'],String,stack:"Al-picUrl"),
-    tns:tns,
-    pic_str : convertValueByType(jsonRes['pic_str'],String,stack:"Al-pic_str"),
-    pic : convertValueByType(jsonRes['pic'],int,stack:"Al-pic"),);}
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'picUrl': picUrl,
-    'tns': tns,
-    'pic_str': pic_str,
-    'pic': pic,
-  };
+        'id': id,
+        'name': name,
+        'picUrl': picUrl,
+        'tns': tns,
+        'pic_str': pic_str,
+        'pic': pic,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class H {
-
   int br;
   int fid;
   int size;
@@ -515,26 +563,29 @@ class H {
     this.vd,
   });
 
-  factory H.fromJson(jsonRes)=>jsonRes == null? null:H(
-    br : convertValueByType(jsonRes['br'],int,stack:"H-br"),
-    fid : convertValueByType(jsonRes['fid'],int,stack:"H-fid"),
-    size : convertValueByType(jsonRes['size'],int,stack:"H-size"),
-    vd : convertValueByType(jsonRes['vd'],int,stack:"H-vd"),);
+  factory H.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : H(
+          br: convertValueByType(jsonRes['br'], int, stack: "H-br"),
+          fid: convertValueByType(jsonRes['fid'], int, stack: "H-fid"),
+          size: convertValueByType(jsonRes['size'], int, stack: "H-size"),
+          vd: convertValueByType(jsonRes['vd'], int, stack: "H-vd"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'br': br,
-    'fid': fid,
-    'size': size,
-    'vd': vd,
-  };
+        'br': br,
+        'fid': fid,
+        'size': size,
+        'vd': vd,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class M {
-
   int br;
   int fid;
   int size;
@@ -547,26 +598,29 @@ class M {
     this.vd,
   });
 
-  factory M.fromJson(jsonRes)=>jsonRes == null? null:M(
-    br : convertValueByType(jsonRes['br'],int,stack:"M-br"),
-    fid : convertValueByType(jsonRes['fid'],int,stack:"M-fid"),
-    size : convertValueByType(jsonRes['size'],int,stack:"M-size"),
-    vd : convertValueByType(jsonRes['vd'],int,stack:"M-vd"),);
+  factory M.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : M(
+          br: convertValueByType(jsonRes['br'], int, stack: "M-br"),
+          fid: convertValueByType(jsonRes['fid'], int, stack: "M-fid"),
+          size: convertValueByType(jsonRes['size'], int, stack: "M-size"),
+          vd: convertValueByType(jsonRes['vd'], int, stack: "M-vd"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'br': br,
-    'fid': fid,
-    'size': size,
-    'vd': vd,
-  };
+        'br': br,
+        'fid': fid,
+        'size': size,
+        'vd': vd,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class L {
-
   int br;
   int fid;
   int size;
@@ -579,26 +633,29 @@ class L {
     this.vd,
   });
 
-  factory L.fromJson(jsonRes)=>jsonRes == null? null:L(
-    br : convertValueByType(jsonRes['br'],int,stack:"L-br"),
-    fid : convertValueByType(jsonRes['fid'],int,stack:"L-fid"),
-    size : convertValueByType(jsonRes['size'],int,stack:"L-size"),
-    vd : convertValueByType(jsonRes['vd'],int,stack:"L-vd"),);
+  factory L.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : L(
+          br: convertValueByType(jsonRes['br'], int, stack: "L-br"),
+          fid: convertValueByType(jsonRes['fid'], int, stack: "L-fid"),
+          size: convertValueByType(jsonRes['size'], int, stack: "L-size"),
+          vd: convertValueByType(jsonRes['vd'], int, stack: "L-vd"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'br': br,
-    'fid': fid,
-    'size': size,
-    'vd': vd,
-  };
+        'br': br,
+        'fid': fid,
+        'size': size,
+        'vd': vd,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Privilege {
-
   int id;
   int fee;
   int payed;
@@ -631,46 +688,54 @@ class Privilege {
     this.flag,
   });
 
-  factory Privilege.fromJson(jsonRes)=>jsonRes == null? null:Privilege(
-    id : convertValueByType(jsonRes['id'],int,stack:"Privilege-id"),
-    fee : convertValueByType(jsonRes['fee'],int,stack:"Privilege-fee"),
-    payed : convertValueByType(jsonRes['payed'],int,stack:"Privilege-payed"),
-    st : convertValueByType(jsonRes['st'],int,stack:"Privilege-st"),
-    pl : convertValueByType(jsonRes['pl'],int,stack:"Privilege-pl"),
-    dl : convertValueByType(jsonRes['dl'],int,stack:"Privilege-dl"),
-    sp : convertValueByType(jsonRes['sp'],int,stack:"Privilege-sp"),
-    cp : convertValueByType(jsonRes['cp'],int,stack:"Privilege-cp"),
-    subp : convertValueByType(jsonRes['subp'],int,stack:"Privilege-subp"),
-    cs : convertValueByType(jsonRes['cs'],bool,stack:"Privilege-cs"),
-    maxbr : convertValueByType(jsonRes['maxbr'],int,stack:"Privilege-maxbr"),
-    fl : convertValueByType(jsonRes['fl'],int,stack:"Privilege-fl"),
-    toast : convertValueByType(jsonRes['toast'],bool,stack:"Privilege-toast"),
-    flag : convertValueByType(jsonRes['flag'],int,stack:"Privilege-flag"),);
+  factory Privilege.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : Privilege(
+          id: convertValueByType(jsonRes['id'], int, stack: "Privilege-id"),
+          fee: convertValueByType(jsonRes['fee'], int, stack: "Privilege-fee"),
+          payed: convertValueByType(jsonRes['payed'], int,
+              stack: "Privilege-payed"),
+          st: convertValueByType(jsonRes['st'], int, stack: "Privilege-st"),
+          pl: convertValueByType(jsonRes['pl'], int, stack: "Privilege-pl"),
+          dl: convertValueByType(jsonRes['dl'], int, stack: "Privilege-dl"),
+          sp: convertValueByType(jsonRes['sp'], int, stack: "Privilege-sp"),
+          cp: convertValueByType(jsonRes['cp'], int, stack: "Privilege-cp"),
+          subp:
+              convertValueByType(jsonRes['subp'], int, stack: "Privilege-subp"),
+          cs: convertValueByType(jsonRes['cs'], bool, stack: "Privilege-cs"),
+          maxbr: convertValueByType(jsonRes['maxbr'], int,
+              stack: "Privilege-maxbr"),
+          fl: convertValueByType(jsonRes['fl'], int, stack: "Privilege-fl"),
+          toast: convertValueByType(jsonRes['toast'], bool,
+              stack: "Privilege-toast"),
+          flag:
+              convertValueByType(jsonRes['flag'], int, stack: "Privilege-flag"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'fee': fee,
-    'payed': payed,
-    'st': st,
-    'pl': pl,
-    'dl': dl,
-    'sp': sp,
-    'cp': cp,
-    'subp': subp,
-    'cs': cs,
-    'maxbr': maxbr,
-    'fl': fl,
-    'toast': toast,
-    'flag': flag,
-  };
+        'id': id,
+        'fee': fee,
+        'payed': payed,
+        'st': st,
+        'pl': pl,
+        'dl': dl,
+        'sp': sp,
+        'cp': cp,
+        'subp': subp,
+        'cs': cs,
+        'maxbr': maxbr,
+        'fl': fl,
+        'toast': toast,
+        'flag': flag,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Mlog {
-
   String moreText;
   bool more;
   List<Mlogs> mlogs;
@@ -683,41 +748,49 @@ class Mlog {
     this.resourceIds,
   });
 
-  factory Mlog.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Mlog.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Mlogs> mlogs = jsonRes['mlogs'] is List ? []: null;
-  if(mlogs!=null) {
-    for (var item in jsonRes['mlogs']) { if (item != null) { mlogs.add(Mlogs.fromJson(item));  }
+    List<Mlogs> mlogs = jsonRes['mlogs'] is List ? [] : null;
+    if (mlogs != null) {
+      for (var item in jsonRes['mlogs']) {
+        if (item != null) {
+          mlogs.add(Mlogs.fromJson(item));
+        }
+      }
     }
-  }
 
-
-  List<Object> resourceIds = jsonRes['resourceIds'] is List ? []: null;
-  if(resourceIds!=null) {
-    for (var item in jsonRes['resourceIds']) { if (item != null) { resourceIds.add(item);  }
+    List<Object> resourceIds = jsonRes['resourceIds'] is List ? [] : null;
+    if (resourceIds != null) {
+      for (var item in jsonRes['resourceIds']) {
+        if (item != null) {
+          resourceIds.add(item);
+        }
+      }
     }
+    return Mlog(
+      moreText: convertValueByType(jsonRes['moreText'], String,
+          stack: "Mlog-moreText"),
+      more: convertValueByType(jsonRes['more'], bool, stack: "Mlog-more"),
+      mlogs: mlogs,
+      resourceIds: resourceIds,
+    );
   }
-  return Mlog(
-    moreText : convertValueByType(jsonRes['moreText'],String,stack:"Mlog-moreText"),
-    more : convertValueByType(jsonRes['more'],bool,stack:"Mlog-more"),
-    mlogs:mlogs,
-    resourceIds:resourceIds,);}
 
   Map<String, dynamic> toJson() => {
-    'moreText': moreText,
-    'more': more,
-    'mlogs': mlogs,
-    'resourceIds': resourceIds,
-  };
+        'moreText': moreText,
+        'more': more,
+        'mlogs': mlogs,
+        'resourceIds': resourceIds,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Mlogs {
-
   String id;
   int type;
   Object position;
@@ -740,36 +813,45 @@ class Mlogs {
     this.sameCity,
   });
 
-  factory Mlogs.fromJson(jsonRes)=>jsonRes == null? null:Mlogs(
-    id : convertValueByType(jsonRes['id'],String,stack:"Mlogs-id"),
-    type : convertValueByType(jsonRes['type'],int,stack:"Mlogs-type"),
-    position : convertValueByType(jsonRes['position'],Null,stack:"Mlogs-position"),
-    resource : Resource.fromJson(jsonRes['resource']),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"Mlogs-alg"),
-    reason : convertValueByType(jsonRes['reason'],Null,stack:"Mlogs-reason"),
-    matchField : convertValueByType(jsonRes['matchField'],int,stack:"Mlogs-matchField"),
-    matchFieldContent : convertValueByType(jsonRes['matchFieldContent'],String,stack:"Mlogs-matchFieldContent"),
-    sameCity : convertValueByType(jsonRes['sameCity'],bool,stack:"Mlogs-sameCity"),);
+  factory Mlogs.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : Mlogs(
+          id: convertValueByType(jsonRes['id'], String, stack: "Mlogs-id"),
+          type: convertValueByType(jsonRes['type'], int, stack: "Mlogs-type"),
+          position: convertValueByType(jsonRes['position'], Null,
+              stack: "Mlogs-position"),
+          resource: Resource.fromJson(jsonRes['resource']),
+          alg: convertValueByType(jsonRes['alg'], String, stack: "Mlogs-alg"),
+          reason: convertValueByType(jsonRes['reason'], Null,
+              stack: "Mlogs-reason"),
+          matchField: convertValueByType(jsonRes['matchField'], int,
+              stack: "Mlogs-matchField"),
+          matchFieldContent: convertValueByType(
+              jsonRes['matchFieldContent'], String,
+              stack: "Mlogs-matchFieldContent"),
+          sameCity: convertValueByType(jsonRes['sameCity'], bool,
+              stack: "Mlogs-sameCity"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'type': type,
-    'position': position,
-    'resource': resource,
-    'alg': alg,
-    'reason': reason,
-    'matchField': matchField,
-    'matchFieldContent': matchFieldContent,
-    'sameCity': sameCity,
-  };
+        'id': id,
+        'type': type,
+        'position': position,
+        'resource': resource,
+        'alg': alg,
+        'reason': reason,
+        'matchField': matchField,
+        'matchFieldContent': matchFieldContent,
+        'sameCity': sameCity,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Resource {
-
   MlogBaseData mlogBaseData;
   MlogExtVO mlogExtVO;
   UserProfile userProfile;
@@ -784,28 +866,33 @@ class Resource {
     this.shareUrl,
   });
 
-  factory Resource.fromJson(jsonRes)=>jsonRes == null? null:Resource(
-    mlogBaseData : MlogBaseData.fromJson(jsonRes['mlogBaseData']),
-    mlogExtVO : MlogExtVO.fromJson(jsonRes['mlogExtVO']),
-    userProfile : UserProfile.fromJson(jsonRes['userProfile']),
-    status : convertValueByType(jsonRes['status'],int,stack:"Resource-status"),
-    shareUrl : convertValueByType(jsonRes['shareUrl'],String,stack:"Resource-shareUrl"),);
+  factory Resource.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : Resource(
+          mlogBaseData: MlogBaseData.fromJson(jsonRes['mlogBaseData']),
+          mlogExtVO: MlogExtVO.fromJson(jsonRes['mlogExtVO']),
+          userProfile: UserProfile.fromJson(jsonRes['userProfile']),
+          status: convertValueByType(jsonRes['status'], int,
+              stack: "Resource-status"),
+          shareUrl: convertValueByType(jsonRes['shareUrl'], String,
+              stack: "Resource-shareUrl"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'mlogBaseData': mlogBaseData,
-    'mlogExtVO': mlogExtVO,
-    'userProfile': userProfile,
-    'status': status,
-    'shareUrl': shareUrl,
-  };
+        'mlogBaseData': mlogBaseData,
+        'mlogExtVO': mlogExtVO,
+        'userProfile': userProfile,
+        'status': status,
+        'shareUrl': shareUrl,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class MlogBaseData {
-
   String id;
   int type;
   String text;
@@ -838,46 +925,62 @@ class MlogBaseData {
     this.threadId,
   });
 
-  factory MlogBaseData.fromJson(jsonRes)=>jsonRes == null? null:MlogBaseData(
-    id : convertValueByType(jsonRes['id'],String,stack:"MlogBaseData-id"),
-    type : convertValueByType(jsonRes['type'],int,stack:"MlogBaseData-type"),
-    text : convertValueByType(jsonRes['text'],String,stack:"MlogBaseData-text"),
-    interveneText : convertValueByType(jsonRes['interveneText'],Null,stack:"MlogBaseData-interveneText"),
-    pubTime : convertValueByType(jsonRes['pubTime'],int,stack:"MlogBaseData-pubTime"),
-    coverUrl : convertValueByType(jsonRes['coverUrl'],String,stack:"MlogBaseData-coverUrl"),
-    coverHeight : convertValueByType(jsonRes['coverHeight'],int,stack:"MlogBaseData-coverHeight"),
-    coverWidth : convertValueByType(jsonRes['coverWidth'],int,stack:"MlogBaseData-coverWidth"),
-    coverColor : convertValueByType(jsonRes['coverColor'],int,stack:"MlogBaseData-coverColor"),
-    coverDynamicUrl : convertValueByType(jsonRes['coverDynamicUrl'],Null,stack:"MlogBaseData-coverDynamicUrl"),
-    audioDTO : convertValueByType(jsonRes['audioDTO'],Null,stack:"MlogBaseData-audioDTO"),
-    talk : Talk.fromJson(jsonRes['talk']),
-    mlogLocationDTO : convertValueByType(jsonRes['mlogLocationDTO'],Null,stack:"MlogBaseData-mlogLocationDTO"),
-    threadId : convertValueByType(jsonRes['threadId'],Null,stack:"MlogBaseData-threadId"),);
+  factory MlogBaseData.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : MlogBaseData(
+          id: convertValueByType(jsonRes['id'], String,
+              stack: "MlogBaseData-id"),
+          type: convertValueByType(jsonRes['type'], int,
+              stack: "MlogBaseData-type"),
+          text: convertValueByType(jsonRes['text'], String,
+              stack: "MlogBaseData-text"),
+          interveneText: convertValueByType(jsonRes['interveneText'], Null,
+              stack: "MlogBaseData-interveneText"),
+          pubTime: convertValueByType(jsonRes['pubTime'], int,
+              stack: "MlogBaseData-pubTime"),
+          coverUrl: convertValueByType(jsonRes['coverUrl'], String,
+              stack: "MlogBaseData-coverUrl"),
+          coverHeight: convertValueByType(jsonRes['coverHeight'], int,
+              stack: "MlogBaseData-coverHeight"),
+          coverWidth: convertValueByType(jsonRes['coverWidth'], int,
+              stack: "MlogBaseData-coverWidth"),
+          coverColor: convertValueByType(jsonRes['coverColor'], int,
+              stack: "MlogBaseData-coverColor"),
+          coverDynamicUrl: convertValueByType(jsonRes['coverDynamicUrl'], Null,
+              stack: "MlogBaseData-coverDynamicUrl"),
+          audioDTO: convertValueByType(jsonRes['audioDTO'], Null,
+              stack: "MlogBaseData-audioDTO"),
+          talk: Talk.fromJson(jsonRes['talk']),
+          mlogLocationDTO: convertValueByType(jsonRes['mlogLocationDTO'], Null,
+              stack: "MlogBaseData-mlogLocationDTO"),
+          threadId: convertValueByType(jsonRes['threadId'], Null,
+              stack: "MlogBaseData-threadId"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'type': type,
-    'text': text,
-    'interveneText': interveneText,
-    'pubTime': pubTime,
-    'coverUrl': coverUrl,
-    'coverHeight': coverHeight,
-    'coverWidth': coverWidth,
-    'coverColor': coverColor,
-    'coverDynamicUrl': coverDynamicUrl,
-    'audioDTO': audioDTO,
-    'talk': talk,
-    'mlogLocationDTO': mlogLocationDTO,
-    'threadId': threadId,
-  };
+        'id': id,
+        'type': type,
+        'text': text,
+        'interveneText': interveneText,
+        'pubTime': pubTime,
+        'coverUrl': coverUrl,
+        'coverHeight': coverHeight,
+        'coverWidth': coverWidth,
+        'coverColor': coverColor,
+        'coverDynamicUrl': coverDynamicUrl,
+        'audioDTO': audioDTO,
+        'talk': talk,
+        'mlogLocationDTO': mlogLocationDTO,
+        'threadId': threadId,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Talk {
-
   int talkId;
   String talkName;
   Object participations;
@@ -890,26 +993,33 @@ class Talk {
     this.isFollow,
   });
 
-  factory Talk.fromJson(jsonRes)=>jsonRes == null? null:Talk(
-    talkId : convertValueByType(jsonRes['talkId'],int,stack:"Talk-talkId"),
-    talkName : convertValueByType(jsonRes['talkName'],String,stack:"Talk-talkName"),
-    participations : convertValueByType(jsonRes['participations'],Null,stack:"Talk-participations"),
-    isFollow : convertValueByType(jsonRes['isFollow'],bool,stack:"Talk-isFollow"),);
+  factory Talk.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : Talk(
+          talkId:
+              convertValueByType(jsonRes['talkId'], int, stack: "Talk-talkId"),
+          talkName: convertValueByType(jsonRes['talkName'], String,
+              stack: "Talk-talkName"),
+          participations: convertValueByType(jsonRes['participations'], Null,
+              stack: "Talk-participations"),
+          isFollow: convertValueByType(jsonRes['isFollow'], bool,
+              stack: "Talk-isFollow"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'talkId': talkId,
-    'talkName': talkName,
-    'participations': participations,
-    'isFollow': isFollow,
-  };
+        'talkId': talkId,
+        'talkName': talkName,
+        'participations': participations,
+        'isFollow': isFollow,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class MlogExtVO {
-
   int likedCount;
   int commentCount;
 
@@ -918,22 +1028,27 @@ class MlogExtVO {
     this.commentCount,
   });
 
-  factory MlogExtVO.fromJson(jsonRes)=>jsonRes == null? null:MlogExtVO(
-    likedCount : convertValueByType(jsonRes['likedCount'],int,stack:"MlogExtVO-likedCount"),
-    commentCount : convertValueByType(jsonRes['commentCount'],int,stack:"MlogExtVO-commentCount"),);
+  factory MlogExtVO.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : MlogExtVO(
+          likedCount: convertValueByType(jsonRes['likedCount'], int,
+              stack: "MlogExtVO-likedCount"),
+          commentCount: convertValueByType(jsonRes['commentCount'], int,
+              stack: "MlogExtVO-commentCount"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'likedCount': likedCount,
-    'commentCount': commentCount,
-  };
+        'likedCount': likedCount,
+        'commentCount': commentCount,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class UserProfile {
-
   int userId;
   String nickname;
   String avatarUrl;
@@ -950,30 +1065,39 @@ class UserProfile {
     this.isAnchor,
   });
 
-  factory UserProfile.fromJson(jsonRes)=>jsonRes == null? null:UserProfile(
-    userId : convertValueByType(jsonRes['userId'],int,stack:"UserProfile-userId"),
-    nickname : convertValueByType(jsonRes['nickname'],String,stack:"UserProfile-nickname"),
-    avatarUrl : convertValueByType(jsonRes['avatarUrl'],String,stack:"UserProfile-avatarUrl"),
-    followed : convertValueByType(jsonRes['followed'],bool,stack:"UserProfile-followed"),
-    userType : convertValueByType(jsonRes['userType'],int,stack:"UserProfile-userType"),
-    isAnchor : convertValueByType(jsonRes['isAnchor'],bool,stack:"UserProfile-isAnchor"),);
+  factory UserProfile.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : UserProfile(
+          userId: convertValueByType(jsonRes['userId'], int,
+              stack: "UserProfile-userId"),
+          nickname: convertValueByType(jsonRes['nickname'], String,
+              stack: "UserProfile-nickname"),
+          avatarUrl: convertValueByType(jsonRes['avatarUrl'], String,
+              stack: "UserProfile-avatarUrl"),
+          followed: convertValueByType(jsonRes['followed'], bool,
+              stack: "UserProfile-followed"),
+          userType: convertValueByType(jsonRes['userType'], int,
+              stack: "UserProfile-userType"),
+          isAnchor: convertValueByType(jsonRes['isAnchor'], bool,
+              stack: "UserProfile-isAnchor"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'userId': userId,
-    'nickname': nickname,
-    'avatarUrl': avatarUrl,
-    'followed': followed,
-    'userType': userType,
-    'isAnchor': isAnchor,
-  };
+        'userId': userId,
+        'nickname': nickname,
+        'avatarUrl': avatarUrl,
+        'followed': followed,
+        'userType': userType,
+        'isAnchor': isAnchor,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class PlayList {
-
   String moreText;
   bool more;
   List<PlayLists> playLists;
@@ -986,41 +1110,49 @@ class PlayList {
     this.resourceIds,
   });
 
-  factory PlayList.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory PlayList.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<PlayLists> playLists = jsonRes['playLists'] is List ? []: null;
-  if(playLists!=null) {
-    for (var item in jsonRes['playLists']) { if (item != null) { playLists.add(PlayLists.fromJson(item));  }
+    List<PlayLists> playLists = jsonRes['playLists'] is List ? [] : null;
+    if (playLists != null) {
+      for (var item in jsonRes['playLists']) {
+        if (item != null) {
+          playLists.add(PlayLists.fromJson(item));
+        }
+      }
     }
-  }
 
-
-  List<int> resourceIds = jsonRes['resourceIds'] is List ? []: null;
-  if(resourceIds!=null) {
-    for (var item in jsonRes['resourceIds']) { if (item != null) { resourceIds.add(item);  }
+    List<int> resourceIds = jsonRes['resourceIds'] is List ? [] : null;
+    if (resourceIds != null) {
+      for (var item in jsonRes['resourceIds']) {
+        if (item != null) {
+          resourceIds.add(item);
+        }
+      }
     }
+    return PlayList(
+      moreText: convertValueByType(jsonRes['moreText'], String,
+          stack: "PlayList-moreText"),
+      more: convertValueByType(jsonRes['more'], bool, stack: "PlayList-more"),
+      playLists: playLists,
+      resourceIds: resourceIds,
+    );
   }
-  return PlayList(
-    moreText : convertValueByType(jsonRes['moreText'],String,stack:"PlayList-moreText"),
-    more : convertValueByType(jsonRes['more'],bool,stack:"PlayList-more"),
-    playLists:playLists,
-    resourceIds:resourceIds,);}
 
   Map<String, dynamic> toJson() => {
-    'moreText': moreText,
-    'more': more,
-    'playLists': playLists,
-    'resourceIds': resourceIds,
-  };
+        'moreText': moreText,
+        'more': more,
+        'playLists': playLists,
+        'resourceIds': resourceIds,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class PlayLists {
-
   int id;
   String name;
   String coverImgUrl;
@@ -1051,50 +1183,64 @@ class PlayLists {
     this.alg,
   });
 
-  factory PlayLists.fromJson(jsonRes)=>jsonRes == null? null:PlayLists(
-    id : convertValueByType(jsonRes['id'],int,stack:"PlayLists-id"),
-    name : convertValueByType(jsonRes['name'],String,stack:"PlayLists-name"),
-    coverImgUrl : convertValueByType(jsonRes['coverImgUrl'],String,stack:"PlayLists-coverImgUrl"),
-    creator : Creator.fromJson(jsonRes['creator']),
-    subscribed : convertValueByType(jsonRes['subscribed'],bool,stack:"PlayLists-subscribed"),
-    trackCount : convertValueByType(jsonRes['trackCount'],int,stack:"PlayLists-trackCount"),
-    userId : convertValueByType(jsonRes['userId'],int,stack:"PlayLists-userId"),
-    playCount : convertValueByType(jsonRes['playCount'],int,stack:"PlayLists-playCount"),
-    bookCount : convertValueByType(jsonRes['bookCount'],int,stack:"PlayLists-bookCount"),
-    description : convertValueByType(jsonRes['description'],String,stack:"PlayLists-description"),
-    highQuality : convertValueByType(jsonRes['highQuality'],bool,stack:"PlayLists-highQuality"),
-    track : Track.fromJson(jsonRes['track']),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"PlayLists-alg"),);
+  factory PlayLists.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : PlayLists(
+          id: convertValueByType(jsonRes['id'], int, stack: "PlayLists-id"),
+          name: convertValueByType(jsonRes['name'], String,
+              stack: "PlayLists-name"),
+          coverImgUrl: convertValueByType(jsonRes['coverImgUrl'], String,
+              stack: "PlayLists-coverImgUrl"),
+          creator: Creator.fromJson(jsonRes['creator']),
+          subscribed: convertValueByType(jsonRes['subscribed'], bool,
+              stack: "PlayLists-subscribed"),
+          trackCount: convertValueByType(jsonRes['trackCount'], int,
+              stack: "PlayLists-trackCount"),
+          userId: convertValueByType(jsonRes['userId'], int,
+              stack: "PlayLists-userId"),
+          playCount: convertValueByType(jsonRes['playCount'], int,
+              stack: "PlayLists-playCount"),
+          bookCount: convertValueByType(jsonRes['bookCount'], int,
+              stack: "PlayLists-bookCount"),
+          description: convertValueByType(jsonRes['description'], String,
+              stack: "PlayLists-description"),
+          highQuality: convertValueByType(jsonRes['highQuality'], bool,
+              stack: "PlayLists-highQuality"),
+          track: Track.fromJson(jsonRes['track']),
+          alg: convertValueByType(jsonRes['alg'], String,
+              stack: "PlayLists-alg"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'coverImgUrl': coverImgUrl,
-    'creator': creator,
-    'subscribed': subscribed,
-    'trackCount': trackCount,
-    'userId': userId,
-    'playCount': playCount,
-    'bookCount': bookCount,
-    'description': description,
-    'highQuality': highQuality,
-    'track': track,
-    'alg': alg,
-  };
+        'id': id,
+        'name': name,
+        'coverImgUrl': coverImgUrl,
+        'creator': creator,
+        'subscribed': subscribed,
+        'trackCount': trackCount,
+        'userId': userId,
+        'playCount': playCount,
+        'bookCount': bookCount,
+        'description': description,
+        'highQuality': highQuality,
+        'track': track,
+        'alg': alg,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Creator {
-
   String nickname;
   int userId;
   int userType;
   int authStatus;
   Object expertTags;
   Object experts;
+  String userName;
 
   Creator({
     this.nickname,
@@ -1103,32 +1249,45 @@ class Creator {
     this.authStatus,
     this.expertTags,
     this.experts,
+    this.userName,
   });
 
-  factory Creator.fromJson(jsonRes)=>jsonRes == null? null:Creator(
-    nickname : convertValueByType(jsonRes['nickname'],String,stack:"Creator-nickname"),
-    userId : convertValueByType(jsonRes['userId'],int,stack:"Creator-userId"),
-    userType : convertValueByType(jsonRes['userType'],int,stack:"Creator-userType"),
-    authStatus : convertValueByType(jsonRes['authStatus'],int,stack:"Creator-authStatus"),
-    expertTags : convertValueByType(jsonRes['expertTags'],Null,stack:"Creator-expertTags"),
-    experts : convertValueByType(jsonRes['experts'],Null,stack:"Creator-experts"),);
+  factory Creator.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : Creator(
+          nickname: convertValueByType(jsonRes['nickname'], String,
+              stack: "Creator-nickname"),
+          userName: convertValueByType(jsonRes['userName'], String,
+              stack: "Creator-userName"),
+          userId: convertValueByType(jsonRes['userId'], int,
+              stack: "Creator-userId"),
+          userType: convertValueByType(jsonRes['userType'], int,
+              stack: "Creator-userType"),
+          authStatus: convertValueByType(jsonRes['authStatus'], int,
+              stack: "Creator-authStatus"),
+          expertTags: convertValueByType(jsonRes['expertTags'], Null,
+              stack: "Creator-expertTags"),
+          experts: convertValueByType(jsonRes['experts'], Null,
+              stack: "Creator-experts"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'nickname': nickname,
-    'userId': userId,
-    'userType': userType,
-    'authStatus': authStatus,
-    'expertTags': expertTags,
-    'experts': experts,
-  };
+        'nickname': nickname,
+        'userName': userName,
+        'userId': userId,
+        'userType': userType,
+        'authStatus': authStatus,
+        'expertTags': expertTags,
+        'experts': experts,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Track {
-
   String name;
   int id;
   int position;
@@ -1205,112 +1364,138 @@ class Track {
     this.mp3Url,
   });
 
-  factory Track.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Track.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Object> alias = jsonRes['alias'] is List ? []: null;
-  if(alias!=null) {
-    for (var item in jsonRes['alias']) { if (item != null) { alias.add(item);  }
+    List<Object> alias = jsonRes['alias'] is List ? [] : null;
+    if (alias != null) {
+      for (var item in jsonRes['alias']) {
+        if (item != null) {
+          alias.add(item);
+        }
+      }
     }
-  }
 
-
-  List<Artists> artists = jsonRes['artists'] is List ? []: null;
-  if(artists!=null) {
-    for (var item in jsonRes['artists']) { if (item != null) { artists.add(Artists.fromJson(item));  }
+    List<Artists> artists = jsonRes['artists'] is List ? [] : null;
+    if (artists != null) {
+      for (var item in jsonRes['artists']) {
+        if (item != null) {
+          artists.add(Artists.fromJson(item));
+        }
+      }
     }
-  }
 
-
-  List<Object> rtUrls = jsonRes['rtUrls'] is List ? []: null;
-  if(rtUrls!=null) {
-    for (var item in jsonRes['rtUrls']) { if (item != null) { rtUrls.add(item);  }
+    List<Object> rtUrls = jsonRes['rtUrls'] is List ? [] : null;
+    if (rtUrls != null) {
+      for (var item in jsonRes['rtUrls']) {
+        if (item != null) {
+          rtUrls.add(item);
+        }
+      }
     }
+    return Track(
+      name: convertValueByType(jsonRes['name'], String, stack: "Track-name"),
+      id: convertValueByType(jsonRes['id'], int, stack: "Track-id"),
+      position:
+          convertValueByType(jsonRes['position'], int, stack: "Track-position"),
+      alias: alias,
+      status: convertValueByType(jsonRes['status'], int, stack: "Track-status"),
+      fee: convertValueByType(jsonRes['fee'], int, stack: "Track-fee"),
+      copyrightId: convertValueByType(jsonRes['copyrightId'], int,
+          stack: "Track-copyrightId"),
+      disc: convertValueByType(jsonRes['disc'], String, stack: "Track-disc"),
+      no: convertValueByType(jsonRes['no'], int, stack: "Track-no"),
+      artists: artists,
+      album: Album.fromJson(jsonRes['album']),
+      starred:
+          convertValueByType(jsonRes['starred'], bool, stack: "Track-starred"),
+      popularity: convertValueByType(jsonRes['popularity'], int,
+          stack: "Track-popularity"),
+      score: convertValueByType(jsonRes['score'], int, stack: "Track-score"),
+      starredNum: convertValueByType(jsonRes['starredNum'], int,
+          stack: "Track-starredNum"),
+      duration:
+          convertValueByType(jsonRes['duration'], int, stack: "Track-duration"),
+      playedNum: convertValueByType(jsonRes['playedNum'], int,
+          stack: "Track-playedNum"),
+      dayPlays:
+          convertValueByType(jsonRes['dayPlays'], int, stack: "Track-dayPlays"),
+      hearTime:
+          convertValueByType(jsonRes['hearTime'], int, stack: "Track-hearTime"),
+      ringtone: convertValueByType(jsonRes['ringtone'], String,
+          stack: "Track-ringtone"),
+      crbt: convertValueByType(jsonRes['crbt'], Null, stack: "Track-crbt"),
+      audition: convertValueByType(jsonRes['audition'], Null,
+          stack: "Track-audition"),
+      copyFrom: convertValueByType(jsonRes['copyFrom'], String,
+          stack: "Track-copyFrom"),
+      commentThreadId: convertValueByType(jsonRes['commentThreadId'], String,
+          stack: "Track-commentThreadId"),
+      rtUrl: convertValueByType(jsonRes['rtUrl'], Null, stack: "Track-rtUrl"),
+      ftype: convertValueByType(jsonRes['ftype'], int, stack: "Track-ftype"),
+      rtUrls: rtUrls,
+      copyright: convertValueByType(jsonRes['copyright'], int,
+          stack: "Track-copyright"),
+      hMusic:
+          convertValueByType(jsonRes['hMusic'], Null, stack: "Track-hMusic"),
+      mMusic:
+          convertValueByType(jsonRes['mMusic'], Null, stack: "Track-mMusic"),
+      lMusic: LMusic.fromJson(jsonRes['lMusic']),
+      rtype: convertValueByType(jsonRes['rtype'], int, stack: "Track-rtype"),
+      rurl: convertValueByType(jsonRes['rurl'], Null, stack: "Track-rurl"),
+      mvid: convertValueByType(jsonRes['mvid'], int, stack: "Track-mvid"),
+      bMusic: BMusic.fromJson(jsonRes['bMusic']),
+      mp3Url:
+          convertValueByType(jsonRes['mp3Url'], Null, stack: "Track-mp3Url"),
+    );
   }
-  return Track(
-    name : convertValueByType(jsonRes['name'],String,stack:"Track-name"),
-    id : convertValueByType(jsonRes['id'],int,stack:"Track-id"),
-    position : convertValueByType(jsonRes['position'],int,stack:"Track-position"),
-    alias:alias,
-    status : convertValueByType(jsonRes['status'],int,stack:"Track-status"),
-    fee : convertValueByType(jsonRes['fee'],int,stack:"Track-fee"),
-    copyrightId : convertValueByType(jsonRes['copyrightId'],int,stack:"Track-copyrightId"),
-    disc : convertValueByType(jsonRes['disc'],String,stack:"Track-disc"),
-    no : convertValueByType(jsonRes['no'],int,stack:"Track-no"),
-    artists:artists,
-    album : Album.fromJson(jsonRes['album']),
-    starred : convertValueByType(jsonRes['starred'],bool,stack:"Track-starred"),
-    popularity : convertValueByType(jsonRes['popularity'],int,stack:"Track-popularity"),
-    score : convertValueByType(jsonRes['score'],int,stack:"Track-score"),
-    starredNum : convertValueByType(jsonRes['starredNum'],int,stack:"Track-starredNum"),
-    duration : convertValueByType(jsonRes['duration'],int,stack:"Track-duration"),
-    playedNum : convertValueByType(jsonRes['playedNum'],int,stack:"Track-playedNum"),
-    dayPlays : convertValueByType(jsonRes['dayPlays'],int,stack:"Track-dayPlays"),
-    hearTime : convertValueByType(jsonRes['hearTime'],int,stack:"Track-hearTime"),
-    ringtone : convertValueByType(jsonRes['ringtone'],String,stack:"Track-ringtone"),
-    crbt : convertValueByType(jsonRes['crbt'],Null,stack:"Track-crbt"),
-    audition : convertValueByType(jsonRes['audition'],Null,stack:"Track-audition"),
-    copyFrom : convertValueByType(jsonRes['copyFrom'],String,stack:"Track-copyFrom"),
-    commentThreadId : convertValueByType(jsonRes['commentThreadId'],String,stack:"Track-commentThreadId"),
-    rtUrl : convertValueByType(jsonRes['rtUrl'],Null,stack:"Track-rtUrl"),
-    ftype : convertValueByType(jsonRes['ftype'],int,stack:"Track-ftype"),
-    rtUrls:rtUrls,
-    copyright : convertValueByType(jsonRes['copyright'],int,stack:"Track-copyright"),
-    hMusic : convertValueByType(jsonRes['hMusic'],Null,stack:"Track-hMusic"),
-    mMusic : convertValueByType(jsonRes['mMusic'],Null,stack:"Track-mMusic"),
-    lMusic : LMusic.fromJson(jsonRes['lMusic']),
-    rtype : convertValueByType(jsonRes['rtype'],int,stack:"Track-rtype"),
-    rurl : convertValueByType(jsonRes['rurl'],Null,stack:"Track-rurl"),
-    mvid : convertValueByType(jsonRes['mvid'],int,stack:"Track-mvid"),
-    bMusic : BMusic.fromJson(jsonRes['bMusic']),
-    mp3Url : convertValueByType(jsonRes['mp3Url'],Null,stack:"Track-mp3Url"),);}
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'position': position,
-    'alias': alias,
-    'status': status,
-    'fee': fee,
-    'copyrightId': copyrightId,
-    'disc': disc,
-    'no': no,
-    'artists': artists,
-    'album': album,
-    'starred': starred,
-    'popularity': popularity,
-    'score': score,
-    'starredNum': starredNum,
-    'duration': duration,
-    'playedNum': playedNum,
-    'dayPlays': dayPlays,
-    'hearTime': hearTime,
-    'ringtone': ringtone,
-    'crbt': crbt,
-    'audition': audition,
-    'copyFrom': copyFrom,
-    'commentThreadId': commentThreadId,
-    'rtUrl': rtUrl,
-    'ftype': ftype,
-    'rtUrls': rtUrls,
-    'copyright': copyright,
-    'hMusic': hMusic,
-    'mMusic': mMusic,
-    'lMusic': lMusic,
-    'rtype': rtype,
-    'rurl': rurl,
-    'mvid': mvid,
-    'bMusic': bMusic,
-    'mp3Url': mp3Url,
-  };
+        'name': name,
+        'id': id,
+        'position': position,
+        'alias': alias,
+        'status': status,
+        'fee': fee,
+        'copyrightId': copyrightId,
+        'disc': disc,
+        'no': no,
+        'artists': artists,
+        'album': album,
+        'starred': starred,
+        'popularity': popularity,
+        'score': score,
+        'starredNum': starredNum,
+        'duration': duration,
+        'playedNum': playedNum,
+        'dayPlays': dayPlays,
+        'hearTime': hearTime,
+        'ringtone': ringtone,
+        'crbt': crbt,
+        'audition': audition,
+        'copyFrom': copyFrom,
+        'commentThreadId': commentThreadId,
+        'rtUrl': rtUrl,
+        'ftype': ftype,
+        'rtUrls': rtUrls,
+        'copyright': copyright,
+        'hMusic': hMusic,
+        'mMusic': mMusic,
+        'lMusic': lMusic,
+        'rtype': rtype,
+        'rurl': rurl,
+        'mvid': mvid,
+        'bMusic': bMusic,
+        'mp3Url': mp3Url,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Artists {
-
   String name;
   int id;
   int picId;
@@ -1322,6 +1507,7 @@ class Artists {
   List<Object> alias;
   String trans;
   int musicSize;
+  int accountId;
 
   Artists({
     this.name,
@@ -1335,51 +1521,68 @@ class Artists {
     this.alias,
     this.trans,
     this.musicSize,
+    this.accountId,
   });
 
-  factory Artists.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Artists.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Object> alias = jsonRes['alias'] is List ? []: null;
-  if(alias!=null) {
-    for (var item in jsonRes['alias']) { if (item != null) { alias.add(item);  }
+    List<Object> alias = jsonRes['alias'] is List ? [] : null;
+    if (alias != null) {
+      for (var item in jsonRes['alias']) {
+        if (item != null) {
+          alias.add(item);
+        }
+      }
     }
+    return Artists(
+      name: convertValueByType(jsonRes['name'], String, stack: "Artists-name"),
+      id: convertValueByType(jsonRes['id'], int, stack: "Artists-id"),
+      picId: convertValueByType(jsonRes['picId'], int, stack: "Artists-picId"),
+      img1v1Id: convertValueByType(jsonRes['img1v1Id'], int,
+          stack: "Artists-img1v1Id"),
+      briefDesc: convertValueByType(jsonRes['briefDesc'], String,
+          stack: "Artists-briefDesc"),
+      picUrl: convertValueByType(jsonRes['picUrl'], String,
+          stack: "Artists-picUrl"),
+      img1v1Url: convertValueByType(jsonRes['img1v1Url'], String,
+          stack: "Artists-img1v1Url"),
+      albumSize: convertValueByType(jsonRes['albumSize'], int,
+          stack: "Artists-albumSize"),
+      accountId: convertValueByType(jsonRes['accountId'], int,
+          stack: "Artists-accountId"),
+      alias: alias,
+      trans:
+          convertValueByType(jsonRes['trans'], String, stack: "Artists-trans"),
+      musicSize: convertValueByType(jsonRes['musicSize'], int,
+          stack: "Artists-musicSize"),
+    );
   }
-  return Artists(
-    name : convertValueByType(jsonRes['name'],String,stack:"Artists-name"),
-    id : convertValueByType(jsonRes['id'],int,stack:"Artists-id"),
-    picId : convertValueByType(jsonRes['picId'],int,stack:"Artists-picId"),
-    img1v1Id : convertValueByType(jsonRes['img1v1Id'],int,stack:"Artists-img1v1Id"),
-    briefDesc : convertValueByType(jsonRes['briefDesc'],String,stack:"Artists-briefDesc"),
-    picUrl : convertValueByType(jsonRes['picUrl'],String,stack:"Artists-picUrl"),
-    img1v1Url : convertValueByType(jsonRes['img1v1Url'],String,stack:"Artists-img1v1Url"),
-    albumSize : convertValueByType(jsonRes['albumSize'],int,stack:"Artists-albumSize"),
-    alias:alias,
-    trans : convertValueByType(jsonRes['trans'],String,stack:"Artists-trans"),
-    musicSize : convertValueByType(jsonRes['musicSize'],int,stack:"Artists-musicSize"),);}
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'picId': picId,
-    'img1v1Id': img1v1Id,
-    'briefDesc': briefDesc,
-    'picUrl': picUrl,
-    'img1v1Url': img1v1Url,
-    'albumSize': albumSize,
-    'alias': alias,
-    'trans': trans,
-    'musicSize': musicSize,
-  };
+        'name': name,
+        'id': id,
+        'picId': picId,
+        'img1v1Id': img1v1Id,
+        'briefDesc': briefDesc,
+        'picUrl': picUrl,
+        'img1v1Url': img1v1Url,
+        'accountId': accountId,
+        'albumSize': albumSize,
+        'alias': alias,
+        'trans': trans,
+        'musicSize': musicSize,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Album {
-
   String name;
+  String moreText;
   int id;
   String type;
   int size;
@@ -1401,9 +1604,11 @@ class Album {
   String commentThreadId;
   List<Artists> artists;
   String picId_str;
+  List<Albums> albums;
 
   Album({
     this.name,
+    this.moreText,
     this.id,
     this.type,
     this.size,
@@ -1425,86 +1630,114 @@ class Album {
     this.commentThreadId,
     this.artists,
     this.picId_str,
+    this.albums
   });
 
-  factory Album.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Album.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Object> songs = jsonRes['songs'] is List ? []: null;
-  if(songs!=null) {
-    for (var item in jsonRes['songs']) { if (item != null) { songs.add(item);  }
+    List<Object> songs = jsonRes['songs'] is List ? [] : null;
+    if (songs != null) {
+      for (var item in jsonRes['songs']) {
+        if (item != null) {
+          songs.add(item);
+        }
+      }
+    }
+  List<Albums> albums = jsonRes['albums'] is List ? []: null;
+  if(albums!=null) {
+    for (var item in jsonRes['albums']) { if (item != null) { albums.add(Albums.fromJson(item));  }
     }
   }
-
-
-  List<Object> alias = jsonRes['alias'] is List ? []: null;
-  if(alias!=null) {
-    for (var item in jsonRes['alias']) { if (item != null) { alias.add(item);  }
+    List<Object> alias = jsonRes['alias'] is List ? [] : null;
+    if (alias != null) {
+      for (var item in jsonRes['alias']) {
+        if (item != null) {
+          alias.add(item);
+        }
+      }
     }
-  }
 
-
-  List<Artists> artists = jsonRes['artists'] is List ? []: null;
-  if(artists!=null) {
-    for (var item in jsonRes['artists']) { if (item != null) { artists.add(Artists.fromJson(item));  }
+    List<Artists> artists = jsonRes['artists'] is List ? [] : null;
+    if (artists != null) {
+      for (var item in jsonRes['artists']) {
+        if (item != null) {
+          artists.add(Artists.fromJson(item));
+        }
+      }
     }
+    return Album(
+      name: convertValueByType(jsonRes['name'], String, stack: "Album-name"),
+      moreText: convertValueByType(jsonRes['moreText'], String, stack: "Album-moreText"),
+      id: convertValueByType(jsonRes['id'], int, stack: "Album-id"),
+      type: convertValueByType(jsonRes['type'], String, stack: "Album-type"),
+      size: convertValueByType(jsonRes['size'], int, stack: "Album-size"),
+      picId: convertValueByType(jsonRes['picId'], int, stack: "Album-picId"),
+      blurPicUrl: convertValueByType(jsonRes['blurPicUrl'], String,
+          stack: "Album-blurPicUrl"),
+      companyId: convertValueByType(jsonRes['companyId'], int,
+          stack: "Album-companyId"),
+      pic: convertValueByType(jsonRes['pic'], int, stack: "Album-pic"),
+      picUrl:
+          convertValueByType(jsonRes['picUrl'], String, stack: "Album-picUrl"),
+      publishTime: convertValueByType(jsonRes['publishTime'], int,
+          stack: "Album-publishTime"),
+      description: convertValueByType(jsonRes['description'], String,
+          stack: "Album-description"),
+      tags: convertValueByType(jsonRes['tags'], String, stack: "Album-tags"),
+      company: convertValueByType(jsonRes['company'], String,
+          stack: "Album-company"),
+      briefDesc: convertValueByType(jsonRes['briefDesc'], String,
+          stack: "Album-briefDesc"),
+      artist: Artist.fromJson(jsonRes['artist']),
+      songs: songs,
+      albums: albums,
+      alias: alias,
+      status: convertValueByType(jsonRes['status'], int, stack: "Album-status"),
+      copyrightId: convertValueByType(jsonRes['copyrightId'], int,
+          stack: "Album-copyrightId"),
+      commentThreadId: convertValueByType(jsonRes['commentThreadId'], String,
+          stack: "Album-commentThreadId"),
+      artists: artists,
+      picId_str: convertValueByType(jsonRes['picId_str'], String,
+          stack: "Album-picId_str"),
+    );
   }
-  return Album(
-    name : convertValueByType(jsonRes['name'],String,stack:"Album-name"),
-    id : convertValueByType(jsonRes['id'],int,stack:"Album-id"),
-    type : convertValueByType(jsonRes['type'],String,stack:"Album-type"),
-    size : convertValueByType(jsonRes['size'],int,stack:"Album-size"),
-    picId : convertValueByType(jsonRes['picId'],int,stack:"Album-picId"),
-    blurPicUrl : convertValueByType(jsonRes['blurPicUrl'],String,stack:"Album-blurPicUrl"),
-    companyId : convertValueByType(jsonRes['companyId'],int,stack:"Album-companyId"),
-    pic : convertValueByType(jsonRes['pic'],int,stack:"Album-pic"),
-    picUrl : convertValueByType(jsonRes['picUrl'],String,stack:"Album-picUrl"),
-    publishTime : convertValueByType(jsonRes['publishTime'],int,stack:"Album-publishTime"),
-    description : convertValueByType(jsonRes['description'],String,stack:"Album-description"),
-    tags : convertValueByType(jsonRes['tags'],String,stack:"Album-tags"),
-    company : convertValueByType(jsonRes['company'],String,stack:"Album-company"),
-    briefDesc : convertValueByType(jsonRes['briefDesc'],String,stack:"Album-briefDesc"),
-    artist : Artist.fromJson(jsonRes['artist']),
-    songs:songs,
-    alias:alias,
-    status : convertValueByType(jsonRes['status'],int,stack:"Album-status"),
-    copyrightId : convertValueByType(jsonRes['copyrightId'],int,stack:"Album-copyrightId"),
-    commentThreadId : convertValueByType(jsonRes['commentThreadId'],String,stack:"Album-commentThreadId"),
-    artists:artists,
-    picId_str : convertValueByType(jsonRes['picId_str'],String,stack:"Album-picId_str"),);}
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'type': type,
-    'size': size,
-    'picId': picId,
-    'blurPicUrl': blurPicUrl,
-    'companyId': companyId,
-    'pic': pic,
-    'picUrl': picUrl,
-    'publishTime': publishTime,
-    'description': description,
-    'tags': tags,
-    'company': company,
-    'briefDesc': briefDesc,
-    'artist': artist,
-    'songs': songs,
-    'alias': alias,
-    'status': status,
-    'copyrightId': copyrightId,
-    'commentThreadId': commentThreadId,
-    'artists': artists,
-    'picId_str': picId_str,
-  };
+        'name': name,
+        'moreText': moreText,
+        'id': id,
+        'type': type,
+        'size': size,
+        'picId': picId,
+        'blurPicUrl': blurPicUrl,
+        'companyId': companyId,
+        'pic': pic,
+        'picUrl': picUrl,
+        'publishTime': publishTime,
+        'description': description,
+        'tags': tags,
+        'company': company,
+        'briefDesc': briefDesc,
+        'artist': artist,
+        'songs': songs,
+        'alias': alias,
+        'status': status,
+        'copyrightId': copyrightId,
+        'commentThreadId': commentThreadId,
+        'artists': artists,
+        'picId_str': picId_str,
+        'albums': albums,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Artist {
-
   String name;
   int id;
   int picId;
@@ -1515,62 +1748,91 @@ class Artist {
   int albumSize;
   List<Object> alias;
   String trans;
+  String moreText;
   int musicSize;
+  List<Artists> artists;
 
-  Artist({
-    this.name,
-    this.id,
-    this.picId,
-    this.img1v1Id,
-    this.briefDesc,
-    this.picUrl,
-    this.img1v1Url,
-    this.albumSize,
-    this.alias,
-    this.trans,
-    this.musicSize,
-  });
+  Artist(
+      {this.name,
+      this.id,
+      this.picId,
+      this.img1v1Id,
+      this.briefDesc,
+      this.picUrl,
+      this.img1v1Url,
+      this.albumSize,
+      this.alias,
+      this.trans,
+      this.musicSize,
+      this.moreText,
+      this.artists});
 
-  factory Artist.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Artist.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Object> alias = jsonRes['alias'] is List ? []: null;
-  if(alias!=null) {
-    for (var item in jsonRes['alias']) { if (item != null) { alias.add(item);  }
+    List<Object> alias = jsonRes['alias'] is List ? [] : null;
+    if (alias != null) {
+      for (var item in jsonRes['alias']) {
+        if (item != null) {
+          alias.add(item);
+        }
+      }
     }
+    List<Artists> artists = jsonRes['artists'] is List ? [] : null;
+    if (artists != null) {
+      for (var item in jsonRes['artists']) {
+        if (item != null) {
+          artists.add(Artists.fromJson(item));
+        }
+      }
+    }
+    return Artist(
+      name: convertValueByType(jsonRes['name'], String, stack: "Artist-name"),
+      id: convertValueByType(jsonRes['id'], int, stack: "Artist-id"),
+      picId: convertValueByType(jsonRes['picId'], int, stack: "Artist-picId"),
+      img1v1Id: convertValueByType(jsonRes['img1v1Id'], int,
+          stack: "Artist-img1v1Id"),
+      briefDesc: convertValueByType(jsonRes['briefDesc'], String,
+          stack: "Artist-briefDesc"),
+      moreText: convertValueByType(jsonRes['moreText'], String,
+          stack: "Artist-moreText"),
+      picUrl:
+          convertValueByType(jsonRes['picUrl'], String, stack: "Artist-picUrl"),
+      img1v1Url: convertValueByType(jsonRes['img1v1Url'], String,
+          stack: "Artist-img1v1Url"),
+      albumSize: convertValueByType(jsonRes['albumSize'], int,
+          stack: "Artist-albumSize"),
+      alias: alias,
+      artists: artists,
+      trans:
+          convertValueByType(jsonRes['trans'], String, stack: "Artist-trans"),
+      musicSize: convertValueByType(jsonRes['musicSize'], int,
+          stack: "Artist-musicSize"),
+    );
   }
-  return Artist(
-    name : convertValueByType(jsonRes['name'],String,stack:"Artist-name"),
-    id : convertValueByType(jsonRes['id'],int,stack:"Artist-id"),
-    picId : convertValueByType(jsonRes['picId'],int,stack:"Artist-picId"),
-    img1v1Id : convertValueByType(jsonRes['img1v1Id'],int,stack:"Artist-img1v1Id"),
-    briefDesc : convertValueByType(jsonRes['briefDesc'],String,stack:"Artist-briefDesc"),
-    picUrl : convertValueByType(jsonRes['picUrl'],String,stack:"Artist-picUrl"),
-    img1v1Url : convertValueByType(jsonRes['img1v1Url'],String,stack:"Artist-img1v1Url"),
-    albumSize : convertValueByType(jsonRes['albumSize'],int,stack:"Artist-albumSize"),
-    alias:alias,
-    trans : convertValueByType(jsonRes['trans'],String,stack:"Artist-trans"),
-    musicSize : convertValueByType(jsonRes['musicSize'],int,stack:"Artist-musicSize"),);}
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'picId': picId,
-    'img1v1Id': img1v1Id,
-    'briefDesc': briefDesc,
-    'picUrl': picUrl,
-    'img1v1Url': img1v1Url,
-    'albumSize': albumSize,
-    'alias': alias,
-    'trans': trans,
-    'musicSize': musicSize,
-  };
+        'name': name,
+        'id': id,
+        'picId': picId,
+        'img1v1Id': img1v1Id,
+        'briefDesc': briefDesc,
+        'picUrl': picUrl,
+        'img1v1Url': img1v1Url,
+        'albumSize': albumSize,
+        'alias': alias,
+        'artists': artists,
+        'trans': trans,
+        'moreText': moreText,
+        'musicSize': musicSize,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
-
+//
 //class Artists {
 //
 //  String name;
@@ -1640,7 +1902,6 @@ class Artist {
 //}
 
 class LMusic {
-
   Object name;
   int id;
   int size;
@@ -1663,36 +1924,44 @@ class LMusic {
     this.volumeDelta,
   });
 
-  factory LMusic.fromJson(jsonRes)=>jsonRes == null? null:LMusic(
-    name : convertValueByType(jsonRes['name'],Null,stack:"LMusic-name"),
-    id : convertValueByType(jsonRes['id'],int,stack:"LMusic-id"),
-    size : convertValueByType(jsonRes['size'],int,stack:"LMusic-size"),
-    extension : convertValueByType(jsonRes['extension'],String,stack:"LMusic-extension"),
-    sr : convertValueByType(jsonRes['sr'],int,stack:"LMusic-sr"),
-    dfsId : convertValueByType(jsonRes['dfsId'],int,stack:"LMusic-dfsId"),
-    bitrate : convertValueByType(jsonRes['bitrate'],int,stack:"LMusic-bitrate"),
-    playTime : convertValueByType(jsonRes['playTime'],int,stack:"LMusic-playTime"),
-    volumeDelta : convertValueByType(jsonRes['volumeDelta'],int,stack:"LMusic-volumeDelta"),);
+  factory LMusic.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : LMusic(
+          name: convertValueByType(jsonRes['name'], Null, stack: "LMusic-name"),
+          id: convertValueByType(jsonRes['id'], int, stack: "LMusic-id"),
+          size: convertValueByType(jsonRes['size'], int, stack: "LMusic-size"),
+          extension: convertValueByType(jsonRes['extension'], String,
+              stack: "LMusic-extension"),
+          sr: convertValueByType(jsonRes['sr'], int, stack: "LMusic-sr"),
+          dfsId:
+              convertValueByType(jsonRes['dfsId'], int, stack: "LMusic-dfsId"),
+          bitrate: convertValueByType(jsonRes['bitrate'], int,
+              stack: "LMusic-bitrate"),
+          playTime: convertValueByType(jsonRes['playTime'], int,
+              stack: "LMusic-playTime"),
+          volumeDelta: convertValueByType(jsonRes['volumeDelta'], int,
+              stack: "LMusic-volumeDelta"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'size': size,
-    'extension': extension,
-    'sr': sr,
-    'dfsId': dfsId,
-    'bitrate': bitrate,
-    'playTime': playTime,
-    'volumeDelta': volumeDelta,
-  };
+        'name': name,
+        'id': id,
+        'size': size,
+        'extension': extension,
+        'sr': sr,
+        'dfsId': dfsId,
+        'bitrate': bitrate,
+        'playTime': playTime,
+        'volumeDelta': volumeDelta,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class BMusic {
-
   Object name;
   int id;
   int size;
@@ -1715,30 +1984,39 @@ class BMusic {
     this.volumeDelta,
   });
 
-  factory BMusic.fromJson(jsonRes)=>jsonRes == null? null:BMusic(
-    name : convertValueByType(jsonRes['name'],Null,stack:"BMusic-name"),
-    id : convertValueByType(jsonRes['id'],int,stack:"BMusic-id"),
-    size : convertValueByType(jsonRes['size'],int,stack:"BMusic-size"),
-    extension : convertValueByType(jsonRes['extension'],String,stack:"BMusic-extension"),
-    sr : convertValueByType(jsonRes['sr'],int,stack:"BMusic-sr"),
-    dfsId : convertValueByType(jsonRes['dfsId'],int,stack:"BMusic-dfsId"),
-    bitrate : convertValueByType(jsonRes['bitrate'],int,stack:"BMusic-bitrate"),
-    playTime : convertValueByType(jsonRes['playTime'],int,stack:"BMusic-playTime"),
-    volumeDelta : convertValueByType(jsonRes['volumeDelta'],int,stack:"BMusic-volumeDelta"),);
+  factory BMusic.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : BMusic(
+          name: convertValueByType(jsonRes['name'], Null, stack: "BMusic-name"),
+          id: convertValueByType(jsonRes['id'], int, stack: "BMusic-id"),
+          size: convertValueByType(jsonRes['size'], int, stack: "BMusic-size"),
+          extension: convertValueByType(jsonRes['extension'], String,
+              stack: "BMusic-extension"),
+          sr: convertValueByType(jsonRes['sr'], int, stack: "BMusic-sr"),
+          dfsId:
+              convertValueByType(jsonRes['dfsId'], int, stack: "BMusic-dfsId"),
+          bitrate: convertValueByType(jsonRes['bitrate'], int,
+              stack: "BMusic-bitrate"),
+          playTime: convertValueByType(jsonRes['playTime'], int,
+              stack: "BMusic-playTime"),
+          volumeDelta: convertValueByType(jsonRes['volumeDelta'], int,
+              stack: "BMusic-volumeDelta"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'size': size,
-    'extension': extension,
-    'sr': sr,
-    'dfsId': dfsId,
-    'bitrate': bitrate,
-    'playTime': playTime,
-    'volumeDelta': volumeDelta,
-  };
+        'name': name,
+        'id': id,
+        'size': size,
+        'extension': extension,
+        'sr': sr,
+        'dfsId': dfsId,
+        'bitrate': bitrate,
+        'playTime': playTime,
+        'volumeDelta': volumeDelta,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
@@ -1921,7 +2199,6 @@ class BMusic {
 //}
 
 class Albums {
-
   String name;
   int id;
   String type;
@@ -1976,77 +2253,97 @@ class Albums {
     this.alg,
   });
 
-  factory Albums.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Albums.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Object> alias = jsonRes['alias'] is List ? []: null;
-  if(alias!=null) {
-    for (var item in jsonRes['alias']) { if (item != null) { alias.add(item);  }
+    List<Object> alias = jsonRes['alias'] is List ? [] : null;
+    if (alias != null) {
+      for (var item in jsonRes['alias']) {
+        if (item != null) {
+          alias.add(item);
+        }
+      }
     }
-  }
 
-
-  List<Artists> artists = jsonRes['artists'] is List ? []: null;
-  if(artists!=null) {
-    for (var item in jsonRes['artists']) { if (item != null) { artists.add(Artists.fromJson(item));  }
+    List<Artists> artists = jsonRes['artists'] is List ? [] : null;
+    if (artists != null) {
+      for (var item in jsonRes['artists']) {
+        if (item != null) {
+          artists.add(Artists.fromJson(item));
+        }
+      }
     }
+    return Albums(
+      name: convertValueByType(jsonRes['name'], String, stack: "Albums-name"),
+      id: convertValueByType(jsonRes['id'], int, stack: "Albums-id"),
+      type: convertValueByType(jsonRes['type'], String, stack: "Albums-type"),
+      size: convertValueByType(jsonRes['size'], int, stack: "Albums-size"),
+      picId: convertValueByType(jsonRes['picId'], int, stack: "Albums-picId"),
+      blurPicUrl: convertValueByType(jsonRes['blurPicUrl'], String,
+          stack: "Albums-blurPicUrl"),
+      companyId: convertValueByType(jsonRes['companyId'], int,
+          stack: "Albums-companyId"),
+      pic: convertValueByType(jsonRes['pic'], int, stack: "Albums-pic"),
+      picUrl:
+          convertValueByType(jsonRes['picUrl'], String, stack: "Albums-picUrl"),
+      publishTime: convertValueByType(jsonRes['publishTime'], int,
+          stack: "Albums-publishTime"),
+      description: convertValueByType(jsonRes['description'], String,
+          stack: "Albums-description"),
+      tags: convertValueByType(jsonRes['tags'], String, stack: "Albums-tags"),
+      company: convertValueByType(jsonRes['company'], String,
+          stack: "Albums-company"),
+      briefDesc: convertValueByType(jsonRes['briefDesc'], String,
+          stack: "Albums-briefDesc"),
+      artist: Artist.fromJson(jsonRes['artist']),
+      songs: convertValueByType(jsonRes['songs'], Null, stack: "Albums-songs"),
+      alias: alias,
+      status:
+          convertValueByType(jsonRes['status'], int, stack: "Albums-status"),
+      copyrightId: convertValueByType(jsonRes['copyrightId'], int,
+          stack: "Albums-copyrightId"),
+      commentThreadId: convertValueByType(jsonRes['commentThreadId'], String,
+          stack: "Albums-commentThreadId"),
+      artists: artists,
+      paid: convertValueByType(jsonRes['paid'], bool, stack: "Albums-paid"),
+      onSale:
+          convertValueByType(jsonRes['onSale'], bool, stack: "Albums-onSale"),
+      picId_str: convertValueByType(jsonRes['picId_str'], String,
+          stack: "Albums-picId_str"),
+      alg: convertValueByType(jsonRes['alg'], String, stack: "Albums-alg"),
+    );
   }
-  return Albums(
-    name : convertValueByType(jsonRes['name'],String,stack:"Albums-name"),
-    id : convertValueByType(jsonRes['id'],int,stack:"Albums-id"),
-    type : convertValueByType(jsonRes['type'],String,stack:"Albums-type"),
-    size : convertValueByType(jsonRes['size'],int,stack:"Albums-size"),
-    picId : convertValueByType(jsonRes['picId'],int,stack:"Albums-picId"),
-    blurPicUrl : convertValueByType(jsonRes['blurPicUrl'],String,stack:"Albums-blurPicUrl"),
-    companyId : convertValueByType(jsonRes['companyId'],int,stack:"Albums-companyId"),
-    pic : convertValueByType(jsonRes['pic'],int,stack:"Albums-pic"),
-    picUrl : convertValueByType(jsonRes['picUrl'],String,stack:"Albums-picUrl"),
-    publishTime : convertValueByType(jsonRes['publishTime'],int,stack:"Albums-publishTime"),
-    description : convertValueByType(jsonRes['description'],String,stack:"Albums-description"),
-    tags : convertValueByType(jsonRes['tags'],String,stack:"Albums-tags"),
-    company : convertValueByType(jsonRes['company'],String,stack:"Albums-company"),
-    briefDesc : convertValueByType(jsonRes['briefDesc'],String,stack:"Albums-briefDesc"),
-    artist : Artist.fromJson(jsonRes['artist']),
-    songs : convertValueByType(jsonRes['songs'],Null,stack:"Albums-songs"),
-    alias:alias,
-    status : convertValueByType(jsonRes['status'],int,stack:"Albums-status"),
-    copyrightId : convertValueByType(jsonRes['copyrightId'],int,stack:"Albums-copyrightId"),
-    commentThreadId : convertValueByType(jsonRes['commentThreadId'],String,stack:"Albums-commentThreadId"),
-    artists:artists,
-    paid : convertValueByType(jsonRes['paid'],bool,stack:"Albums-paid"),
-    onSale : convertValueByType(jsonRes['onSale'],bool,stack:"Albums-onSale"),
-    picId_str : convertValueByType(jsonRes['picId_str'],String,stack:"Albums-picId_str"),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"Albums-alg"),);}
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'type': type,
-    'size': size,
-    'picId': picId,
-    'blurPicUrl': blurPicUrl,
-    'companyId': companyId,
-    'pic': pic,
-    'picUrl': picUrl,
-    'publishTime': publishTime,
-    'description': description,
-    'tags': tags,
-    'company': company,
-    'briefDesc': briefDesc,
-    'artist': artist,
-    'songs': songs,
-    'alias': alias,
-    'status': status,
-    'copyrightId': copyrightId,
-    'commentThreadId': commentThreadId,
-    'artists': artists,
-    'paid': paid,
-    'onSale': onSale,
-    'picId_str': picId_str,
-    'alg': alg,
-  };
+        'name': name,
+        'id': id,
+        'type': type,
+        'size': size,
+        'picId': picId,
+        'blurPicUrl': blurPicUrl,
+        'companyId': companyId,
+        'pic': pic,
+        'picUrl': picUrl,
+        'publishTime': publishTime,
+        'description': description,
+        'tags': tags,
+        'company': company,
+        'briefDesc': briefDesc,
+        'artist': artist,
+        'songs': songs,
+        'alias': alias,
+        'status': status,
+        'copyrightId': copyrightId,
+        'commentThreadId': commentThreadId,
+        'artists': artists,
+        'paid': paid,
+        'onSale': onSale,
+        'picId_str': picId_str,
+        'alg': alg,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
@@ -2215,7 +2512,6 @@ class Albums {
 //}
 
 class Video {
-
   String moreText;
   bool more;
   List<Videos> videos;
@@ -2228,41 +2524,49 @@ class Video {
     this.resourceIds,
   });
 
-  factory Video.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Video.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Videos> videos = jsonRes['videos'] is List ? []: null;
-  if(videos!=null) {
-    for (var item in jsonRes['videos']) { if (item != null) { videos.add(Videos.fromJson(item));  }
+    List<Videos> videos = jsonRes['videos'] is List ? [] : null;
+    if (videos != null) {
+      for (var item in jsonRes['videos']) {
+        if (item != null) {
+          videos.add(Videos.fromJson(item));
+        }
+      }
     }
-  }
 
-
-  List<int> resourceIds = jsonRes['resourceIds'] is List ? []: null;
-  if(resourceIds!=null) {
-    for (var item in jsonRes['resourceIds']) { if (item != null) { resourceIds.add(item);  }
+    List<int> resourceIds = jsonRes['resourceIds'] is List ? [] : null;
+    if (resourceIds != null) {
+      for (var item in jsonRes['resourceIds']) {
+        if (item != null) {
+          resourceIds.add(item);
+        }
+      }
     }
+    return Video(
+      moreText: convertValueByType(jsonRes['moreText'], String,
+          stack: "Video-moreText"),
+      more: convertValueByType(jsonRes['more'], bool, stack: "Video-more"),
+      videos: videos,
+      resourceIds: resourceIds,
+    );
   }
-  return Video(
-    moreText : convertValueByType(jsonRes['moreText'],String,stack:"Video-moreText"),
-    more : convertValueByType(jsonRes['more'],bool,stack:"Video-more"),
-    videos:videos,
-    resourceIds:resourceIds,);}
 
   Map<String, dynamic> toJson() => {
-    'moreText': moreText,
-    'more': more,
-    'videos': videos,
-    'resourceIds': resourceIds,
-  };
+        'moreText': moreText,
+        'more': more,
+        'videos': videos,
+        'resourceIds': resourceIds,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Videos {
-
   String coverUrl;
   String title;
   int durationms;
@@ -2289,104 +2593,126 @@ class Videos {
     this.alg,
   });
 
-  factory Videos.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory Videos.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Creator> creator = jsonRes['creator'] is List ? []: null;
-  if(creator!=null) {
-    for (var item in jsonRes['creator']) { if (item != null) { creator.add(Creator.fromJson(item));  }
+    List<Creator> creator = jsonRes['creator'] is List ? [] : null;
+    if (creator != null) {
+      for (var item in jsonRes['creator']) {
+        if (item != null) {
+          creator.add(Creator.fromJson(item));
+        }
+      }
     }
+    return Videos(
+      coverUrl: convertValueByType(jsonRes['coverUrl'], String,
+          stack: "Videos-coverUrl"),
+      title:
+          convertValueByType(jsonRes['title'], String, stack: "Videos-title"),
+      durationms: convertValueByType(jsonRes['durationms'], int,
+          stack: "Videos-durationms"),
+      playTime: convertValueByType(jsonRes['playTime'], int,
+          stack: "Videos-playTime"),
+      type: convertValueByType(jsonRes['type'], int, stack: "Videos-type"),
+      creator: creator,
+      aliaName: convertValueByType(jsonRes['aliaName'], Null,
+          stack: "Videos-aliaName"),
+      transName: convertValueByType(jsonRes['transName'], Null,
+          stack: "Videos-transName"),
+      vid: convertValueByType(jsonRes['vid'], String, stack: "Videos-vid"),
+      markTypes: convertValueByType(jsonRes['markTypes'], Null,
+          stack: "Videos-markTypes"),
+      alg: convertValueByType(jsonRes['alg'], String, stack: "Videos-alg"),
+    );
   }
-  return Videos(
-    coverUrl : convertValueByType(jsonRes['coverUrl'],String,stack:"Videos-coverUrl"),
-    title : convertValueByType(jsonRes['title'],String,stack:"Videos-title"),
-    durationms : convertValueByType(jsonRes['durationms'],int,stack:"Videos-durationms"),
-    playTime : convertValueByType(jsonRes['playTime'],int,stack:"Videos-playTime"),
-    type : convertValueByType(jsonRes['type'],int,stack:"Videos-type"),
-    creator:creator,
-    aliaName : convertValueByType(jsonRes['aliaName'],Null,stack:"Videos-aliaName"),
-    transName : convertValueByType(jsonRes['transName'],Null,stack:"Videos-transName"),
-    vid : convertValueByType(jsonRes['vid'],String,stack:"Videos-vid"),
-    markTypes : convertValueByType(jsonRes['markTypes'],Null,stack:"Videos-markTypes"),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"Videos-alg"),);}
 
   Map<String, dynamic> toJson() => {
-    'coverUrl': coverUrl,
-    'title': title,
-    'durationms': durationms,
-    'playTime': playTime,
-    'type': type,
-    'creator': creator,
-    'aliaName': aliaName,
-    'transName': transName,
-    'vid': vid,
-    'markTypes': markTypes,
-    'alg': alg,
-  };
+        'coverUrl': coverUrl,
+        'title': title,
+        'durationms': durationms,
+        'playTime': playTime,
+        'type': type,
+        'creator': creator,
+        'aliaName': aliaName,
+        'transName': transName,
+        'vid': vid,
+        'markTypes': markTypes,
+        'alg': alg,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
-class Sim_query {
-
-  List<Sim_querys> sim_querys;
+class SimQuery {
+  List<SimQuerys> sim_querys;
   bool more;
 
-  Sim_query({
+  SimQuery({
     this.sim_querys,
     this.more,
   });
 
-  factory Sim_query.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory SimQuery.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Sim_querys> sim_querys = jsonRes['sim_querys'] is List ? []: null;
-  if(sim_querys!=null) {
-    for (var item in jsonRes['sim_querys']) { if (item != null) { sim_querys.add(Sim_querys.fromJson(item));  }
+    List<SimQuerys> sim_querys = jsonRes['sim_querys'] is List ? [] : null;
+    if (sim_querys != null) {
+      for (var item in jsonRes['sim_querys']) {
+        if (item != null) {
+          sim_querys.add(SimQuerys.fromJson(item));
+        }
+      }
     }
+    return SimQuery(
+      sim_querys: sim_querys,
+      more: convertValueByType(jsonRes['more'], bool, stack: "SimQuery-more"),
+    );
   }
-  return Sim_query(
-    sim_querys:sim_querys,
-    more : convertValueByType(jsonRes['more'],bool,stack:"Sim_query-more"),);}
 
   Map<String, dynamic> toJson() => {
-    'sim_querys': sim_querys,
-    'more': more,
-  };
+        'sim_querys': sim_querys,
+        'more': more,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
-class Sim_querys {
-
+class SimQuerys {
   String keyword;
   String alg;
 
-  Sim_querys({
+  SimQuerys({
     this.keyword,
     this.alg,
   });
 
-  factory Sim_querys.fromJson(jsonRes)=>jsonRes == null? null:Sim_querys(
-    keyword : convertValueByType(jsonRes['keyword'],String,stack:"Sim_querys-keyword"),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"Sim_querys-alg"),);
+  factory SimQuerys.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : SimQuerys(
+          keyword: convertValueByType(jsonRes['keyword'], String,
+              stack: "SimQuerys-keyword"),
+          alg: convertValueByType(jsonRes['alg'], String,
+              stack: "SimQuerys-alg"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'keyword': keyword,
-    'alg': alg,
-  };
+        'keyword': keyword,
+        'alg': alg,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class DjRadio {
-
   String moreText;
   List<DjRadios> djRadios;
   bool more;
@@ -2399,41 +2725,49 @@ class DjRadio {
     this.resourceIds,
   });
 
-  factory DjRadio.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory DjRadio.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<DjRadios> djRadios = jsonRes['djRadios'] is List ? []: null;
-  if(djRadios!=null) {
-    for (var item in jsonRes['djRadios']) { if (item != null) { djRadios.add(DjRadios.fromJson(item));  }
+    List<DjRadios> djRadios = jsonRes['djRadios'] is List ? [] : null;
+    if (djRadios != null) {
+      for (var item in jsonRes['djRadios']) {
+        if (item != null) {
+          djRadios.add(DjRadios.fromJson(item));
+        }
+      }
     }
-  }
 
-
-  List<int> resourceIds = jsonRes['resourceIds'] is List ? []: null;
-  if(resourceIds!=null) {
-    for (var item in jsonRes['resourceIds']) { if (item != null) { resourceIds.add(item);  }
+    List<int> resourceIds = jsonRes['resourceIds'] is List ? [] : null;
+    if (resourceIds != null) {
+      for (var item in jsonRes['resourceIds']) {
+        if (item != null) {
+          resourceIds.add(item);
+        }
+      }
     }
+    return DjRadio(
+      moreText: convertValueByType(jsonRes['moreText'], String,
+          stack: "DjRadio-moreText"),
+      djRadios: djRadios,
+      more: convertValueByType(jsonRes['more'], bool, stack: "DjRadio-more"),
+      resourceIds: resourceIds,
+    );
   }
-  return DjRadio(
-    moreText : convertValueByType(jsonRes['moreText'],String,stack:"DjRadio-moreText"),
-    djRadios:djRadios,
-    more : convertValueByType(jsonRes['more'],bool,stack:"DjRadio-more"),
-    resourceIds:resourceIds,);}
 
   Map<String, dynamic> toJson() => {
-    'moreText': moreText,
-    'djRadios': djRadios,
-    'more': more,
-    'resourceIds': resourceIds,
-  };
+        'moreText': moreText,
+        'djRadios': djRadios,
+        'more': more,
+        'resourceIds': resourceIds,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class DjRadios {
-
   int id;
   Dj dj;
   String name;
@@ -2500,80 +2834,114 @@ class DjRadios {
     this.commentCount,
   });
 
-  factory DjRadios.fromJson(jsonRes)=>jsonRes == null? null:DjRadios(
-    id : convertValueByType(jsonRes['id'],int,stack:"DjRadios-id"),
-    dj : Dj.fromJson(jsonRes['dj']),
-    name : convertValueByType(jsonRes['name'],String,stack:"DjRadios-name"),
-    picUrl : convertValueByType(jsonRes['picUrl'],String,stack:"DjRadios-picUrl"),
-    desc : convertValueByType(jsonRes['desc'],String,stack:"DjRadios-desc"),
-    subCount : convertValueByType(jsonRes['subCount'],int,stack:"DjRadios-subCount"),
-    programCount : convertValueByType(jsonRes['programCount'],int,stack:"DjRadios-programCount"),
-    createTime : convertValueByType(jsonRes['createTime'],int,stack:"DjRadios-createTime"),
-    categoryId : convertValueByType(jsonRes['categoryId'],int,stack:"DjRadios-categoryId"),
-    category : convertValueByType(jsonRes['category'],String,stack:"DjRadios-category"),
-    radioFeeType : convertValueByType(jsonRes['radioFeeType'],int,stack:"DjRadios-radioFeeType"),
-    feeScope : convertValueByType(jsonRes['feeScope'],int,stack:"DjRadios-feeScope"),
-    buyed : convertValueByType(jsonRes['buyed'],bool,stack:"DjRadios-buyed"),
-    videos : convertValueByType(jsonRes['videos'],Null,stack:"DjRadios-videos"),
-    finished : convertValueByType(jsonRes['finished'],bool,stack:"DjRadios-finished"),
-    underShelf : convertValueByType(jsonRes['underShelf'],bool,stack:"DjRadios-underShelf"),
-    purchaseCount : convertValueByType(jsonRes['purchaseCount'],int,stack:"DjRadios-purchaseCount"),
-    price : convertValueByType(jsonRes['price'],int,stack:"DjRadios-price"),
-    originalPrice : convertValueByType(jsonRes['originalPrice'],int,stack:"DjRadios-originalPrice"),
-    discountPrice : convertValueByType(jsonRes['discountPrice'],Null,stack:"DjRadios-discountPrice"),
-    lastProgramCreateTime : convertValueByType(jsonRes['lastProgramCreateTime'],int,stack:"DjRadios-lastProgramCreateTime"),
-    lastProgramName : convertValueByType(jsonRes['lastProgramName'],String,stack:"DjRadios-lastProgramName"),
-    lastProgramId : convertValueByType(jsonRes['lastProgramId'],int,stack:"DjRadios-lastProgramId"),
-    picId : convertValueByType(jsonRes['picId'],int,stack:"DjRadios-picId"),
-    rcmdText : convertValueByType(jsonRes['rcmdText'],Null,stack:"DjRadios-rcmdText"),
-    composeVideo : convertValueByType(jsonRes['composeVideo'],bool,stack:"DjRadios-composeVideo"),
-    shareCount : convertValueByType(jsonRes['shareCount'],int,stack:"DjRadios-shareCount"),
-    rcmdtext : convertValueByType(jsonRes['rcmdtext'],Null,stack:"DjRadios-rcmdtext"),
-    likedCount : convertValueByType(jsonRes['likedCount'],int,stack:"DjRadios-likedCount"),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"DjRadios-alg"),
-    commentCount : convertValueByType(jsonRes['commentCount'],int,stack:"DjRadios-commentCount"),);
+  factory DjRadios.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : DjRadios(
+          id: convertValueByType(jsonRes['id'], int, stack: "DjRadios-id"),
+          dj: Dj.fromJson(jsonRes['dj']),
+          name: convertValueByType(jsonRes['name'], String,
+              stack: "DjRadios-name"),
+          picUrl: convertValueByType(jsonRes['picUrl'], String,
+              stack: "DjRadios-picUrl"),
+          desc: convertValueByType(jsonRes['desc'], String,
+              stack: "DjRadios-desc"),
+          subCount: convertValueByType(jsonRes['subCount'], int,
+              stack: "DjRadios-subCount"),
+          programCount: convertValueByType(jsonRes['programCount'], int,
+              stack: "DjRadios-programCount"),
+          createTime: convertValueByType(jsonRes['createTime'], int,
+              stack: "DjRadios-createTime"),
+          categoryId: convertValueByType(jsonRes['categoryId'], int,
+              stack: "DjRadios-categoryId"),
+          category: convertValueByType(jsonRes['category'], String,
+              stack: "DjRadios-category"),
+          radioFeeType: convertValueByType(jsonRes['radioFeeType'], int,
+              stack: "DjRadios-radioFeeType"),
+          feeScope: convertValueByType(jsonRes['feeScope'], int,
+              stack: "DjRadios-feeScope"),
+          buyed: convertValueByType(jsonRes['buyed'], bool,
+              stack: "DjRadios-buyed"),
+          videos: convertValueByType(jsonRes['videos'], Null,
+              stack: "DjRadios-videos"),
+          finished: convertValueByType(jsonRes['finished'], bool,
+              stack: "DjRadios-finished"),
+          underShelf: convertValueByType(jsonRes['underShelf'], bool,
+              stack: "DjRadios-underShelf"),
+          purchaseCount: convertValueByType(jsonRes['purchaseCount'], int,
+              stack: "DjRadios-purchaseCount"),
+          price: convertValueByType(jsonRes['price'], int,
+              stack: "DjRadios-price"),
+          originalPrice: convertValueByType(jsonRes['originalPrice'], int,
+              stack: "DjRadios-originalPrice"),
+          discountPrice: convertValueByType(jsonRes['discountPrice'], Null,
+              stack: "DjRadios-discountPrice"),
+          lastProgramCreateTime: convertValueByType(
+              jsonRes['lastProgramCreateTime'], int,
+              stack: "DjRadios-lastProgramCreateTime"),
+          lastProgramName: convertValueByType(
+              jsonRes['lastProgramName'], String,
+              stack: "DjRadios-lastProgramName"),
+          lastProgramId: convertValueByType(jsonRes['lastProgramId'], int,
+              stack: "DjRadios-lastProgramId"),
+          picId: convertValueByType(jsonRes['picId'], int,
+              stack: "DjRadios-picId"),
+          rcmdText: convertValueByType(jsonRes['rcmdText'], Null,
+              stack: "DjRadios-rcmdText"),
+          composeVideo: convertValueByType(jsonRes['composeVideo'], bool,
+              stack: "DjRadios-composeVideo"),
+          shareCount: convertValueByType(jsonRes['shareCount'], int,
+              stack: "DjRadios-shareCount"),
+          rcmdtext: convertValueByType(jsonRes['rcmdtext'], Null,
+              stack: "DjRadios-rcmdtext"),
+          likedCount: convertValueByType(jsonRes['likedCount'], int,
+              stack: "DjRadios-likedCount"),
+          alg:
+              convertValueByType(jsonRes['alg'], String, stack: "DjRadios-alg"),
+          commentCount: convertValueByType(jsonRes['commentCount'], int,
+              stack: "DjRadios-commentCount"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'dj': dj,
-    'name': name,
-    'picUrl': picUrl,
-    'desc': desc,
-    'subCount': subCount,
-    'programCount': programCount,
-    'createTime': createTime,
-    'categoryId': categoryId,
-    'category': category,
-    'radioFeeType': radioFeeType,
-    'feeScope': feeScope,
-    'buyed': buyed,
-    'videos': videos,
-    'finished': finished,
-    'underShelf': underShelf,
-    'purchaseCount': purchaseCount,
-    'price': price,
-    'originalPrice': originalPrice,
-    'discountPrice': discountPrice,
-    'lastProgramCreateTime': lastProgramCreateTime,
-    'lastProgramName': lastProgramName,
-    'lastProgramId': lastProgramId,
-    'picId': picId,
-    'rcmdText': rcmdText,
-    'composeVideo': composeVideo,
-    'shareCount': shareCount,
-    'rcmdtext': rcmdtext,
-    'likedCount': likedCount,
-    'alg': alg,
-    'commentCount': commentCount,
-  };
+        'id': id,
+        'dj': dj,
+        'name': name,
+        'picUrl': picUrl,
+        'desc': desc,
+        'subCount': subCount,
+        'programCount': programCount,
+        'createTime': createTime,
+        'categoryId': categoryId,
+        'category': category,
+        'radioFeeType': radioFeeType,
+        'feeScope': feeScope,
+        'buyed': buyed,
+        'videos': videos,
+        'finished': finished,
+        'underShelf': underShelf,
+        'purchaseCount': purchaseCount,
+        'price': price,
+        'originalPrice': originalPrice,
+        'discountPrice': discountPrice,
+        'lastProgramCreateTime': lastProgramCreateTime,
+        'lastProgramName': lastProgramName,
+        'lastProgramId': lastProgramId,
+        'picId': picId,
+        'rcmdText': rcmdText,
+        'composeVideo': composeVideo,
+        'shareCount': shareCount,
+        'rcmdtext': rcmdtext,
+        'likedCount': likedCount,
+        'alg': alg,
+        'commentCount': commentCount,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Dj {
-
   bool defaultAvatar;
   int province;
   int authStatus;
@@ -2638,78 +3006,114 @@ class Dj {
     this.avatarImgId_str,
   });
 
-  factory Dj.fromJson(jsonRes)=>jsonRes == null? null:Dj(
-    defaultAvatar : convertValueByType(jsonRes['defaultAvatar'],bool,stack:"Dj-defaultAvatar"),
-    province : convertValueByType(jsonRes['province'],int,stack:"Dj-province"),
-    authStatus : convertValueByType(jsonRes['authStatus'],int,stack:"Dj-authStatus"),
-    followed : convertValueByType(jsonRes['followed'],bool,stack:"Dj-followed"),
-    avatarUrl : convertValueByType(jsonRes['avatarUrl'],String,stack:"Dj-avatarUrl"),
-    accountStatus : convertValueByType(jsonRes['accountStatus'],int,stack:"Dj-accountStatus"),
-    gender : convertValueByType(jsonRes['gender'],int,stack:"Dj-gender"),
-    city : convertValueByType(jsonRes['city'],int,stack:"Dj-city"),
-    birthday : convertValueByType(jsonRes['birthday'],int,stack:"Dj-birthday"),
-    userId : convertValueByType(jsonRes['userId'],int,stack:"Dj-userId"),
-    userType : convertValueByType(jsonRes['userType'],int,stack:"Dj-userType"),
-    nickname : convertValueByType(jsonRes['nickname'],String,stack:"Dj-nickname"),
-    signature : convertValueByType(jsonRes['signature'],String,stack:"Dj-signature"),
-    description : convertValueByType(jsonRes['description'],String,stack:"Dj-description"),
-    detailDescription : convertValueByType(jsonRes['detailDescription'],String,stack:"Dj-detailDescription"),
-    avatarImgId : convertValueByType(jsonRes['avatarImgId'],int,stack:"Dj-avatarImgId"),
-    backgroundImgId : convertValueByType(jsonRes['backgroundImgId'],int,stack:"Dj-backgroundImgId"),
-    backgroundUrl : convertValueByType(jsonRes['backgroundUrl'],String,stack:"Dj-backgroundUrl"),
-    authority : convertValueByType(jsonRes['authority'],int,stack:"Dj-authority"),
-    mutual : convertValueByType(jsonRes['mutual'],bool,stack:"Dj-mutual"),
-    expertTags : convertValueByType(jsonRes['expertTags'],Null,stack:"Dj-expertTags"),
-    experts : convertValueByType(jsonRes['experts'],Null,stack:"Dj-experts"),
-    djStatus : convertValueByType(jsonRes['djStatus'],int,stack:"Dj-djStatus"),
-    vipType : convertValueByType(jsonRes['vipType'],int,stack:"Dj-vipType"),
-    remarkName : convertValueByType(jsonRes['remarkName'],Null,stack:"Dj-remarkName"),
-    authenticationTypes : convertValueByType(jsonRes['authenticationTypes'],int,stack:"Dj-authenticationTypes"),
-    avatarImgIdStr : convertValueByType(jsonRes['avatarImgIdStr'],String,stack:"Dj-avatarImgIdStr"),
-    backgroundImgIdStr : convertValueByType(jsonRes['backgroundImgIdStr'],String,stack:"Dj-backgroundImgIdStr"),
-    anchor : convertValueByType(jsonRes['anchor'],bool,stack:"Dj-anchor"),
-    avatarImgId_str : convertValueByType(jsonRes['avatarImgId_str'],String,stack:"Dj-avatarImgId_str"),);
+  factory Dj.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : Dj(
+          defaultAvatar: convertValueByType(jsonRes['defaultAvatar'], bool,
+              stack: "Dj-defaultAvatar"),
+          province: convertValueByType(jsonRes['province'], int,
+              stack: "Dj-province"),
+          authStatus: convertValueByType(jsonRes['authStatus'], int,
+              stack: "Dj-authStatus"),
+          followed: convertValueByType(jsonRes['followed'], bool,
+              stack: "Dj-followed"),
+          avatarUrl: convertValueByType(jsonRes['avatarUrl'], String,
+              stack: "Dj-avatarUrl"),
+          accountStatus: convertValueByType(jsonRes['accountStatus'], int,
+              stack: "Dj-accountStatus"),
+          gender:
+              convertValueByType(jsonRes['gender'], int, stack: "Dj-gender"),
+          city: convertValueByType(jsonRes['city'], int, stack: "Dj-city"),
+          birthday: convertValueByType(jsonRes['birthday'], int,
+              stack: "Dj-birthday"),
+          userId:
+              convertValueByType(jsonRes['userId'], int, stack: "Dj-userId"),
+          userType: convertValueByType(jsonRes['userType'], int,
+              stack: "Dj-userType"),
+          nickname: convertValueByType(jsonRes['nickname'], String,
+              stack: "Dj-nickname"),
+          signature: convertValueByType(jsonRes['signature'], String,
+              stack: "Dj-signature"),
+          description: convertValueByType(jsonRes['description'], String,
+              stack: "Dj-description"),
+          detailDescription: convertValueByType(
+              jsonRes['detailDescription'], String,
+              stack: "Dj-detailDescription"),
+          avatarImgId: convertValueByType(jsonRes['avatarImgId'], int,
+              stack: "Dj-avatarImgId"),
+          backgroundImgId: convertValueByType(jsonRes['backgroundImgId'], int,
+              stack: "Dj-backgroundImgId"),
+          backgroundUrl: convertValueByType(jsonRes['backgroundUrl'], String,
+              stack: "Dj-backgroundUrl"),
+          authority: convertValueByType(jsonRes['authority'], int,
+              stack: "Dj-authority"),
+          mutual:
+              convertValueByType(jsonRes['mutual'], bool, stack: "Dj-mutual"),
+          expertTags: convertValueByType(jsonRes['expertTags'], Null,
+              stack: "Dj-expertTags"),
+          experts:
+              convertValueByType(jsonRes['experts'], Null, stack: "Dj-experts"),
+          djStatus: convertValueByType(jsonRes['djStatus'], int,
+              stack: "Dj-djStatus"),
+          vipType:
+              convertValueByType(jsonRes['vipType'], int, stack: "Dj-vipType"),
+          remarkName: convertValueByType(jsonRes['remarkName'], Null,
+              stack: "Dj-remarkName"),
+          authenticationTypes: convertValueByType(
+              jsonRes['authenticationTypes'], int,
+              stack: "Dj-authenticationTypes"),
+          avatarImgIdStr: convertValueByType(jsonRes['avatarImgIdStr'], String,
+              stack: "Dj-avatarImgIdStr"),
+          backgroundImgIdStr: convertValueByType(
+              jsonRes['backgroundImgIdStr'], String,
+              stack: "Dj-backgroundImgIdStr"),
+          anchor:
+              convertValueByType(jsonRes['anchor'], bool, stack: "Dj-anchor"),
+          avatarImgId_str: convertValueByType(
+              jsonRes['avatarImgId_str'], String,
+              stack: "Dj-avatarImgId_str"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'defaultAvatar': defaultAvatar,
-    'province': province,
-    'authStatus': authStatus,
-    'followed': followed,
-    'avatarUrl': avatarUrl,
-    'accountStatus': accountStatus,
-    'gender': gender,
-    'city': city,
-    'birthday': birthday,
-    'userId': userId,
-    'userType': userType,
-    'nickname': nickname,
-    'signature': signature,
-    'description': description,
-    'detailDescription': detailDescription,
-    'avatarImgId': avatarImgId,
-    'backgroundImgId': backgroundImgId,
-    'backgroundUrl': backgroundUrl,
-    'authority': authority,
-    'mutual': mutual,
-    'expertTags': expertTags,
-    'experts': experts,
-    'djStatus': djStatus,
-    'vipType': vipType,
-    'remarkName': remarkName,
-    'authenticationTypes': authenticationTypes,
-    'avatarImgIdStr': avatarImgIdStr,
-    'backgroundImgIdStr': backgroundImgIdStr,
-    'anchor': anchor,
-    'avatarImgId_str': avatarImgId_str,
-  };
+        'defaultAvatar': defaultAvatar,
+        'province': province,
+        'authStatus': authStatus,
+        'followed': followed,
+        'avatarUrl': avatarUrl,
+        'accountStatus': accountStatus,
+        'gender': gender,
+        'city': city,
+        'birthday': birthday,
+        'userId': userId,
+        'userType': userType,
+        'nickname': nickname,
+        'signature': signature,
+        'description': description,
+        'detailDescription': detailDescription,
+        'avatarImgId': avatarImgId,
+        'backgroundImgId': backgroundImgId,
+        'backgroundUrl': backgroundUrl,
+        'authority': authority,
+        'mutual': mutual,
+        'expertTags': expertTags,
+        'experts': experts,
+        'djStatus': djStatus,
+        'vipType': vipType,
+        'remarkName': remarkName,
+        'authenticationTypes': authenticationTypes,
+        'avatarImgIdStr': avatarImgIdStr,
+        'backgroundImgIdStr': backgroundImgIdStr,
+        'anchor': anchor,
+        'avatarImgId_str': avatarImgId_str,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Talks {
-
   int talkId;
   String talkName;
   ShareCover shareCover;
@@ -2740,44 +3144,57 @@ class Talks {
     this.mlogCount,
   });
 
-  factory Talks.fromJson(jsonRes)=>jsonRes == null? null:Talks(
-    talkId : convertValueByType(jsonRes['talkId'],int,stack:"Talks-talkId"),
-    talkName : convertValueByType(jsonRes['talkName'],String,stack:"Talks-talkName"),
-    shareCover : ShareCover.fromJson(jsonRes['shareCover']),
-    showCover : ShowCover.fromJson(jsonRes['showCover']),
-    talkDes : convertValueByType(jsonRes['talkDes'],String,stack:"Talks-talkDes"),
-    follows : convertValueByType(jsonRes['follows'],int,stack:"Talks-follows"),
-    participations : convertValueByType(jsonRes['participations'],int,stack:"Talks-participations"),
-    showParticipations : convertValueByType(jsonRes['showParticipations'],int,stack:"Talks-showParticipations"),
-    status : convertValueByType(jsonRes['status'],int,stack:"Talks-status"),
-    time : convertValueByType(jsonRes['time'],Null,stack:"Talks-time"),
-    hasTag : convertValueByType(jsonRes['hasTag'],bool,stack:"Talks-hasTag"),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"Talks-alg"),
-    mlogCount : convertValueByType(jsonRes['mlogCount'],int,stack:"Talks-mlogCount"),);
+  factory Talks.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : Talks(
+          talkId:
+              convertValueByType(jsonRes['talkId'], int, stack: "Talks-talkId"),
+          talkName: convertValueByType(jsonRes['talkName'], String,
+              stack: "Talks-talkName"),
+          shareCover: ShareCover.fromJson(jsonRes['shareCover']),
+          showCover: ShowCover.fromJson(jsonRes['showCover']),
+          talkDes: convertValueByType(jsonRes['talkDes'], String,
+              stack: "Talks-talkDes"),
+          follows: convertValueByType(jsonRes['follows'], int,
+              stack: "Talks-follows"),
+          participations: convertValueByType(jsonRes['participations'], int,
+              stack: "Talks-participations"),
+          showParticipations: convertValueByType(
+              jsonRes['showParticipations'], int,
+              stack: "Talks-showParticipations"),
+          status:
+              convertValueByType(jsonRes['status'], int, stack: "Talks-status"),
+          time: convertValueByType(jsonRes['time'], Null, stack: "Talks-time"),
+          hasTag: convertValueByType(jsonRes['hasTag'], bool,
+              stack: "Talks-hasTag"),
+          alg: convertValueByType(jsonRes['alg'], String, stack: "Talks-alg"),
+          mlogCount: convertValueByType(jsonRes['mlogCount'], int,
+              stack: "Talks-mlogCount"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'talkId': talkId,
-    'talkName': talkName,
-    'shareCover': shareCover,
-    'showCover': showCover,
-    'talkDes': talkDes,
-    'follows': follows,
-    'participations': participations,
-    'showParticipations': showParticipations,
-    'status': status,
-    'time': time,
-    'hasTag': hasTag,
-    'alg': alg,
-    'mlogCount': mlogCount,
-  };
+        'talkId': talkId,
+        'talkName': talkName,
+        'shareCover': shareCover,
+        'showCover': showCover,
+        'talkDes': talkDes,
+        'follows': follows,
+        'participations': participations,
+        'showParticipations': showParticipations,
+        'status': status,
+        'time': time,
+        'hasTag': hasTag,
+        'alg': alg,
+        'mlogCount': mlogCount,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class ShareCover {
-
   String picKey;
   Object nosKey;
   int width;
@@ -2792,28 +3209,36 @@ class ShareCover {
     this.url,
   });
 
-  factory ShareCover.fromJson(jsonRes)=>jsonRes == null? null:ShareCover(
-    picKey : convertValueByType(jsonRes['picKey'],String,stack:"ShareCover-picKey"),
-    nosKey : convertValueByType(jsonRes['nosKey'],Null,stack:"ShareCover-nosKey"),
-    width : convertValueByType(jsonRes['width'],int,stack:"ShareCover-width"),
-    height : convertValueByType(jsonRes['height'],int,stack:"ShareCover-height"),
-    url : convertValueByType(jsonRes['url'],String,stack:"ShareCover-url"),);
+  factory ShareCover.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : ShareCover(
+          picKey: convertValueByType(jsonRes['picKey'], String,
+              stack: "ShareCover-picKey"),
+          nosKey: convertValueByType(jsonRes['nosKey'], Null,
+              stack: "ShareCover-nosKey"),
+          width: convertValueByType(jsonRes['width'], int,
+              stack: "ShareCover-width"),
+          height: convertValueByType(jsonRes['height'], int,
+              stack: "ShareCover-height"),
+          url: convertValueByType(jsonRes['url'], String,
+              stack: "ShareCover-url"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'picKey': picKey,
-    'nosKey': nosKey,
-    'width': width,
-    'height': height,
-    'url': url,
-  };
+        'picKey': picKey,
+        'nosKey': nosKey,
+        'width': width,
+        'height': height,
+        'url': url,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class ShowCover {
-
   String picKey;
   Object nosKey;
   int width;
@@ -2828,28 +3253,36 @@ class ShowCover {
     this.url,
   });
 
-  factory ShowCover.fromJson(jsonRes)=>jsonRes == null? null:ShowCover(
-    picKey : convertValueByType(jsonRes['picKey'],String,stack:"ShowCover-picKey"),
-    nosKey : convertValueByType(jsonRes['nosKey'],Null,stack:"ShowCover-nosKey"),
-    width : convertValueByType(jsonRes['width'],int,stack:"ShowCover-width"),
-    height : convertValueByType(jsonRes['height'],int,stack:"ShowCover-height"),
-    url : convertValueByType(jsonRes['url'],String,stack:"ShowCover-url"),);
+  factory ShowCover.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : ShowCover(
+          picKey: convertValueByType(jsonRes['picKey'], String,
+              stack: "ShowCover-picKey"),
+          nosKey: convertValueByType(jsonRes['nosKey'], Null,
+              stack: "ShowCover-nosKey"),
+          width: convertValueByType(jsonRes['width'], int,
+              stack: "ShowCover-width"),
+          height: convertValueByType(jsonRes['height'], int,
+              stack: "ShowCover-height"),
+          url: convertValueByType(jsonRes['url'], String,
+              stack: "ShowCover-url"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'picKey': picKey,
-    'nosKey': nosKey,
-    'width': width,
-    'height': height,
-    'url': url,
-  };
+        'picKey': picKey,
+        'nosKey': nosKey,
+        'width': width,
+        'height': height,
+        'url': url,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class User {
-
   String moreText;
   bool more;
   List<Users> users;
@@ -2862,41 +3295,49 @@ class User {
     this.resourceIds,
   });
 
-  factory User.fromJson(jsonRes){ if(jsonRes == null) return null;
+  factory User.fromJson(jsonRes) {
+    if (jsonRes == null) return null;
 
-
-  List<Users> users = jsonRes['users'] is List ? []: null;
-  if(users!=null) {
-    for (var item in jsonRes['users']) { if (item != null) { users.add(Users.fromJson(item));  }
+    List<Users> users = jsonRes['users'] is List ? [] : null;
+    if (users != null) {
+      for (var item in jsonRes['users']) {
+        if (item != null) {
+          users.add(Users.fromJson(item));
+        }
+      }
     }
-  }
 
-
-  List<int> resourceIds = jsonRes['resourceIds'] is List ? []: null;
-  if(resourceIds!=null) {
-    for (var item in jsonRes['resourceIds']) { if (item != null) { resourceIds.add(item);  }
+    List<int> resourceIds = jsonRes['resourceIds'] is List ? [] : null;
+    if (resourceIds != null) {
+      for (var item in jsonRes['resourceIds']) {
+        if (item != null) {
+          resourceIds.add(item);
+        }
+      }
     }
+    return User(
+      moreText: convertValueByType(jsonRes['moreText'], String,
+          stack: "User-moreText"),
+      more: convertValueByType(jsonRes['more'], bool, stack: "User-more"),
+      users: users,
+      resourceIds: resourceIds,
+    );
   }
-  return User(
-    moreText : convertValueByType(jsonRes['moreText'],String,stack:"User-moreText"),
-    more : convertValueByType(jsonRes['more'],bool,stack:"User-more"),
-    users:users,
-    resourceIds:resourceIds,);}
 
   Map<String, dynamic> toJson() => {
-    'moreText': moreText,
-    'more': more,
-    'users': users,
-    'resourceIds': resourceIds,
-  };
+        'moreText': moreText,
+        'more': more,
+        'users': users,
+        'resourceIds': resourceIds,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }
 
 class Users {
-
   bool defaultAvatar;
   int province;
   int authStatus;
@@ -2961,72 +3402,107 @@ class Users {
     this.alg,
   });
 
-  factory Users.fromJson(jsonRes)=>jsonRes == null? null:Users(
-    defaultAvatar : convertValueByType(jsonRes['defaultAvatar'],bool,stack:"Users-defaultAvatar"),
-    province : convertValueByType(jsonRes['province'],int,stack:"Users-province"),
-    authStatus : convertValueByType(jsonRes['authStatus'],int,stack:"Users-authStatus"),
-    followed : convertValueByType(jsonRes['followed'],bool,stack:"Users-followed"),
-    avatarUrl : convertValueByType(jsonRes['avatarUrl'],String,stack:"Users-avatarUrl"),
-    accountStatus : convertValueByType(jsonRes['accountStatus'],int,stack:"Users-accountStatus"),
-    gender : convertValueByType(jsonRes['gender'],int,stack:"Users-gender"),
-    city : convertValueByType(jsonRes['city'],int,stack:"Users-city"),
-    birthday : convertValueByType(jsonRes['birthday'],int,stack:"Users-birthday"),
-    userId : convertValueByType(jsonRes['userId'],int,stack:"Users-userId"),
-    userType : convertValueByType(jsonRes['userType'],int,stack:"Users-userType"),
-    nickname : convertValueByType(jsonRes['nickname'],String,stack:"Users-nickname"),
-    signature : convertValueByType(jsonRes['signature'],String,stack:"Users-signature"),
-    description : convertValueByType(jsonRes['description'],String,stack:"Users-description"),
-    detailDescription : convertValueByType(jsonRes['detailDescription'],String,stack:"Users-detailDescription"),
-    avatarImgId : convertValueByType(jsonRes['avatarImgId'],int,stack:"Users-avatarImgId"),
-    backgroundImgId : convertValueByType(jsonRes['backgroundImgId'],int,stack:"Users-backgroundImgId"),
-    backgroundUrl : convertValueByType(jsonRes['backgroundUrl'],String,stack:"Users-backgroundUrl"),
-    authority : convertValueByType(jsonRes['authority'],int,stack:"Users-authority"),
-    mutual : convertValueByType(jsonRes['mutual'],bool,stack:"Users-mutual"),
-    expertTags : convertValueByType(jsonRes['expertTags'],Null,stack:"Users-expertTags"),
-    experts : convertValueByType(jsonRes['experts'],Null,stack:"Users-experts"),
-    djStatus : convertValueByType(jsonRes['djStatus'],int,stack:"Users-djStatus"),
-    vipType : convertValueByType(jsonRes['vipType'],int,stack:"Users-vipType"),
-    remarkName : convertValueByType(jsonRes['remarkName'],Null,stack:"Users-remarkName"),
-    authenticationTypes : convertValueByType(jsonRes['authenticationTypes'],int,stack:"Users-authenticationTypes"),
-    avatarImgIdStr : convertValueByType(jsonRes['avatarImgIdStr'],String,stack:"Users-avatarImgIdStr"),
-    backgroundImgIdStr : convertValueByType(jsonRes['backgroundImgIdStr'],String,stack:"Users-backgroundImgIdStr"),
-    anchor : convertValueByType(jsonRes['anchor'],bool,stack:"Users-anchor"),
-    alg : convertValueByType(jsonRes['alg'],String,stack:"Users-alg"),);
+  factory Users.fromJson(jsonRes) => jsonRes == null
+      ? null
+      : Users(
+          defaultAvatar: convertValueByType(jsonRes['defaultAvatar'], bool,
+              stack: "Users-defaultAvatar"),
+          province: convertValueByType(jsonRes['province'], int,
+              stack: "Users-province"),
+          authStatus: convertValueByType(jsonRes['authStatus'], int,
+              stack: "Users-authStatus"),
+          followed: convertValueByType(jsonRes['followed'], bool,
+              stack: "Users-followed"),
+          avatarUrl: convertValueByType(jsonRes['avatarUrl'], String,
+              stack: "Users-avatarUrl"),
+          accountStatus: convertValueByType(jsonRes['accountStatus'], int,
+              stack: "Users-accountStatus"),
+          gender:
+              convertValueByType(jsonRes['gender'], int, stack: "Users-gender"),
+          city: convertValueByType(jsonRes['city'], int, stack: "Users-city"),
+          birthday: convertValueByType(jsonRes['birthday'], int,
+              stack: "Users-birthday"),
+          userId:
+              convertValueByType(jsonRes['userId'], int, stack: "Users-userId"),
+          userType: convertValueByType(jsonRes['userType'], int,
+              stack: "Users-userType"),
+          nickname: convertValueByType(jsonRes['nickname'], String,
+              stack: "Users-nickname"),
+          signature: convertValueByType(jsonRes['signature'], String,
+              stack: "Users-signature"),
+          description: convertValueByType(jsonRes['description'], String,
+              stack: "Users-description"),
+          detailDescription: convertValueByType(
+              jsonRes['detailDescription'], String,
+              stack: "Users-detailDescription"),
+          avatarImgId: convertValueByType(jsonRes['avatarImgId'], int,
+              stack: "Users-avatarImgId"),
+          backgroundImgId: convertValueByType(jsonRes['backgroundImgId'], int,
+              stack: "Users-backgroundImgId"),
+          backgroundUrl: convertValueByType(jsonRes['backgroundUrl'], String,
+              stack: "Users-backgroundUrl"),
+          authority: convertValueByType(jsonRes['authority'], int,
+              stack: "Users-authority"),
+          mutual: convertValueByType(jsonRes['mutual'], bool,
+              stack: "Users-mutual"),
+          expertTags: convertValueByType(jsonRes['expertTags'], Null,
+              stack: "Users-expertTags"),
+          experts: convertValueByType(jsonRes['experts'], Null,
+              stack: "Users-experts"),
+          djStatus: convertValueByType(jsonRes['djStatus'], int,
+              stack: "Users-djStatus"),
+          vipType: convertValueByType(jsonRes['vipType'], int,
+              stack: "Users-vipType"),
+          remarkName: convertValueByType(jsonRes['remarkName'], Null,
+              stack: "Users-remarkName"),
+          authenticationTypes: convertValueByType(
+              jsonRes['authenticationTypes'], int,
+              stack: "Users-authenticationTypes"),
+          avatarImgIdStr: convertValueByType(jsonRes['avatarImgIdStr'], String,
+              stack: "Users-avatarImgIdStr"),
+          backgroundImgIdStr: convertValueByType(
+              jsonRes['backgroundImgIdStr'], String,
+              stack: "Users-backgroundImgIdStr"),
+          anchor: convertValueByType(jsonRes['anchor'], bool,
+              stack: "Users-anchor"),
+          alg: convertValueByType(jsonRes['alg'], String, stack: "Users-alg"),
+        );
 
   Map<String, dynamic> toJson() => {
-    'defaultAvatar': defaultAvatar,
-    'province': province,
-    'authStatus': authStatus,
-    'followed': followed,
-    'avatarUrl': avatarUrl,
-    'accountStatus': accountStatus,
-    'gender': gender,
-    'city': city,
-    'birthday': birthday,
-    'userId': userId,
-    'userType': userType,
-    'nickname': nickname,
-    'signature': signature,
-    'description': description,
-    'detailDescription': detailDescription,
-    'avatarImgId': avatarImgId,
-    'backgroundImgId': backgroundImgId,
-    'backgroundUrl': backgroundUrl,
-    'authority': authority,
-    'mutual': mutual,
-    'expertTags': expertTags,
-    'experts': experts,
-    'djStatus': djStatus,
-    'vipType': vipType,
-    'remarkName': remarkName,
-    'authenticationTypes': authenticationTypes,
-    'avatarImgIdStr': avatarImgIdStr,
-    'backgroundImgIdStr': backgroundImgIdStr,
-    'anchor': anchor,
-    'alg': alg,
-  };
+        'defaultAvatar': defaultAvatar,
+        'province': province,
+        'authStatus': authStatus,
+        'followed': followed,
+        'avatarUrl': avatarUrl,
+        'accountStatus': accountStatus,
+        'gender': gender,
+        'city': city,
+        'birthday': birthday,
+        'userId': userId,
+        'userType': userType,
+        'nickname': nickname,
+        'signature': signature,
+        'description': description,
+        'detailDescription': detailDescription,
+        'avatarImgId': avatarImgId,
+        'backgroundImgId': backgroundImgId,
+        'backgroundUrl': backgroundUrl,
+        'authority': authority,
+        'mutual': mutual,
+        'expertTags': expertTags,
+        'experts': experts,
+        'djStatus': djStatus,
+        'vipType': vipType,
+        'remarkName': remarkName,
+        'authenticationTypes': authenticationTypes,
+        'avatarImgIdStr': avatarImgIdStr,
+        'backgroundImgIdStr': backgroundImgIdStr,
+        'anchor': anchor,
+        'alg': alg,
+      };
+
   @override
-  String  toString() {
+  String toString() {
     return json.encode(this);
   }
 }

@@ -281,7 +281,7 @@ class NetUtils {
         @required Map<String, dynamic> params,
       }) async {
     var response = await _get(context, '/search',
-        params: params, isShowLoading: true);
+        params: params, isShowLoading: false);
     return SearchMultipleData.fromJson(response.data);
   }
 
