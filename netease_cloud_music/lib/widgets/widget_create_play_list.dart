@@ -7,15 +7,12 @@ import 'common_text_style.dart';
 typedef SubmitCallback = Function(String name, bool isPrivate);
 
 class CreatePlayListWidget extends StatefulWidget {
-
-
   final SubmitCallback submitCallback;
 
   CreatePlayListWidget({@required this.submitCallback});
 
   @override
   _CreatePlayListWidgetState createState() => _CreatePlayListWidgetState();
-
 }
 
 class _CreatePlayListWidgetState extends State<CreatePlayListWidget> {
@@ -27,14 +24,14 @@ class _CreatePlayListWidgetState extends State<CreatePlayListWidget> {
   void initState() {
     super.initState();
     _editingController = TextEditingController();
-    _editingController.addListener((){
-      if(_editingController.text.isEmpty){
+    _editingController.addListener(() {
+      if (_editingController.text.isEmpty) {
         setState(() {
           submitCallback = null;
         });
-      }else{
+      } else {
         setState(() {
-          if(submitCallback == null){
+          if (submitCallback == null) {
             submitCallback = widget.submitCallback;
           }
         });
@@ -90,7 +87,10 @@ class _CreatePlayListWidgetState extends State<CreatePlayListWidget> {
                             MaterialTapTargetSize.shrinkWrap),
                   ),
                   HEmptyView(4),
-                  Text('设置为隐私歌单', style: common15GrayTextStyle,)
+                  Text(
+                    '设置为隐私歌单',
+                    style: common15GrayTextStyle,
+                  )
                 ],
               ),
             )
@@ -104,9 +104,11 @@ class _CreatePlayListWidgetState extends State<CreatePlayListWidget> {
           textColor: Colors.red,
         ),
         FlatButton(
-          onPressed: () {
-            submitCallback(_editingController.text, isPrivatePlayList);
-          },
+          onPressed: submitCallback == null
+              ? null
+              : () {
+                  submitCallback(_editingController.text, isPrivatePlayList);
+                },
           child: Text('提交'),
           textColor: Colors.red,
         ),
