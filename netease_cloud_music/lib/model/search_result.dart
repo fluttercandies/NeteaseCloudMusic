@@ -78,6 +78,8 @@ class Result {
   List<Object> rec_query;
   User user;
   List<String> order;
+  List<Songs> songs;
+  int songCount;
 
   Result({
     this.song,
@@ -94,6 +96,8 @@ class Result {
     this.rec_query,
     this.user,
     this.order,
+    this.songCount,
+    this.songs
   });
 
   factory Result.fromJson(jsonRes) {
@@ -104,6 +108,15 @@ class Result {
       for (var item in jsonRes['rec_query']) {
         if (item != null) {
           rec_query.add(item);
+        }
+      }
+    }
+
+    List<Songs> songs = jsonRes['songs'] is List ? [] : null;
+    if (songs != null) {
+      for (var item in jsonRes['songs']) {
+        if (item != null) {
+          songs.add(Songs.fromJson(item));
         }
       }
     }
@@ -119,6 +132,7 @@ class Result {
     return Result(
       song: Song.fromJson(jsonRes['song']),
       code: convertValueByType(jsonRes['code'], int, stack: "Result-code"),
+      songCount: convertValueByType(jsonRes['songCount'], int, stack: "Result-songCount"),
       mlog: Mlog.fromJson(jsonRes['mlog']),
       playList: PlayList.fromJson(jsonRes['playList']),
       artist: Artist.fromJson(jsonRes['artist']),
@@ -132,6 +146,7 @@ class Result {
       rec_query: rec_query,
       user: User.fromJson(jsonRes['user']),
       order: order,
+      songs: songs,
     );
   }
 
@@ -150,6 +165,7 @@ class Result {
         'rec_query': rec_query,
         'user': user,
         'order': order,
+        'songs': songs,
       };
 
   @override
@@ -218,6 +234,8 @@ class Songs {
   int id;
   int pst;
   int t;
+  List<Artists> artists;
+  Album album;
   List<Ar> ar;
   List<Object> alia;
   int pop;
@@ -245,6 +263,7 @@ class Songs {
   int mst;
   int cp;
   int mv;
+  int mvid;
   int rtype;
   Object rurl;
   int publishTime;
@@ -261,9 +280,12 @@ class Songs {
     this.t,
     this.ar,
     this.alia,
+    this.artists,
+    this.album,
     this.pop,
     this.st,
     this.rt,
+    this.mvid,
     this.fee,
     this.v,
     this.crbt,
@@ -308,6 +330,15 @@ class Songs {
       }
     }
 
+    List<Artists> artists = jsonRes['artists'] is List ? [] : null;
+    if (artists != null) {
+      for (var item in jsonRes['artists']) {
+        if (item != null) {
+          artists.add(Artists.fromJson(item));
+        }
+      }
+    }
+
     List<Object> alia = jsonRes['alia'] is List ? [] : null;
     if (alia != null) {
       for (var item in jsonRes['alia']) {
@@ -337,10 +368,13 @@ class Songs {
     return Songs(
       name: convertValueByType(jsonRes['name'], String, stack: "Songs-name"),
       id: convertValueByType(jsonRes['id'], int, stack: "Songs-id"),
+      mvid: convertValueByType(jsonRes['mvid'], int, stack: "Songs-mvid"),
       pst: convertValueByType(jsonRes['pst'], int, stack: "Songs-pst"),
       t: convertValueByType(jsonRes['t'], int, stack: "Songs-t"),
       ar: ar,
+      artists: artists,
       alia: alia,
+      album: Album.fromJson(jsonRes['album']),
       pop: convertValueByType(jsonRes['pop'], int, stack: "Songs-pop"),
       st: convertValueByType(jsonRes['st'], int, stack: "Songs-st"),
       rt: convertValueByType(jsonRes['rt'], String, stack: "Songs-rt"),
@@ -385,8 +419,11 @@ class Songs {
         'name': name,
         'id': id,
         'pst': pst,
+        'mvid': mvid,
+        'artists': artists,
         't': t,
         'ar': ar,
+        'album': album,
         'alia': alia,
         'pop': pop,
         'st': st,

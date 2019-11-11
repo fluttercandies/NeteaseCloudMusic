@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/application.dart';
 import 'package:netease_cloud_music/model/hot_search.dart';
 import 'package:netease_cloud_music/pages/search/search_multiple_result_page.dart';
+import 'package:netease_cloud_music/pages/search/search_other_result_page.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
@@ -174,12 +175,16 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                                     Offstage(
                                         offstage: curData.iconUrl == null,
                                         child: HEmptyView(10)),
-                                    curData.iconUrl == null || curData.iconUrl.isEmpty ? Container() : UnconstrainedBox(
-                                      child: Utils.showNetImage(
-                                        curData.iconUrl,
-                                        height: ScreenUtil().setHeight(18),
-                                      ),
-                                    ),
+                                    curData.iconUrl == null ||
+                                            curData.iconUrl.isEmpty
+                                        ? Container()
+                                        : UnconstrainedBox(
+                                            child: Utils.showNetImage(
+                                              curData.iconUrl,
+                                              height:
+                                                  ScreenUtil().setHeight(18),
+                                            ),
+                                          ),
                                     Spacer(),
                                     Text(
                                       curData.score.toString(),
@@ -250,14 +255,21 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           labelColor: Colors.red,
           unselectedLabelColor: Colors.black87,
           indicatorSize: TabBarIndicatorSize.label,
-          tabs: _searchingTabKeys.map((key) => Tab(text: key,)).toList(),
+          tabs: _searchingTabKeys
+              .map((key) => Tab(
+                    text: key,
+                  ))
+              .toList(),
           controller: _searchingTabController,
         ),
         Expanded(
           child: TabBarView(
-            children:[
+            children: [
               SearchMultipleResultPage(searchText),
-              ..._searchingTabMap.keys.map((key) => Text(key)).toList()
+              ..._searchingTabMap.keys
+                  .map((key) => SearchOtherResultPage(
+                      _searchingTabMap[key].toString(), searchText))
+                  .toList()
             ],
             controller: _searchingTabController,
           ),

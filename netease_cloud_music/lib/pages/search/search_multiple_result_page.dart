@@ -28,7 +28,7 @@ class SearchMultipleResultPage extends StatefulWidget {
       _SearchMultipleResultPageState();
 }
 
-class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> {
+class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> with AutomaticKeepAliveClientMixin{
   // 构建模块基础模板
   Widget _buildModuleTemplate(String title,
       {@required List<Widget> contentWidget,
@@ -410,6 +410,7 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomFutureBuilder<SearchMultipleData>(
       futureFunc: NetUtils.searchMultiple,
       params: {'keywords': widget.keywords, 'type': 1018},
@@ -437,4 +438,7 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
