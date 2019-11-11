@@ -77,16 +77,19 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
           ),
         ),
         SliverToBoxAdapter(
-          child: VEmptyView(10),
+          child: VEmptyView(30),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               var song = _songsData[index];
-              return WidgetMusicListItem(MusicData(
-                  songName: song.name,
-                  mvid: song.mvid,
-                  artists: song.artists.map((a) => a.name).toList().join('/')));
+              return Padding(
+                padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
+                child: WidgetMusicListItem(MusicData(
+                    songName: song.name,
+                    mvid: song.mvid,
+                    artists: song.artists.map((a) => a.name).toList().join('/'))),
+              );
             },
             childCount: _songsData.length,
           ),
