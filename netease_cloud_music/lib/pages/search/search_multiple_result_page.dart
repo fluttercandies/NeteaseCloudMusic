@@ -6,11 +6,12 @@ import 'package:netease_cloud_music/model/search_result.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/utils/number_utils.dart';
-import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/rounded_net_image.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
+import 'package:netease_cloud_music/widgets/widget_album.dart';
+import 'package:netease_cloud_music/widgets/widget_artists.dart';
 import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
 import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
 import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
@@ -272,39 +273,7 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             children: artist.artists.map((a) {
-              return Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
-                child: Row(
-                  children: <Widget>[
-                    OverImgWidget(
-                      a.picUrl,
-                      120,
-                      fit: BoxFit.contain,
-                    ),
-                    HEmptyView(10),
-                    Text(a.name),
-                    Spacer(),
-                    a.accountId == null || a.accountId == 0
-                        ? Container()
-                        : Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Icon(
-                                Icons.account_circle,
-                                color: Colors.red,
-                                size: ScreenUtil().setWidth(30),
-                              ),
-                              HEmptyView(5),
-                              Text(
-                                '已入驻',
-                                style: smallGrayTextStyle,
-                              ),
-                            ],
-                          )
-                  ],
-                ),
-              );
+              return ArtistsWidget(picUrl: a.picUrl, name: a.name, accountId: a.accountId);
             }).toList(),
           ),
         ],
@@ -313,50 +282,13 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
   }
 
   Widget _buildSearchAlbum(Album album){
-    return _buildModuleTemplate('歌单',
+    return _buildModuleTemplate('专辑',
         contentWidget: <Widget>[
           ListView(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: album.albums.map((p) {
-              return Padding(
-                padding:
-                EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
-                child: Row(
-                  children: <Widget>[
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        RoundedNetImage(
-                          p.blurPicUrl,
-                          width: 140,
-                          height: 140,
-                          radius: 8,
-                        ),
-                        Image.asset('images/icon_album.png', height: ScreenUtil().setWidth(140),)
-                      ],
-                    ),
-                    HEmptyView(10),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            p.name,
-                            style: common14TextStyle,
-                          ),
-                          VEmptyView(10),
-                          Text(
-                            '${p.artists.map((a) => a.name).toList().join('/')} ${DateUtil.formatDateMs(p.publishTime, format: "yyyy.MM.dd")}',
-                            style: smallGrayTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              return AlbumWidget(p.blurPicUrl,p.name,'${p.artists.map((a) => a.name).toList().join('/')} ${DateUtil.formatDateMs(p.publishTime, format: "yyyy.MM.dd")}');
             }).toList(),
           ),
         ],

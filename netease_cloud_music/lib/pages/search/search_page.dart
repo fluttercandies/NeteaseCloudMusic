@@ -23,11 +23,11 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   bool _isSearching = false; // 是否正在搜索，改变布局
   Map<String, int> _searchingTabMap = {
     '单曲': 1,
-    '专辑': 100,
-    '歌手': 1000,
-    '歌单': 1002,
-    '用户': 1004,
-    'MV': 1006,
+    '专辑': 10,
+    '歌手': 100,
+    '歌单': 1000,
+    '用户': 1002,
+    'MV': 1004,
   };
   List<String> _searchingTabKeys = ['综合'];
   TabController _searchingTabController;

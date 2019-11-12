@@ -1,5 +1,4 @@
 import 'dart:convert' show json;
-import 'package:flutter/foundation.dart';
 
 dynamic convertValueByType(value, Type type, {String stack: ""}) {
   if (value == null) {
@@ -80,6 +79,8 @@ class Result {
   List<String> order;
   List<Songs> songs;
   int songCount;
+  int artistCount;
+  List<Artists> artists;
 
   Result({
     this.song,
@@ -97,6 +98,8 @@ class Result {
     this.user,
     this.order,
     this.songCount,
+    this.artistCount,
+    this.artists,
     this.songs
   });
 
@@ -112,6 +115,14 @@ class Result {
       }
     }
 
+    List<Artists> artists = jsonRes['artists'] is List ? [] : null;
+    if (artists != null) {
+      for (var item in jsonRes['artists']) {
+        if (item != null) {
+          artists.add(Artists.fromJson(item));
+        }
+      }
+    }
     List<Songs> songs = jsonRes['songs'] is List ? [] : null;
     if (songs != null) {
       for (var item in jsonRes['songs']) {
@@ -133,6 +144,7 @@ class Result {
       song: Song.fromJson(jsonRes['song']),
       code: convertValueByType(jsonRes['code'], int, stack: "Result-code"),
       songCount: convertValueByType(jsonRes['songCount'], int, stack: "Result-songCount"),
+      artistCount: convertValueByType(jsonRes['artistCount'], int, stack: "Result-artistCount"),
       mlog: Mlog.fromJson(jsonRes['mlog']),
       playList: PlayList.fromJson(jsonRes['playList']),
       artist: Artist.fromJson(jsonRes['artist']),
@@ -146,6 +158,7 @@ class Result {
       rec_query: rec_query,
       user: User.fromJson(jsonRes['user']),
       order: order,
+      artists: artists,
       songs: songs,
     );
   }
@@ -153,6 +166,7 @@ class Result {
   Map<String, dynamic> toJson() => {
         'song': song,
         'code': code,
+        'artistCount': artistCount,
         'mlog': mlog,
         'playList': playList,
         'artist': artist,
@@ -166,6 +180,7 @@ class Result {
         'user': user,
         'order': order,
         'songs': songs,
+        'artists': artists,
       };
 
   @override
@@ -1541,7 +1556,7 @@ class Artists {
   String picUrl;
   String img1v1Url;
   int albumSize;
-  List<Object> alias;
+  List<String> alias;
   String trans;
   int musicSize;
   int accountId;
@@ -1564,7 +1579,7 @@ class Artists {
   factory Artists.fromJson(jsonRes) {
     if (jsonRes == null) return null;
 
-    List<Object> alias = jsonRes['alias'] is List ? [] : null;
+    List<String> alias = jsonRes['alias'] is List ? [] : null;
     if (alias != null) {
       for (var item in jsonRes['alias']) {
         if (item != null) {
