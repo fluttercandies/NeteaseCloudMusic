@@ -2,6 +2,12 @@
 
 **@所有人：**
 
+**请仔细看README！**
+
+**请仔细看README！**
+
+**请仔细看README！**
+
 **该APP还在开发当中，具体开发完成哪些功能可以看下面的图片，没传图的就是还没开发完成！**
 
 **另外，本人也只是下班时间才能开发该APP，所以项目进度不会很快！请悉知！**
@@ -25,9 +31,9 @@
 
 <br/>
 
-下载体验：[点击下载，也可以扫描二维码](https://www.pgyer.com/qNNy)
+下载体验：[点击下载，也可以扫描二维码，由于蒲公英的关系，必须要输入密码，密码为 1](https://www.pgyer.com/qNNy)
 
-<img src="https://www.pgyer.com/app/qrcode/qNNy" style="zoom:50%;" />
+<img src="https://www.pgyer.com/LkgQ" style="zoom:50%;" />
 
 <br/>
 
