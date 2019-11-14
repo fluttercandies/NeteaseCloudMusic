@@ -33,7 +33,7 @@
 
 下载体验：[点击下载，也可以扫描二维码，由于蒲公英的关系，必须要输入密码，密码为 1](https://www.pgyer.com/qNNy)
 
-<img src="https://www.pgyer.com/LkgQ" style="zoom:50%;" />
+<img src="https://www.pgyer.com/app/qrcode/LkgQ" style="zoom:50%;" />
 
 <br/>
 
