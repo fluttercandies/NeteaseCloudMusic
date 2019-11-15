@@ -17,20 +17,24 @@ import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
 import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_cover.dart';
 import 'package:netease_cloud_music/widgets/widget_search_play_list.dart';
+import 'package:netease_cloud_music/widgets/widget_search_user.dart';
+import 'package:netease_cloud_music/widgets/widget_search_video.dart';
 import 'package:provider/provider.dart';
 
 /// 综合搜索结果页
 class SearchMultipleResultPage extends StatefulWidget {
   final String keywords;
+  final ValueChanged onTapMore; // 点击更多的时候需要跳转到哪一个 tab 页
 
-  SearchMultipleResultPage(this.keywords);
+  SearchMultipleResultPage(this.keywords, {@required this.onTapMore});
 
   @override
   _SearchMultipleResultPageState createState() =>
       _SearchMultipleResultPageState();
 }
 
-class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> with AutomaticKeepAliveClientMixin{
+class _SearchMultipleResultPageState extends State<SearchMultipleResultPage>
+    with AutomaticKeepAliveClientMixin {
   // 构建模块基础模板
   Widget _buildModuleTemplate(String title,
       {@required List<Widget> contentWidget,
@@ -54,7 +58,9 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
         VEmptyView(20),
         ...contentWidget,
         moreText != null ? VEmptyView(10) : Container(),
-        moreText != null ? _buildMoreText(moreText, onMoreTextTap) : Container(),
+        moreText != null
+            ? _buildMoreText(moreText, onMoreTextTap)
+            : Container(),
       ],
     );
   }
@@ -99,8 +105,9 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
                 ],
               ),
             ),
-            moreText: song.moreText,
-            onMoreTextTap: () {});
+            moreText: song.moreText, onMoreTextTap: () {
+          widget.onTapMore(1);
+        });
       },
     );
   }
@@ -113,12 +120,18 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: playList.playLists.map((p) {
-              return SearchPlayListWidget(name: p.name, url: p.coverImgUrl, info: '${p.trackCount}首 by${p.creator.nickname}，播放${NumberUtils.formatNum(p.playCount)}次',);
+              return SearchPlayListWidget(
+                name: p.name,
+                url: p.coverImgUrl,
+                info:
+                    '${p.trackCount}首 by${p.creator.nickname}，播放${NumberUtils.formatNum(p.playCount)}次',
+              );
             }).toList(),
           ),
         ],
-        moreText: playList.moreText,
-        onMoreTextTap: () {});
+        moreText: playList.moreText, onMoreTextTap: () {
+      widget.onTapMore(4);
+    });
   }
 
   // 构建视频模块
@@ -129,67 +142,19 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: video.videos.map((video) {
-              return Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
-                child: Row(
-                  children: <Widget>[
-                    PlayListCoverWidget(
-                      video.coverUrl,
-                      playCount: video.playTime,
-                      width: 250,
-                      height: 150,
-                      radius: 8,
-                    ),
-                    HEmptyView(10),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              video.type == 0
-                                  ? Container(
-                                      child: Text(
-                                        'MV',
-                                        style: common10RedTextStyle,
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: ScreenUtil().setWidth(8),
-                                          vertical: ScreenUtil().setWidth(2)),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.red),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(
-                                                  ScreenUtil().setWidth(6)))),
-                                    )
-                                  : Container(),
-                              video.type == 0 ? HEmptyView(6) : Container(),
-                              Expanded(
-                                child: Text(
-                                  video.title,
-                                  style: common14TextStyle,
-                                ),
-                              ),
-                            ],
-                          ),
-                          VEmptyView(10),
-                          Text(
-                            '${video.creator[0].userName}',
-                            style: smallGrayTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              return SearchVideoWidget(
+                url: video.coverUrl,
+                playCount: video.playTime,
+                title: video.title,
+                type: video.type,
+                creatorName: video.creator.map((c) => c.userName).join('/'),
               );
             }).toList(),
           ),
         ],
-        moreText: video.moreText,
-        onMoreTextTap: () {});
+        moreText: video.moreText, onMoreTextTap: () {
+      widget.onTapMore(6);
+    });
   }
 
   // 构建更多文字
@@ -243,71 +208,51 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             children: artist.artists.map((a) {
-              return ArtistsWidget(picUrl: a.picUrl, name: a.name, accountId: a.accountId);
+              return ArtistsWidget(
+                  picUrl: a.picUrl, name: a.name, accountId: a.accountId);
             }).toList(),
           ),
         ],
-        moreText: artist.moreText,
-        onMoreTextTap: () {});
+        moreText: artist.moreText, onMoreTextTap: () {
+      widget.onTapMore(3);
+    });
   }
 
-  Widget _buildSearchAlbum(Album album){
+  Widget _buildSearchAlbum(Album album) {
     return _buildModuleTemplate('专辑',
         contentWidget: <Widget>[
           ListView(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: album.albums.map((p) {
-              return AlbumWidget(p.blurPicUrl,p.name,'${p.artists.map((a) => a.name).toList().join('/')} ${DateUtil.formatDateMs(p.publishTime, format: "yyyy.MM.dd")}');
+              return AlbumWidget(p.blurPicUrl, p.name,
+                  '${p.artists.map((a) => a.name).toList().join('/')} ${DateUtil.formatDateMs(p.publishTime, format: "yyyy.MM.dd")}');
             }).toList(),
           ),
         ],
-        moreText: album.moreText,
-        onMoreTextTap: () {});
+        moreText: album.moreText, onMoreTextTap: () {
+      widget.onTapMore(2);
+    });
   }
 
-  Widget _buildSearchUser(User user){
+  Widget _buildSearchUser(User user) {
     return _buildModuleTemplate('用户',
         contentWidget: <Widget>[
           ListView(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: user.users.map((p) {
-              return Padding(
-                padding:
-                EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
-                child: Row(
-                  children: <Widget>[
-                    OverImgWidget(
-                      p.avatarUrl,
-                      140,
-                    ),
-                    HEmptyView(10),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            p.nickname,
-                            style: common14TextStyle,
-                          ),
-                          p.description.isEmpty ? Container() : VEmptyView(10),
-                          Text(
-                            '${p.description}',
-                            style: smallGrayTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              return SearchUserWidget(
+                name: p.nickname,
+                url: p.avatarUrl,
+                description: p.description,
               );
             }).toList(),
           ),
         ],
-        moreText: user.moreText,
-        onMoreTextTap: () {});
+        moreText: user.moreText, onMoreTextTap: () {
+      widget.onTapMore(5);
+    });
   }
 
   @override

@@ -87,6 +87,8 @@ class Result {
   List<Albums> albums;
   List<PlayLists> playlists;
   List<Users> userprofiles;
+  List<Videos> videos;
+  int videoCount;
 
   Result({
     this.song,
@@ -112,6 +114,8 @@ class Result {
     this.playlists,
     this.userprofiles,
     this.userprofileCount,
+    this.videoCount,
+    this.videos,
     this.songs
   });
 
@@ -135,6 +139,14 @@ class Result {
       }
     }
 
+    List<Videos> videos = jsonRes['videos'] is List ? [] : null;
+    if (videos != null) {
+      for (var item in jsonRes['videos']) {
+        if (item != null) {
+          videos.add(Videos.fromJson(item));
+        }
+      }
+    }
     List<Users> userprofiles = jsonRes['userprofiles'] is List ? [] : null;
     if (userprofiles != null) {
       for (var item in jsonRes['userprofiles']) {
@@ -182,6 +194,7 @@ class Result {
       artistCount: convertValueByType(jsonRes['artistCount'], int, stack: "Result-artistCount"),
       playlistCount: convertValueByType(jsonRes['playlistCount'], int, stack: "Result-playlistCount"),
       userprofileCount: convertValueByType(jsonRes['userprofileCount'], int, stack: "Result-userprofileCount"),
+      videoCount: convertValueByType(jsonRes['videoCount'], int, stack: "Result-videoCount"),
       mlog: Mlog.fromJson(jsonRes['mlog']),
       playList: PlayList.fromJson(jsonRes['playList']),
       artist: Artist.fromJson(jsonRes['artist']),
@@ -198,6 +211,7 @@ class Result {
       artists: artists,
       albums: albums,
       playlists: playLists,
+      videos: videos,
       userprofiles: userprofiles,
       songs: songs,
     );
@@ -226,6 +240,8 @@ class Result {
         'userprofiles': userprofiles,
         'artists': artists,
         'userprofileCount': userprofileCount,
+        'videoCount': videoCount,
+        'videos': videos,
       };
 
   @override

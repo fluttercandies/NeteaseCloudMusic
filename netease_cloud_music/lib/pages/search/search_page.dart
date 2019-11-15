@@ -27,6 +27,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     '歌手': 100,
     '歌单': 1000,
     '用户': 1002,
+    '视频': 1014,
   };
   List<String> _searchingTabKeys = ['综合'];
   TabController _searchingTabController;
@@ -252,6 +253,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           indicatorColor: Colors.red,
           labelColor: Colors.red,
           unselectedLabelColor: Colors.black87,
+          isScrollable: true,
           indicatorSize: TabBarIndicatorSize.label,
           tabs: _searchingTabKeys
               .map((key) => Tab(
@@ -263,7 +265,9 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
         Expanded(
           child: TabBarView(
             children: [
-              SearchMultipleResultPage(searchText),
+              SearchMultipleResultPage(searchText, onTapMore: (value) {
+                _searchingTabController.animateTo(value);
+              },),
               ..._searchingTabMap.keys
                   .map((key) => SearchOtherResultPage(
                       _searchingTabMap[key].toString(), searchText))

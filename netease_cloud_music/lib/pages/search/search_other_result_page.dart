@@ -15,6 +15,7 @@ import 'package:netease_cloud_music/widgets/widget_load_footer.dart';
 import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
 import 'package:netease_cloud_music/widgets/widget_search_play_list.dart';
 import 'package:netease_cloud_music/widgets/widget_search_user.dart';
+import 'package:netease_cloud_music/widgets/widget_search_video.dart';
 
 typedef LoadMoreWidgetBuilder<T> = Widget Function(T data);
 
@@ -37,6 +38,7 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
   List<Albums> _albumsData = []; // 专辑数据
   List<PlayLists> _playListData = []; // 歌单数据
   List<Users> _userListData = []; // 用户数据
+  List<Videos> _videosData = []; // 视频数据
   EasyRefreshController _controller;
 
   @override
@@ -78,7 +80,9 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
             _count = r.result.userprofileCount;
             _userListData.addAll(r.result.userprofiles);
             break;
-          case 1004: // MV
+          case 1014: // 视频
+            _count = r.result.videoCount;
+            _videosData.addAll(r.result.videos);
             break;
           default:
             break;
@@ -180,6 +184,13 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
   }
 
 
+  // 构建专辑页面
+  Widget _buildVideoPage() {
+    return _buildLoadMoreWidget<Videos>(_videosData, (video){
+      return SearchVideoWidget(url: video.coverUrl, playCount: video.playTime, title: video.title, type: video.type, creatorName: video.creator.map((c) => c.userName).join('/'),);
+    });
+  }
+
   Widget _buildLoadMoreWidget<T>(List<T> data, LoadMoreWidgetBuilder<T> builder){
     return EasyRefresh.custom(
       slivers: [
@@ -223,8 +234,8 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
       case 1002: // 用户
         result = _buildUserPage();
         break;
-      case 1004: // MV
-        result = Container();
+      case 1014: // 视频
+        result = _buildVideoPage();
         break;
       default:
         result = Container();
