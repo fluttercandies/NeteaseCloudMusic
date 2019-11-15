@@ -16,6 +16,7 @@ import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
 import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
 import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_cover.dart';
+import 'package:netease_cloud_music/widgets/widget_search_play_list.dart';
 import 'package:provider/provider.dart';
 
 /// 综合搜索结果页
@@ -112,38 +113,7 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: playList.playLists.map((p) {
-              return Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
-                child: Row(
-                  children: <Widget>[
-                    RoundedNetImage(
-                      p.coverImgUrl,
-                      width: 140,
-                      height: 140,
-                      radius: 8,
-                    ),
-                    HEmptyView(10),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            p.name,
-                            style: common14TextStyle,
-                          ),
-                          VEmptyView(10),
-                          Text(
-                            '${p.trackCount}首 by${p.creator.nickname}，播放${NumberUtils.formatNum(p.playCount)}次',
-                            style: smallGrayTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              return SearchPlayListWidget(name: p.name, url: p.coverImgUrl, info: '${p.trackCount}首 by${p.creator.nickname}，播放${NumberUtils.formatNum(p.playCount)}次',);
             }).toList(),
           ),
         ],
@@ -322,7 +292,7 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage> wit
                             p.nickname,
                             style: common14TextStyle,
                           ),
-                          VEmptyView(10),
+                          p.description.isEmpty ? Container() : VEmptyView(10),
                           Text(
                             '${p.description}',
                             style: smallGrayTextStyle,

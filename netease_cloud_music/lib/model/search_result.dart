@@ -80,14 +80,22 @@ class Result {
   List<Songs> songs;
   int songCount;
   int artistCount;
+  int albumCount;
+  int playlistCount;
+  int userprofileCount;
   List<Artists> artists;
+  List<Albums> albums;
+  List<PlayLists> playlists;
+  List<Users> userprofiles;
 
   Result({
     this.song,
     this.code,
     this.mlog,
     this.playList,
+    this.albumCount,
     this.artist,
+    this.albums,
     this.album,
     this.video,
     this.sim_query,
@@ -100,6 +108,10 @@ class Result {
     this.songCount,
     this.artistCount,
     this.artists,
+    this.playlistCount,
+    this.playlists,
+    this.userprofiles,
+    this.userprofileCount,
     this.songs
   });
 
@@ -114,7 +126,29 @@ class Result {
         }
       }
     }
+    List<PlayLists> playLists = jsonRes['playlists'] is List ? [] : null;
+    if (playLists != null) {
+      for (var item in jsonRes['playlists']) {
+        if (item != null) {
+          playLists.add(PlayLists.fromJson(item));
+        }
+      }
+    }
 
+    List<Users> userprofiles = jsonRes['userprofiles'] is List ? [] : null;
+    if (userprofiles != null) {
+      for (var item in jsonRes['userprofiles']) {
+        if (item != null) {
+          userprofiles.add(Users.fromJson(item));
+        }
+      }
+    }
+
+    List<Albums> albums = jsonRes['albums'] is List ? []: null;
+    if(albums!=null) {
+      for (var item in jsonRes['albums']) { if (item != null) { albums.add(Albums.fromJson(item));  }
+      }
+    }
     List<Artists> artists = jsonRes['artists'] is List ? [] : null;
     if (artists != null) {
       for (var item in jsonRes['artists']) {
@@ -144,7 +178,10 @@ class Result {
       song: Song.fromJson(jsonRes['song']),
       code: convertValueByType(jsonRes['code'], int, stack: "Result-code"),
       songCount: convertValueByType(jsonRes['songCount'], int, stack: "Result-songCount"),
+      albumCount: convertValueByType(jsonRes['albumCount'], int, stack: "Result-albumCount"),
       artistCount: convertValueByType(jsonRes['artistCount'], int, stack: "Result-artistCount"),
+      playlistCount: convertValueByType(jsonRes['playlistCount'], int, stack: "Result-playlistCount"),
+      userprofileCount: convertValueByType(jsonRes['userprofileCount'], int, stack: "Result-userprofileCount"),
       mlog: Mlog.fromJson(jsonRes['mlog']),
       playList: PlayList.fromJson(jsonRes['playList']),
       artist: Artist.fromJson(jsonRes['artist']),
@@ -159,6 +196,9 @@ class Result {
       user: User.fromJson(jsonRes['user']),
       order: order,
       artists: artists,
+      albums: albums,
+      playlists: playLists,
+      userprofiles: userprofiles,
       songs: songs,
     );
   }
@@ -168,6 +208,7 @@ class Result {
         'code': code,
         'artistCount': artistCount,
         'mlog': mlog,
+        'albumCount': albumCount,
         'playList': playList,
         'artist': artist,
         'album': album,
@@ -180,7 +221,11 @@ class Result {
         'user': user,
         'order': order,
         'songs': songs,
+        'albums': albums,
+        'playlists': playlists,
+        'userprofiles': userprofiles,
         'artists': artists,
+        'userprofileCount': userprofileCount,
       };
 
   @override

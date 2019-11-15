@@ -27,7 +27,6 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     '歌手': 100,
     '歌单': 1000,
     '用户': 1002,
-    'MV': 1004,
   };
   List<String> _searchingTabKeys = ['综合'];
   TabController _searchingTabController;
@@ -250,7 +249,6 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     return Column(
       children: <Widget>[
         TabBar(
-          isScrollable: true,
           indicatorColor: Colors.red,
           labelColor: Colors.red,
           unselectedLabelColor: Colors.black87,

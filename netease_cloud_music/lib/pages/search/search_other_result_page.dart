@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/music.dart';
 import 'package:netease_cloud_music/model/search_result.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
+import 'package:netease_cloud_music/utils/number_utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
@@ -12,6 +13,10 @@ import 'package:netease_cloud_music/widgets/widget_album.dart';
 import 'package:netease_cloud_music/widgets/widget_artists.dart';
 import 'package:netease_cloud_music/widgets/widget_load_footer.dart';
 import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
+import 'package:netease_cloud_music/widgets/widget_search_play_list.dart';
+import 'package:netease_cloud_music/widgets/widget_search_user.dart';
+
+typedef LoadMoreWidgetBuilder<T> = Widget Function(T data);
 
 class SearchOtherResultPage extends StatefulWidget {
   final String type;
@@ -27,10 +32,12 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
     with AutomaticKeepAliveClientMixin {
   int _count = -1;
   Map<String, String> _params;
-  List<Songs> _songsData = [];
+  List<Songs> _songsData = []; // 单曲数据
   List<Artists> _artistsData = []; // 专辑数据
+  List<Albums> _albumsData = []; // 专辑数据
+  List<PlayLists> _playListData = []; // 歌单数据
+  List<Users> _userListData = []; // 用户数据
   EasyRefreshController _controller;
-  
 
   @override
   void initState() {
@@ -56,13 +63,21 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
             _songsData.addAll(r.result.songs);
             break;
           case 10: // 专辑
+            _count = r.result.albumCount;
+            _albumsData.addAll(r.result.albums);
             break;
           case 100: // 歌手
             _count = r.result.artistCount;
             _artistsData.addAll(r.result.artists);
             break;
           case 1000: // 歌单
+            _count = r.result.playlistCount;
+            _playListData.addAll(r.result.playlists);
+            break;
           case 1002: // 用户
+            _count = r.result.userprofileCount;
+            _userListData.addAll(r.result.userprofiles);
+            break;
           case 1004: // MV
             break;
           default:
@@ -123,34 +138,65 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
 
   // 构建专辑页面
   Widget _buildAlbumPage() {
-    return Container();
+    return _buildLoadMoreWidget<Albums>(_albumsData, (curData){
+      return AlbumWidget(
+          curData.picUrl, curData.name, '${curData.artist.name}');
+    });
   }
 
   // 构建歌手页面
   Widget _buildArtistsPage() {
+    return _buildLoadMoreWidget<Artists>(_artistsData, (curData){
+      return ArtistsWidget(
+        picUrl: curData.picUrl.isEmpty ? curData.img1v1Url : curData.picUrl,
+        name: curData.name,
+        accountId: curData.accountId,
+      );
+    });
+  }
+
+  // 构建歌单页面
+  Widget _buildPlayListPage() {
+    return _buildLoadMoreWidget<PlayLists>(_playListData, (curData){
+      return SearchPlayListWidget(
+        url: curData.coverImgUrl,
+        name: curData.name,
+        info:
+        '${curData.trackCount}首 by${curData.creator.nickname}，播放${NumberUtils.formatNum(curData.playCount)}次',
+        width: 110,
+      );
+    });
+  }
+
+  // 构建用户页面
+  Widget _buildUserPage() {
+    return _buildLoadMoreWidget<Users>(_userListData, (curData){
+      return SearchUserWidget(
+        url: curData.avatarUrl,
+        name: curData.nickname,
+        description: curData.description,
+      );
+    });
+  }
+
+
+  Widget _buildLoadMoreWidget<T>(List<T> data, LoadMoreWidgetBuilder<T> builder){
     return EasyRefresh.custom(
       slivers: [
         SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-          var curData = _artistsData[index];
-          return ArtistsWidget(picUrl: curData.picUrl.isEmpty ? curData.img1v1Url : curData.picUrl, name: curData.name, accountId: curData.accountId,);
-          // return AlbumWidget(
-          //     curData.picUrl.isEmpty ? curData.img1v1Url : curData.picUrl,
-          //     curData.name,
-          //     '${curData.alias.join('/')}');
-        }, childCount: _artistsData.length))
+              return builder(data[index]);
+            }, childCount: data.length))
       ],
       footer: LoadFooter(),
       controller: _controller,
       onLoad: () async {
-        print('load');
         _params['offset'] = '${int.parse(_params['offset']) + 1}';
         _request();
         _controller.finishLoad(noMore: _songsData.length >= _count);
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -172,7 +218,11 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
         result = _buildArtistsPage();
         break;
       case 1000: // 歌单
+        result = _buildPlayListPage();
+        break;
       case 1002: // 用户
+        result = _buildUserPage();
+        break;
       case 1004: // MV
         result = Container();
         break;
