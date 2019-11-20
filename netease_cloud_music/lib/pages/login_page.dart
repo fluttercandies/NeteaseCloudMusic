@@ -111,6 +111,7 @@ class __LoginWidgetState extends State<_LoginWidget> {
           VEmptyView(50),
           TextField(
             controller: _phoneController,
+            keyboardType: TextInputType.phone,
             decoration: InputDecoration(
                 hintText: 'Phone',
                 prefixIcon: Icon(
