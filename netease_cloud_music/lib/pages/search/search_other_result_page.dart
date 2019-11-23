@@ -44,6 +44,7 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
   List<Users> _userListData = []; // 用户数据
   List<Videos> _videosData = []; // 视频数据
   EasyRefreshController _controller;
+  int offset = 1;
 
   @override
   void initState() {
@@ -52,7 +53,6 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
     WidgetsBinding.instance.addPostFrameCallback((d) {
       _params = {
         'keywords': widget.keywords,
-        'offset': '1',
         'type': widget.type
       };
       _request();
@@ -60,6 +60,7 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
   }
 
   void _request() async {
+    if(offset > 1) _params['offset'] = offset.toString();
     var r = await NetUtils.searchMultiple(context, params: _params);
     if (mounted) {
       setState(() {
@@ -167,7 +168,9 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
           .map((r) => prefix0.Song(
                 r.id,
                 name: r.name,
-                picUrl: r.album.picUrl.isEmpty ? r.album.artist.img1v1Url : r.album.picUrl,
+                picUrl: r.album.picUrl.isEmpty
+                    ? r.album.artist.img1v1Url
+                    : r.album.picUrl,
                 artists: '${r.artists.map((a) => a.name).toList().join('/')}',
               ))
           .toList(),
@@ -246,7 +249,7 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
       footer: LoadFooter(),
       controller: _controller,
       onLoad: () async {
-        _params['offset'] = '${int.parse(_params['offset']) + 1}';
+        offset++;
         _request();
         _controller.finishLoad(noMore: _songsData.length >= _count);
       },
