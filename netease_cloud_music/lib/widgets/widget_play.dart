@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
-import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
+import 'package:netease_cloud_music/widgets/widget_round_img.dart';
 import 'package:provider/provider.dart';
 
 class PlayWidget extends StatelessWidget {
@@ -18,7 +18,7 @@ class PlayWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
         child: Row(
           children: <Widget>[
-            OverImgWidget(curSong.picUrl, 50),
+            RoundImgWidget(curSong.picUrl, 50),
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,

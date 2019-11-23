@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
-import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
+import 'package:netease_cloud_music/widgets/widget_round_img.dart';
 
 import 'common_text_style.dart';
 import 'h_empty_view.dart';
@@ -22,7 +22,7 @@ class SearchUserWidget extends StatelessWidget {
       EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
       child: Row(
         children: <Widget>[
-          OverImgWidget(
+          RoundImgWidget(
             url,
             140,
           ),

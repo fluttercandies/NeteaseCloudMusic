@@ -20,7 +20,7 @@ import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
 import 'package:netease_cloud_music/widgets/widget_img_menu.dart';
-import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
+import 'package:netease_cloud_music/widgets/widget_round_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_bottom_menu.dart';
 import 'package:netease_cloud_music/widgets/widget_song_progress.dart';
 import 'package:provider/provider.dart';
@@ -145,7 +145,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
                                           'images/bet.png',
                                           width: ScreenUtil().setWidth(550),
                                         ),
-                                        OverImgWidget(curSong.picUrl, 370),
+                                        RoundImgWidget(curSong.picUrl, 370),
                                       ],
                                     ),
                                   ),

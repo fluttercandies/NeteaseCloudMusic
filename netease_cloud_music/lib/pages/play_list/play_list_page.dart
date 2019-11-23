@@ -17,7 +17,7 @@ import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:netease_cloud_music/widgets/widget_footer_tab.dart';
 import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
-import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
+import 'package:netease_cloud_music/widgets/widget_round_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_app_bar.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_cover.dart';
 import 'package:netease_cloud_music/widgets/widget_sliver_future_builder.dart';
@@ -121,7 +121,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                 children: <Widget>[
                                   _data == null
                                       ? Container()
-                                      : OverImgWidget(
+                                      : RoundImgWidget(
                                           _data.creator.avatarUrl, 40),
                                   HEmptyView(5),
                                   Expanded(

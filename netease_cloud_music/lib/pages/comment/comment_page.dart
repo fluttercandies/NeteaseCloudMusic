@@ -14,7 +14,7 @@ import 'package:netease_cloud_music/widgets/rounded_net_image.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:netease_cloud_music/widgets/widget_load_footer.dart';
-import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
+import 'package:netease_cloud_music/widgets/widget_round_img.dart';
 
 import 'comment_input_widget.dart';
 
@@ -153,7 +153,7 @@ class _CommentPageState extends State<CommentPage> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        OverImgWidget(data.user.avatarUrl, 70),
+        RoundImgWidget(data.user.avatarUrl, 70),
         HEmptyView(10),
         Expanded(
           child: Column(

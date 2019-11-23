@@ -16,7 +16,7 @@ import 'package:netease_cloud_music/widgets/widget_album.dart';
 import 'package:netease_cloud_music/widgets/widget_artists.dart';
 import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
 import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
-import 'package:netease_cloud_music/widgets/widget_ovar_img.dart';
+import 'package:netease_cloud_music/widgets/widget_round_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_cover.dart';
 import 'package:netease_cloud_music/widgets/widget_search_play_list.dart';
 import 'package:netease_cloud_music/widgets/widget_search_user.dart';
