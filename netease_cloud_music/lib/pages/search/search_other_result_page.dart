@@ -4,6 +4,9 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/music.dart';
 import 'package:netease_cloud_music/model/search_result.dart';
+import 'package:netease_cloud_music/model/song.dart' as prefix0;
+import 'package:netease_cloud_music/provider/play_songs_model.dart';
+import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/utils/number_utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
@@ -16,6 +19,7 @@ import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
 import 'package:netease_cloud_music/widgets/widget_search_play_list.dart';
 import 'package:netease_cloud_music/widgets/widget_search_user.dart';
 import 'package:netease_cloud_music/widgets/widget_search_video.dart';
+import 'package:provider/provider.dart';
 
 typedef LoadMoreWidgetBuilder<T> = Widget Function(T data);
 
@@ -93,56 +97,88 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
 
   // 构建单曲页面
   Widget _buildSongsPage() {
-    return EasyRefresh.custom(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Row(
-            children: <Widget>[
-              Icon(
-                Icons.play_circle_outline,
-                color: Colors.black87,
+    return Consumer<PlaySongsModel>(
+      builder: (context, model, child) {
+        return EasyRefresh.custom(
+          slivers: [
+            SliverToBoxAdapter(
+              child: GestureDetector(
+                onTap: () {
+                  _playSongs(model, _songsData, 0);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.play_circle_outline,
+                      color: Colors.black87,
+                    ),
+                    HEmptyView(10),
+                    Text(
+                      '播放全部',
+                      style: common18TextStyle,
+                    ),
+                  ],
+                ),
               ),
-              HEmptyView(10),
-              Text(
-                '播放全部',
-                style: common18TextStyle,
+            ),
+            SliverToBoxAdapter(
+              child: VEmptyView(30),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  var song = _songsData[index];
+                  return GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      _playSongs(model, _songsData, index);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
+                      child: WidgetMusicListItem(MusicData(
+                          songName: song.name,
+                          mvid: song.mvid,
+                          artists: song.artists
+                              .map((a) => a.name)
+                              .toList()
+                              .join('/'))),
+                    ),
+                  );
+                },
+                childCount: _songsData.length,
               ),
-            ],
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: VEmptyView(30),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              var song = _songsData[index];
-              return Padding(
-                padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
-                child: WidgetMusicListItem(MusicData(
-                    songName: song.name,
-                    mvid: song.mvid,
-                    artists:
-                        song.artists.map((a) => a.name).toList().join('/'))),
-              );
-            },
-            childCount: _songsData.length,
-          ),
-        )
-      ],
-      footer: LoadFooter(),
-      controller: _controller,
-      onLoad: () async {
-        _params['offset'] = '${int.parse(_params['offset']) + 1}';
-        _request();
-        _controller.finishLoad(noMore: _songsData.length >= _count);
+            )
+          ],
+          footer: LoadFooter(),
+          controller: _controller,
+          onLoad: () async {
+            _params['offset'] = '${int.parse(_params['offset']) + 1}';
+            _request();
+            _controller.finishLoad(noMore: _songsData.length >= _count);
+          },
+        );
       },
     );
   }
 
+  void _playSongs(PlaySongsModel model, List<Songs> data, int index) {
+    model.playSongs(
+      data
+          .map((r) => prefix0.Song(
+                r.id,
+                name: r.name,
+                picUrl: r.album.picUrl.isEmpty ? r.album.artist.img1v1Url : r.album.picUrl,
+                artists: '${r.artists.map((a) => a.name).toList().join('/')}',
+              ))
+          .toList(),
+      index: index,
+    );
+    NavigatorUtil.goPlaySongsPage(context);
+  }
+
   // 构建专辑页面
   Widget _buildAlbumPage() {
-    return _buildLoadMoreWidget<Albums>(_albumsData, (curData){
+    return _buildLoadMoreWidget<Albums>(_albumsData, (curData) {
       return AlbumWidget(
           curData.picUrl, curData.name, '${curData.artist.name}');
     });
@@ -150,7 +186,7 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
 
   // 构建歌手页面
   Widget _buildArtistsPage() {
-    return _buildLoadMoreWidget<Artists>(_artistsData, (curData){
+    return _buildLoadMoreWidget<Artists>(_artistsData, (curData) {
       return ArtistsWidget(
         picUrl: curData.picUrl.isEmpty ? curData.img1v1Url : curData.picUrl,
         name: curData.name,
@@ -161,12 +197,14 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
 
   // 构建歌单页面
   Widget _buildPlayListPage() {
-    return _buildLoadMoreWidget<PlayLists>(_playListData, (curData){
+    return _buildLoadMoreWidget<PlayLists>(_playListData, (curData) {
       return SearchPlayListWidget(
+        id: curData.id,
         url: curData.coverImgUrl,
         name: curData.name,
+        playCount: curData.playCount,
         info:
-        '${curData.trackCount}首 by${curData.creator.nickname}，播放${NumberUtils.formatNum(curData.playCount)}次',
+            '${curData.trackCount}首 by${curData.creator.nickname}，播放${NumberUtils.formatNum(curData.playCount)}次',
         width: 110,
       );
     });
@@ -174,7 +212,7 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
 
   // 构建用户页面
   Widget _buildUserPage() {
-    return _buildLoadMoreWidget<Users>(_userListData, (curData){
+    return _buildLoadMoreWidget<Users>(_userListData, (curData) {
       return SearchUserWidget(
         url: curData.avatarUrl,
         name: curData.nickname,
@@ -183,21 +221,27 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
     });
   }
 
-
   // 构建专辑页面
   Widget _buildVideoPage() {
-    return _buildLoadMoreWidget<Videos>(_videosData, (video){
-      return SearchVideoWidget(url: video.coverUrl, playCount: video.playTime, title: video.title, type: video.type, creatorName: video.creator.map((c) => c.userName).join('/'),);
+    return _buildLoadMoreWidget<Videos>(_videosData, (video) {
+      return SearchVideoWidget(
+        url: video.coverUrl,
+        playCount: video.playTime,
+        title: video.title,
+        type: video.type,
+        creatorName: video.creator.map((c) => c.userName).join('/'),
+      );
     });
   }
 
-  Widget _buildLoadMoreWidget<T>(List<T> data, LoadMoreWidgetBuilder<T> builder){
+  Widget _buildLoadMoreWidget<T>(
+      List<T> data, LoadMoreWidgetBuilder<T> builder) {
     return EasyRefresh.custom(
       slivers: [
         SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              return builder(data[index]);
-            }, childCount: data.length))
+          return builder(data[index]);
+        }, childCount: data.length))
       ],
       footer: LoadFooter(),
       controller: _controller,
@@ -208,6 +252,7 @@ class _SearchOtherResultPageState extends State<SearchOtherResultPage>
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);

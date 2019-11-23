@@ -1701,6 +1701,7 @@ class Album {
   int size;
   int picId;
   String blurPicUrl;
+  String img1v1Url;
   int companyId;
   int pic;
   String picUrl;
@@ -1730,6 +1731,7 @@ class Album {
     this.companyId,
     this.pic,
     this.picUrl,
+    this.img1v1Url,
     this.publishTime,
     this.description,
     this.tags,
@@ -1784,6 +1786,7 @@ class Album {
       moreText: convertValueByType(jsonRes['moreText'], String, stack: "Album-moreText"),
       id: convertValueByType(jsonRes['id'], int, stack: "Album-id"),
       type: convertValueByType(jsonRes['type'], String, stack: "Album-type"),
+      img1v1Url: convertValueByType(jsonRes['img1v1Url'], String, stack: "Album-img1v1Url"),
       size: convertValueByType(jsonRes['size'], int, stack: "Album-size"),
       picId: convertValueByType(jsonRes['picId'], int, stack: "Album-picId"),
       blurPicUrl: convertValueByType(jsonRes['blurPicUrl'], String,
@@ -1833,6 +1836,7 @@ class Album {
         'tags': tags,
         'company': company,
         'briefDesc': briefDesc,
+        'img1v1Url': img1v1Url,
         'artist': artist,
         'songs': songs,
         'alias': alias,

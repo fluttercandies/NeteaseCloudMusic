@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/music.dart';
 import 'package:netease_cloud_music/model/search_result.dart';
+import 'package:netease_cloud_music/model/song.dart' as prefix0;
 import 'package:netease_cloud_music/provider/play_songs_model.dart';
+import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/utils/number_utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
@@ -25,8 +27,10 @@ import 'package:provider/provider.dart';
 class SearchMultipleResultPage extends StatefulWidget {
   final String keywords;
   final ValueChanged onTapMore; // 点击更多的时候需要跳转到哪一个 tab 页
+  final ValueChanged onTapSimText;
 
-  SearchMultipleResultPage(this.keywords, {@required this.onTapMore});
+  SearchMultipleResultPage(this.keywords,
+      {@required this.onTapMore, @required this.onTapSimText});
 
   @override
   _SearchMultipleResultPageState createState() =>
@@ -69,40 +73,53 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage>
   Widget _buildSearchSongs(Song song) {
     return Consumer<PlaySongsModel>(
       builder: (context, model, child) {
+        List<Widget> children = [];
+        for (int i = 0; i < song.songs.length; i++) {
+          children.add(WidgetMusicListItem(
+            MusicData(
+                songName: song.songs[i].name,
+                mvid: song.songs[i].mv,
+                artists:
+                    song.songs[i].ar.map((a) => a.name).toList().join('/')),
+            onTap: () {
+              _playSongs(model, song.songs, i);
+            },
+          ));
+        }
+
         return _buildModuleTemplate("单曲",
             contentWidget: [
               ListView(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                children: song.songs
-                    .map((song) => WidgetMusicListItem(MusicData(
-                        songName: song.name,
-                        mvid: song.mv,
-                        artists:
-                            song.ar.map((a) => a.name).toList().join('/'))))
-                    .toList(),
+                children: children,
               ),
             ],
-            titleTrail: Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: ScreenUtil().setWidth(15),
-                  vertical: ScreenUtil().setWidth(5)),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xfff2f2f2)),
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Icon(
-                    Icons.play_circle_outline,
-                    color: Colors.black87,
-                  ),
-                  HEmptyView(2),
-                  Text(
-                    '播放全部',
-                    style: common14TextStyle,
-                  ),
-                ],
+            titleTrail: GestureDetector(
+              onTap: () {
+                _playSongs(model, song.songs, 0);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: ScreenUtil().setWidth(15),
+                    vertical: ScreenUtil().setWidth(5)),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xfff2f2f2)),
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      Icons.play_circle_outline,
+                      color: Colors.black87,
+                    ),
+                    HEmptyView(2),
+                    Text(
+                      '播放全部',
+                      style: common14TextStyle,
+                    ),
+                  ],
+                ),
               ),
             ),
             moreText: song.moreText, onMoreTextTap: () {
@@ -110,6 +127,21 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage>
         });
       },
     );
+  }
+
+  void _playSongs(PlaySongsModel model, List<Songs> data, int index) {
+    model.playSongs(
+      data
+          .map((r) => prefix0.Song(
+                r.id,
+                name: r.name,
+                picUrl: r.al.picUrl,
+                artists: '${r.ar.map((a) => a.name).toList().join('/')}',
+              ))
+          .toList(),
+      index: index,
+    );
+    NavigatorUtil.goPlaySongsPage(context);
   }
 
   // 构建歌单模块
@@ -121,8 +153,10 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage>
             shrinkWrap: true,
             children: playList.playLists.map((p) {
               return SearchPlayListWidget(
+                id: p.id,
                 name: p.name,
                 url: p.coverImgUrl,
+                playCount: p.playCount,
                 info:
                     '${p.trackCount}首 by${p.creator.nickname}，播放${NumberUtils.formatNum(p.playCount)}次',
               );
@@ -187,7 +221,9 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage>
         spacing: ScreenUtil().setWidth(20),
         children: sim.sim_querys
             .map((v) => GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    widget.onTapSimText(v.keyword);
+                  },
                   child: Chip(
                     label: Text(
                       v.keyword,
