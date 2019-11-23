@@ -17,11 +17,14 @@ import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:netease_cloud_music/widgets/widget_footer_tab.dart';
 import 'package:netease_cloud_music/widgets/widget_music_list_item.dart';
+import 'package:netease_cloud_music/widgets/widget_play.dart';
 import 'package:netease_cloud_music/widgets/widget_round_img.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_app_bar.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list_cover.dart';
 import 'package:netease_cloud_music/widgets/widget_sliver_future_builder.dart';
 import 'package:provider/provider.dart';
+
+import '../../application.dart';
 
 class PlayListPage extends StatefulWidget {
   final Recommend data;
@@ -78,140 +81,148 @@ class _PlayListPageState extends State<PlayListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          PlayListAppBarWidget(
-            sigma: 20,
-            playOnTap: (model) {
-              playSongs(model, 0);
-            },
-            content: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(35),
-                  right: ScreenUtil().setWidth(35),
-                  top: ScreenUtil().setWidth(120),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        PlayListCoverWidget(
-                          widget.data.picUrl,
-                          width: 250,
-                          playCount: widget.data.playcount,
-                        ),
-                        HEmptyView(20),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
+      body: Stack(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(80) + Application.bottomBarHeight),
+            child: CustomScrollView(
+              slivers: <Widget>[
+                PlayListAppBarWidget(
+                  sigma: 20,
+                  playOnTap: (model) {
+                    playSongs(model, 0);
+                  },
+                  content: SafeArea(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(35),
+                        right: ScreenUtil().setWidth(35),
+                        top: ScreenUtil().setWidth(120),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Text(
-                                widget.data.name,
-                                softWrap: true,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: mWhiteBoldTextStyle,
+                              PlayListCoverWidget(
+                                widget.data.picUrl,
+                                width: 250,
+                                playCount: widget.data.playcount,
                               ),
-                              VEmptyView(10),
-                              Row(
-                                children: <Widget>[
-                                  _data == null
-                                      ? Container()
-                                      : RoundImgWidget(
-                                          _data.creator.avatarUrl, 40),
-                                  HEmptyView(5),
-                                  Expanded(
-                                    child: _data == null
-                                        ? Container()
-                                        : Text(
+                              HEmptyView(20),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      widget.data.name,
+                                      softWrap: true,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: mWhiteBoldTextStyle,
+                                    ),
+                                    VEmptyView(10),
+                                    Row(
+                                      children: <Widget>[
+                                        _data == null
+                                            ? Container()
+                                            : RoundImgWidget(
+                                            _data.creator.avatarUrl, 40),
+                                        HEmptyView(5),
+                                        Expanded(
+                                          child: _data == null
+                                              ? Container()
+                                              : Text(
                                             _data.creator.nickname,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: commonWhite70TextStyle,
                                           ),
-                                  ),
-                                  _data == null
-                                      ? Container()
-                                      : Icon(
+                                        ),
+                                        _data == null
+                                            ? Container()
+                                            : Icon(
                                           Icons.keyboard_arrow_right,
                                           color: Colors.white70,
                                         ),
-                                ],
+                                      ],
+                                    ),
+                                    VEmptyView(10),
+                                    buildDescription(),
+                                  ],
+                                ),
                               ),
-                              VEmptyView(10),
-                              buildDescription(),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    VEmptyView(15),
-                    Container(
-                      margin: EdgeInsets.only(top: ScreenUtil().setWidth(12)),
-                      alignment: Alignment.center,
-                      child: Row(
-                        children: <Widget>[
-                          FooterTabWidget('images/icon_comment.png',
-                              '${_data == null ? "评论" : _data.commentCount}',
-                              () {
-                            NavigatorUtil.goCommentPage(context,
-                                data: CommentHead(
-                                    _data.coverImgUrl,
-                                    _data.name,
-                                    _data.creator.nickname,
-                                    _data.commentCount,
-                                    _data.id,
-                                    CommentType.playList.index));
-                          }),
-                          FooterTabWidget(
-                              'images/icon_share.png',
-                              '${_data == null ? "分享" : _data.shareCount}',
-                              () {}),
-                          FooterTabWidget(
-                              'images/icon_download.png', '下载', () {}),
-                          FooterTabWidget(
-                              'images/icon_multi_select.png', '多选', () {}),
+                          VEmptyView(15),
+                          Container(
+                            margin: EdgeInsets.only(top: ScreenUtil().setWidth(12)),
+                            alignment: Alignment.center,
+                            child: Row(
+                              children: <Widget>[
+                                FooterTabWidget('images/icon_comment.png',
+                                    '${_data == null ? "评论" : _data.commentCount}',
+                                        () {
+                                      NavigatorUtil.goCommentPage(context,
+                                          data: CommentHead(
+                                              _data.coverImgUrl,
+                                              _data.name,
+                                              _data.creator.nickname,
+                                              _data.commentCount,
+                                              _data.id,
+                                              CommentType.playList.index));
+                                    }),
+                                FooterTabWidget(
+                                    'images/icon_share.png',
+                                    '${_data == null ? "分享" : _data.shareCount}',
+                                        () {}),
+                                FooterTabWidget(
+                                    'images/icon_download.png', '下载', () {}),
+                                FooterTabWidget(
+                                    'images/icon_multi_select.png', '多选', () {}),
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            expandedHeight: _expandedHeight,
-            backgroundImg: widget.data.picUrl,
-            title: widget.data.name,
-            count: _data == null ? null : _data.trackCount,
-          ),
-          CustomSliverFutureBuilder<PlayListData>(
-            futureFunc: NetUtils.getPlayListData,
-            params: {'id': widget.data.id},
-            builder: (context, data) {
-              setData(data.playlist);
-              return Consumer<PlaySongsModel>(builder: (context, model, child) {
-                return SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                  var d = data.playlist.tracks[index];
-                  return WidgetMusicListItem(
-                    MusicData(
-                      mvid: d.mv,
-                      index: index + 1,
-                      songName: d.name,
-                      artists:
-                          '${d.ar.map((a) => a.name).toList().join('/')} - ${d.al.name}',
                     ),
-                    onTap: () {
-                      playSongs(model, index);
-                    },
-                  );
-                }, childCount: data.playlist.trackIds.length));
-              });
-            },
+                  ),
+                  expandedHeight: _expandedHeight,
+                  backgroundImg: widget.data.picUrl,
+                  title: widget.data.name,
+                  count: _data == null ? null : _data.trackCount,
+                ),
+                CustomSliverFutureBuilder<PlayListData>(
+                  futureFunc: NetUtils.getPlayListData,
+                  params: {'id': widget.data.id},
+                  builder: (context, data) {
+                    setData(data.playlist);
+                    return Consumer<PlaySongsModel>(builder: (context, model, child) {
+                      return SliverList(
+                          delegate: SliverChildBuilderDelegate((context, index) {
+                            var d = data.playlist.tracks[index];
+                            return WidgetMusicListItem(
+                              MusicData(
+                                mvid: d.mv,
+                                index: index + 1,
+                                songName: d.name,
+                                artists:
+                                '${d.ar.map((a) => a.name).toList().join('/')} - ${d.al.name}',
+                              ),
+                              onTap: () {
+                                playSongs(model, index);
+                              },
+                            );
+                          }, childCount: data.playlist.trackIds.length));
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
+          PlayWidget(),
         ],
       ),
     );

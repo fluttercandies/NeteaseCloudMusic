@@ -10,6 +10,7 @@ import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
 import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
+import 'package:netease_cloud_music/widgets/widget_play.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -326,9 +327,18 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           onPointerDown: (d) {
             FocusScope.of(context).requestFocus(_blankNode);
           },
-          child: _isSearching
-              ? _buildSearchingLayout()
-              : _buildUnSearchingLayout(),
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(80)),
+                child: _isSearching
+                    ? _buildSearchingLayout()
+                    : _buildUnSearchingLayout(),
+              ),
+
+              PlayWidget(),
+            ],
+          ),
         ),
       ),
       onWillPop: () async {

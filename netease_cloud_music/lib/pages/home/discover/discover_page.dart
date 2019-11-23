@@ -1,6 +1,7 @@
 import 'package:common_utils/common_utils.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:netease_cloud_music/application.dart';
+import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/model/album.dart';
@@ -15,6 +16,7 @@ import 'package:netease_cloud_music/widgets/widget_banner.dart';
 import 'package:netease_cloud_music/widgets/widget_future_builder.dart';
 import 'package:netease_cloud_music/widgets/widget_play_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class DiscoverPage extends StatefulWidget {
   @override

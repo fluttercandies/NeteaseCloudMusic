@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/application.dart';
 import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/model/user.dart';
+import 'package:netease_cloud_music/utils/fluro_convert_utils.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -75,6 +76,7 @@ class PlaySongsModel with ChangeNotifier{
   void play() {
     _audioPlayer.play(
         "https://music.163.com/song/media/outer/url?id=${this._songs[curIndex].id}.mp3");
+    saveCurSong();
   }
 
   /// 暂停、恢复
@@ -119,6 +121,12 @@ class PlaySongsModel with ChangeNotifier{
       curIndex--;
     }
     play();
+  }
+
+  // 保存当前歌曲到本地
+  void saveCurSong(){
+    Application.sp.remove('playing_songs');
+    Application.sp.setStringList('playing_songs', _songs.map((s) => FluroConvertUtils.object2string(s)).toList());
   }
 
   @override

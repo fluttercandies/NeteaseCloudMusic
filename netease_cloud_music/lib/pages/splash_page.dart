@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/application.dart';
+import 'package:netease_cloud_music/model/song.dart';
 import 'package:netease_cloud_music/model/user.dart';
 import 'package:netease_cloud_music/provider/play_list_model.dart';
+import 'package:netease_cloud_music/provider/play_songs_model.dart';
 import 'package:netease_cloud_music/provider/user_model.dart';
+import 'package:netease_cloud_music/utils/fluro_convert_utils.dart';
 import 'package:netease_cloud_music/utils/navigator_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -42,10 +45,14 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   }
 
   void goPage() async{
-
     await Application.initSp();
     UserModel userModel = Provider.of<UserModel>(context);
     userModel.initUser();
+    PlaySongsModel playSongsModel = Provider.of<PlaySongsModel>(context);
+    if(Application.sp.containsKey('playing_songs')){
+      List<String> songs = Application.sp.getStringList('playing_songs');
+      playSongsModel.addSongs(songs.map((s) => Song.fromJson(FluroConvertUtils.string2map(s))).toList());
+    }
     if (userModel.user != null) {
       await NetUtils.refreshLogin(context).then((value){
         if(value.data != -1){
@@ -65,6 +72,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     Application.screenWidth = size.width;
     Application.screenHeight = size.height;
     Application.statusBarHeight = MediaQuery.of(context).padding.top;
+    Application.bottomBarHeight = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(

@@ -70,7 +70,6 @@ class _PlaySongsPageState extends State<PlaySongsPage>
         _controller.stop();
         _stylusController.forward();
       }
-      print('songs_builder');
       return Scaffold(
         body: Stack(
           children: <Widget>[
