@@ -45,7 +45,11 @@ class PlayWidget extends StatelessWidget {
 
                 GestureDetector(
                   onTap: (){
-                    model.togglePlay();
+                    if(model.curState == null){
+                      model.play();
+                    }else {
+                      model.togglePlay();
+                    }
                   },
                   child: Image.asset(
                     model.curState == AudioPlayerState.PLAYING
