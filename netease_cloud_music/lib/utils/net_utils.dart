@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/model/album.dart';
 import 'package:netease_cloud_music/model/banner.dart' as mBanner;
 import 'package:netease_cloud_music/model/daily_songs.dart';
+import 'package:netease_cloud_music/model/event.dart' as prefix0;
 import 'package:netease_cloud_music/model/hot_search.dart';
 import 'package:netease_cloud_music/model/lyric.dart';
 import 'package:netease_cloud_music/model/mv.dart';
@@ -283,6 +284,16 @@ class NetUtils {
     var response = await _get(context, '/search',
         params: params, isShowLoading: false);
     return SearchMultipleData.fromJson(response.data);
+  }
+
+  /// 获取动态数据
+  static Future<prefix0.EventData> getEventData(
+      BuildContext context, {
+        @required Map<String, dynamic> params,
+      }) async {
+    var response = await _get(context, '/event',
+        params: params, isShowLoading: false);
+    return prefix0.EventData.fromJson(response.data);
   }
 
 }

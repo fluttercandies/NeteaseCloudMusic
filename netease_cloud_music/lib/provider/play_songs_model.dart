@@ -127,6 +127,7 @@ class PlaySongsModel with ChangeNotifier{
   void saveCurSong(){
     Application.sp.remove('playing_songs');
     Application.sp.setStringList('playing_songs', _songs.map((s) => FluroConvertUtils.object2string(s)).toList());
+    Application.sp.setInt('playing_index', curIndex);
   }
 
   @override

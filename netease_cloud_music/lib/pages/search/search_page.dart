@@ -234,7 +234,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   }
 
   // 构建未搜索时的布局
-  Widget _buildUnSearchingLayout() {
+  Widget _buildUnSearchingPage() {
     return ListView(
       padding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(40),
@@ -247,7 +247,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   }
 
   // 构建搜索中的布局
-  Widget _buildSearchingLayout() {
+  Widget _buildSearchingPage() {
     return Column(
       children: <Widget>[
         TabBar(
@@ -332,10 +332,9 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
               Padding(
                 padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(80)),
                 child: _isSearching
-                    ? _buildSearchingLayout()
-                    : _buildUnSearchingLayout(),
+                    ? _buildSearchingPage()
+                    : _buildUnSearchingPage(),
               ),
-
               PlayWidget(),
             ],
           ),

@@ -49,9 +49,12 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     UserModel userModel = Provider.of<UserModel>(context);
     userModel.initUser();
     PlaySongsModel playSongsModel = Provider.of<PlaySongsModel>(context);
+    // 判断是否有保存的歌曲列表
     if(Application.sp.containsKey('playing_songs')){
       List<String> songs = Application.sp.getStringList('playing_songs');
       playSongsModel.addSongs(songs.map((s) => Song.fromJson(FluroConvertUtils.string2map(s))).toList());
+      int index = Application.sp.getInt('playing_index');
+      playSongsModel.curIndex = index;
     }
     if (userModel.user != null) {
       await NetUtils.refreshLogin(context).then((value){

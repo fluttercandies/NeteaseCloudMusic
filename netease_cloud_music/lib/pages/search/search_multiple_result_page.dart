@@ -216,11 +216,12 @@ class _SearchMultipleResultPageState extends State<SearchMultipleResultPage>
 
   // 构建相关搜索模块
   Widget _buildSimQuery(SimQuery sim) {
-    return _buildModuleTemplate('相关搜索', contentWidget: [
+    return sim == null || sim.sim_querys.isEmpty ? Container() :
+    _buildModuleTemplate('相关搜索', contentWidget: [
       Wrap(
         spacing: ScreenUtil().setWidth(20),
-        children: sim.sim_querys
-            .map((v) => GestureDetector(
+        children:
+        sim.sim_querys.map((v) => GestureDetector(
                   onTap: () {
                     widget.onTapSimText(v.keyword);
                   },

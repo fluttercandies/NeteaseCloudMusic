@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/widgets/widget_play.dart';
 import '../../application.dart';
 import 'discover/discover_page.dart';
+import 'event/event_page.dart';
 import 'my/my_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       children: [
                         DiscoverPage(),
                         MyPage(),
-                        DiscoverPage(),
+                        EventPage(),
                       ],
                     ),
                   ),
