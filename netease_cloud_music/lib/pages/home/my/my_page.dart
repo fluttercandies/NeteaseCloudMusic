@@ -40,8 +40,10 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
     super.initState();
     topMenuKeys = topMenuData.keys.toList();
     WidgetsBinding.instance.addPostFrameCallback((d){
-      _playListModel = Provider.of<PlayListModel>(context);
-      _playListModel.getSelfPlaylistData(context);
+      if(mounted) {
+        _playListModel = Provider.of<PlayListModel>(context);
+        _playListModel.getSelfPlaylistData(context);
+      }
     });
   }
 
