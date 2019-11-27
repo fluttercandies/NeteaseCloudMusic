@@ -39,6 +39,7 @@ dependencies:
   audioplayers: ^0.13.2
   flutter_easyrefresh: ^2.0.4
   cached_network_image: ^1.1.2+1
+  extended_text: ^0.6.6
 
 dev_dependencies:
   flutter_test:

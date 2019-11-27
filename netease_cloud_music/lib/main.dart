@@ -22,8 +22,8 @@ void main() {
   Provider.debugCheckInvalidValueType = null;
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<UserModel>.value(
-        value: UserModel(),
+      ChangeNotifierProvider<UserModel>(
+        builder: (_) => UserModel(),
       ),
       ChangeNotifierProvider<PlaySongsModel>(
         builder: (_) => PlaySongsModel()..init(),

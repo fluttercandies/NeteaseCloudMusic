@@ -1,17 +1,22 @@
 import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_cloud_music/model/event.dart';
 import 'package:netease_cloud_music/model/event_content.dart';
+import 'package:netease_cloud_music/model/song.dart' as prefix0;
+import 'package:netease_cloud_music/utils/event_special_text_span_builder.dart';
 import 'package:netease_cloud_music/utils/net_utils.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/widgets/h_empty_view.dart';
 import 'package:netease_cloud_music/widgets/rounded_net_image.dart';
 import 'package:netease_cloud_music/widgets/v_empty_view.dart';
+import 'package:netease_cloud_music/widgets/widget_event_song.dart';
+import 'package:netease_cloud_music/widgets/widget_event_video.dart';
 import 'package:netease_cloud_music/widgets/widget_load_footer.dart';
 import 'package:netease_cloud_music/widgets/widget_round_img.dart';
 
@@ -38,7 +43,7 @@ class _EventPageState extends State<EventPage>
     });
   }
 
-  void _request() async {
+  Future _request() async {
     var r = await NetUtils.getEventData(context,
         params: lasttime == -1 ? null : {'lasttime': lasttime});
     lasttime = r.lasttime;
@@ -89,6 +94,7 @@ class _EventPageState extends State<EventPage>
       picsWidget = Padding(
         padding: EdgeInsets.only(top: ScreenUtil().setWidth(15)),
         child: GridView.custom(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -96,8 +102,11 @@ class _EventPageState extends State<EventPage>
               mainAxisSpacing: ScreenUtil().setWidth(10),
               crossAxisSpacing: ScreenUtil().setWidth(10)),
           childrenDelegate: SliverChildBuilderDelegate((context, index) {
-            return RoundedNetImage(data.pics[index].originUrl,
-                fit: BoxFit.cover, radius: 5,);
+            return RoundedNetImage(
+              data.pics[index].originUrl,
+              fit: BoxFit.cover,
+              radius: 5,
+            );
           }, childCount: data.pics.length),
         ),
       );
@@ -106,7 +115,7 @@ class _EventPageState extends State<EventPage>
     return Padding(
       padding: EdgeInsets.symmetric(
           vertical: ScreenUtil().setWidth(15),
-          horizontal: ScreenUtil().setWidth(20)),
+          horizontal: ScreenUtil().setWidth(30)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,8 +170,9 @@ class _EventPageState extends State<EventPage>
                   ],
                 ),
                 VEmptyView(10),
-                Text(
+                ExtendedText(
                   contentData.msg,
+                  specialTextSpanBuilder: EventSpecialTextSpanBuilder(),
                   style: TextStyle(
                       fontSize: 15, color: Colors.black87, height: 1.5),
                 ),
@@ -261,16 +271,14 @@ class _EventPageState extends State<EventPage>
               case 35:
                 break;
               case 39:
-                contentWidget = Container(
-                  height: 100,
-                  color: Colors.amber,
-                );
+                contentWidget = EventVideoWidget(curContent.video);
                 break;
               case 18:
-                contentWidget = Container(
-                  height: 100,
-                  color: Colors.amber,
-                );
+                contentWidget = EventSongWidget(prefix0.Song(curContent.song.id,
+                    name: curContent.song.name,
+                    picUrl: curContent.song.album.picUrl,
+                    artists:
+                        curContent.song.artists.map((a) => a.name).join('/')));
                 break;
             }
             return _buildCommonTemplate(curData, curContent, contentWidget);
@@ -281,7 +289,7 @@ class _EventPageState extends State<EventPage>
       onRefresh: () async {
         lasttime = -1;
         _eventData.clear();
-        _request();
+        await _request();
       },
       controller: _controller,
       onLoad: () async {

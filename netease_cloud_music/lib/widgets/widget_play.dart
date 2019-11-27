@@ -37,7 +37,7 @@ class PlayWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text(curSong.name, style: commonTextStyle,),
+                      Text(curSong.name, style: commonTextStyle, maxLines: 1, overflow: TextOverflow.ellipsis,),
                       Text(curSong.artists, style: common13TextStyle,),
                     ],
                   ),

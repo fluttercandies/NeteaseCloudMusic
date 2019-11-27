@@ -15,7 +15,7 @@ class RoundedNetImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(radius)),
+      borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(radius))),
       child: Utils.showNetImage(
         url,
         width: width == null ? null : ScreenUtil().setWidth(width),
