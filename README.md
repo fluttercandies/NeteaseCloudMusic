@@ -24,6 +24,7 @@
 
 1. **base_url 不要使用 127.0.0.1，要使用自己本机的IP**
 2. **不要设置一些代理，导致端口不一致**
+3. **我这边的Flutter环境为 1.9.1 h6，请不要使用 1.10，1.10部分插件会出现问题，如使用请自行解决问题。**
 
 **请及时更新代码，因为不一定什么时候我就会修复一些以前的bug。**
 
@@ -82,6 +83,10 @@
 | :-----------------------------------------------------: | :----: | ------------------------------------------------------- |
 |                                 ![](http://pic.d3collection.cn/2019-10-21-025741.jpg)                      |  ![](http://pic.d3collection.cn/2019-10-21-025618.jpg)    | ![](http://pic.d3collection.cn/2019-10-23-073549.gif) |
 | ![](http://pic.d3collection.cn/2019-10-28-112602.gif) | ![](http://pic.d3collection.cn/2019-11-08-072720.gif) |  |
+
+
+
+[![Stargazers over time](https://starchart.cc/fluttercandies/NeteaseCloudMusic.svg)](https://starchart.cc/fluttercandies/NeteaseCloudMusic) 
 
 
 
