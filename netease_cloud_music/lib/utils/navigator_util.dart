@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:extended_image/extended_image.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:netease_cloud_music/model/comment_head.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
+import 'package:netease_cloud_music/pages/look_img_page.dart';
 import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/fluro_convert_utils.dart';
 
@@ -37,8 +41,7 @@ class NavigatorUtil {
   }
 
   /// 歌单详情
-  static void goPlayListPage(BuildContext context,
-      {@required Recommend data}) {
+  static void goPlayListPage(BuildContext context, {@required Recommend data}) {
     _navigateTo(context,
         "${Routes.playList}?data=${FluroConvertUtils.object2string(data)}");
   }
@@ -53,7 +56,6 @@ class NavigatorUtil {
     _navigateTo(context, Routes.playSongs);
   }
 
-
   /// 评论页面
   static void goCommentPage(BuildContext context,
       {@required CommentHead data}) {
@@ -66,4 +68,19 @@ class NavigatorUtil {
     _navigateTo(context, Routes.search);
   }
 
+  /// 查看图片页面
+  static void goLookImgPage(
+      BuildContext context, List<String> imgs, int index) {
+//    Application.router.navigateTo(context, '${Routes.lookImg}?imgs=${FluroConvertUtils.object2string(imgs.join(','))}&index=$index', transitionBuilder: (){});
+//    _navigateTo(context, '${Routes.lookImg}?imgs=${FluroConvertUtils.object2string(imgs.join(','))}&index=$index');
+//    _navigateTo(context, '${Routes.lookImg}');
+    Navigator.push(
+      context,
+      Platform.isAndroid
+          ? TransparentMaterialPageRoute(
+              builder: (_) => LookImgPage(imgs, index))
+          : TransparentCupertinoPageRoute(
+              builder: (_) => LookImgPage(imgs, index)),
+    );
+  }
 }

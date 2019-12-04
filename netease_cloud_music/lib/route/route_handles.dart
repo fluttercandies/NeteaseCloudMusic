@@ -6,6 +6,7 @@ import 'package:netease_cloud_music/pages/comment/comment_page.dart';
 import 'package:netease_cloud_music/pages/daily_songs/daily_songs_page.dart';
 import 'package:netease_cloud_music/pages/home/home_page.dart';
 import 'package:netease_cloud_music/pages/login_page.dart';
+import 'package:netease_cloud_music/pages/look_img_page.dart';
 import 'package:netease_cloud_music/pages/play_list/play_list_page.dart';
 import 'package:netease_cloud_music/pages/play_songs/play_songs_page.dart';
 import 'package:netease_cloud_music/pages/search/search_page.dart';
@@ -68,4 +69,14 @@ var commentHandler = new Handler(
 var searchHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
       return SearchPage();
+    });
+
+// 跳转到查看图片页面
+var lookImgHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+      List<String> imgs = FluroConvertUtils.fluroCnParamsDecode(params['imgs'].first).split(',');
+      String index = params['index'].first;
+      print(imgs);
+      print(index);
+      return LookImgPage(imgs, int.parse(index));
     });
