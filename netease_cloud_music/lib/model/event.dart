@@ -28,13 +28,13 @@ class EventRepository extends LoadingMoreBase<Event> {
   @override
   Future<bool> loadData([bool isLoadMoreAction = false]) async {
     Map<String, dynamic> params;
-    if (this.length != 0) {
-      params =  {'lasttime': _eventData.lasttime};
-    }
     bool isSuccess = false;
     try {
       if(pageindex == 1){
         this.clear();
+      }
+      if (this.length != 0) {
+        params =  {'lasttime': _eventData.lasttime};
       }
       var r = await NetUtils.getEventData(params: params);
       _eventData = r;

@@ -7,6 +7,7 @@ import 'package:netease_cloud_music/model/comment_head.dart';
 import 'package:netease_cloud_music/model/recommend.dart';
 import 'package:netease_cloud_music/pages/look_img_page.dart';
 import 'package:netease_cloud_music/route/routes.dart';
+import 'package:netease_cloud_music/route/transparent_route.dart';
 import 'package:netease_cloud_music/utils/fluro_convert_utils.dart';
 
 import '../application.dart';
@@ -76,11 +77,7 @@ class NavigatorUtil {
 //    _navigateTo(context, '${Routes.lookImg}');
     Navigator.push(
       context,
-      Platform.isAndroid
-          ? TransparentMaterialPageRoute(
-              builder: (_) => LookImgPage(imgs, index))
-          : TransparentCupertinoPageRoute(
-              builder: (_) => LookImgPage(imgs, index)),
+        TransparentRoute(builder: (_) => LookImgPage(imgs, index),),
     );
   }
 }

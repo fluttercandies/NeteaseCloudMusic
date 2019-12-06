@@ -287,43 +287,50 @@ class _EventPageState extends State<EventPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return LoadingMoreList(ListConfig<Event>(
-        collectGarbage: (List<int> garbages) {
-          print("collect garbage : $garbages");
-          garbages.forEach((index) {
-            eventRepository[index]
-                .pics
-                .map((p) => p.originUrl)
-                .toList()
-                .forEach((url) {
-              final provider = ExtendedNetworkImageProvider(url);
-              provider.evict();
+    return RefreshIndicator(
+      child: LoadingMoreList(ListConfig<Event>(
+          collectGarbage: (List<int> garbages) {
+            garbages.forEach((index) {
+              eventRepository[index]
+                  .pics
+                  .map((p) => p.originUrl)
+                  .toList()
+                  .forEach((url) {
+                final provider = ExtendedNetworkImageProvider(url);
+                provider.evict();
+              });
             });
-          });
-        },
-        itemBuilder: (context, curData, index) {
-          EventContent curContent;
-          Widget contentWidget;
-          // type 35：纯文字， 39：video，18：song
-          switch (curData.type) {
-            case 35:
-              break;
-            case 39:
-              curContent = EventContent.fromJson(json.decode(curData.json));
-              contentWidget = EventVideoWidget(curContent.video);
-              break;
-            case 18:
-              curContent = EventContent.fromJson(json.decode(curData.json));
-              contentWidget = EventSongWidget(prefix0.Song(curContent.song.id,
-                  name: curContent.song.name,
-                  picUrl: curContent.song.album.picUrl,
-                  artists:
-                      curContent.song.artists.map((a) => a.name).join('/')));
-              break;
-          }
-          return _buildCommonTemplate(curData, curContent, contentWidget);
-        },
-        sourceList: eventRepository));
+          },
+          itemBuilder: (context, curData, index) {
+            EventContent curContent;
+            Widget contentWidget;
+            // type 35：纯文字， 39：video，18：song
+            switch (curData.type) {
+              case 35:
+                break;
+              case 39:
+                curContent = EventContent.fromJson(json.decode(curData.json));
+                contentWidget = EventVideoWidget(curContent.video);
+                break;
+              case 18:
+                curContent = EventContent.fromJson(json.decode(curData.json));
+                contentWidget = EventSongWidget(prefix0.Song(curContent.song.id,
+                    name: curContent.song.name,
+                    picUrl: curContent.song.album.picUrl,
+                    artists:
+                        curContent.song.artists.map((a) => a.name).join('/')));
+                break;
+              default:
+                curContent = EventContent.fromJson(json.decode(curData.json));
+                break;
+            }
+            return _buildCommonTemplate(curData, curContent, contentWidget);
+          },
+          sourceList: eventRepository)),
+      onRefresh: () async {
+        await eventRepository.refresh();
+      },
+    );
   }
 
   @override

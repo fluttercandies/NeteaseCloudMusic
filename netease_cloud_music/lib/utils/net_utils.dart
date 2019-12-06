@@ -287,11 +287,10 @@ class NetUtils {
   }
 
   /// 获取动态数据
-  static Future<prefix0.EventData> getEventData(
-      BuildContext context, {
+  static Future<prefix0.EventData> getEventData({
         @required Map<String, dynamic> params,
       }) async {
-    var response = await _get(context, '/event',
+    var response = await _get(null, '/event',
         params: params, isShowLoading: false);
     return prefix0.EventData.fromJson(response.data);
   }
