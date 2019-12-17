@@ -37,9 +37,10 @@ dependencies:
   extended_image: ^0.6.7
   get_it: ^3.0.1
   audioplayers: ^0.13.2
-  flutter_easyrefresh: ^2.0.4
+  flutter_easyrefresh: ^2.0.8
   cached_network_image: ^1.1.2+1
   extended_text: ^0.6.6
+  extended_image_library: 0.1.8
   loading_more_list: ^1.0.0
 
 dev_dependencies:
