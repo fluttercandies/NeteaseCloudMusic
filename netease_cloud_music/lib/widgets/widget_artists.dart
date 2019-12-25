@@ -21,7 +21,7 @@ class ArtistsWidget extends StatelessWidget {
       child: Row(
         children: <Widget>[
           RoundImgWidget(
-            picUrl,
+            '$picUrl?param=150y150',
             120,
             fit: BoxFit.cover,
           ),

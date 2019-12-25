@@ -49,7 +49,7 @@ class PlayListAppBarWidget extends StatelessWidget {
           children: <Widget>[
             backgroundImg.startsWith('http')
                 ? Utils.showNetImage(
-                    backgroundImg,
+                    '$backgroundImg?param=200y200',
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,

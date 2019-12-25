@@ -70,7 +70,7 @@ class _TopListPageState extends State<TopListPage> {
                                   Stack(
                                     children: <Widget>[
                                       RoundedNetImage(
-                                        d.coverImgUrl,
+                                        '${d.coverImgUrl}?param=150y150',
                                         width: 200,
                                         height: 200,
                                         radius: 5,
@@ -155,7 +155,7 @@ class _TopListPageState extends State<TopListPage> {
                                 Stack(
                                   children: <Widget>[
                                     RoundedNetImage(
-                                      d.coverImgUrl,
+                                      '${d.coverImgUrl}?param=150y150',
                                       width: 200,
                                       height: 200,
                                       radius: 5,

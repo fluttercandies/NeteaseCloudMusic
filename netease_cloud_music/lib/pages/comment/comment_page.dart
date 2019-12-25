@@ -209,7 +209,7 @@ class _CommentPageState extends State<CommentPage> {
       child: Row(
         children: <Widget>[
           RoundedNetImage(
-            widget.commentHead.img,
+            '${widget.commentHead.img}?param=200y200',
             width: 120,
             height: 120,
             radius: 4,

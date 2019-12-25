@@ -32,7 +32,7 @@ class _HomePrePageState extends State<DiscoverPage>
     return CustomFutureBuilder<prefix0.Banner>(
       futureFunc: NetUtils.getBannerData,
       builder: (context, data) {
-        return CustomBanner(data.banners.map((e) => e.pic).toList());
+        return CustomBanner(data.banners.map((e) => '${e.pic}?param=540y210').toList());
       },
     );
   }
@@ -208,7 +208,7 @@ class _HomePrePageState extends State<DiscoverPage>
                     borderRadius:
                     BorderRadius.all(Radius.circular(8)),
                     child: Utils.showNetImage(
-                      data[index].cover,
+                      '${data[index].cover}?param=350&197',
                     ),
                   ),
                   VEmptyView(5),

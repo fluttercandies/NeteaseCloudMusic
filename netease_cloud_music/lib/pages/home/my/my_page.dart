@@ -102,7 +102,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
             onTap: () {
               NavigatorUtil.goPlayListPage(context,
                   data: Recommend(
-                      picUrl: curPlayList.coverImgUrl,
+                      picUrl: '${curPlayList.coverImgUrl}?param=150y150',
                       name: curPlayList.name,
                       playcount: curPlayList.playCount,
                       id: curPlayList.id));
@@ -117,7 +117,7 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
               style: smallGrayTextStyle,
             ),
             leading: RoundedNetImage(
-              curPlayList.coverImgUrl,
+              '${curPlayList.coverImgUrl}?param=150y150',
               width: 110,
               height: 110,
               radius: ScreenUtil().setWidth(12),

@@ -32,7 +32,7 @@ class WidgetMusicListItem extends StatelessWidget {
             _data.picUrl == null
                 ? Container()
                 : RoundedNetImage(
-                    _data.picUrl,
+                    '${_data.picUrl}?param=150y150',
                     width: 100,
                     height: 100,
                     radius: 5,

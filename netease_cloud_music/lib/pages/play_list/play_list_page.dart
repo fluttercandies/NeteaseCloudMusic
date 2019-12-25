@@ -106,7 +106,7 @@ class _PlayListPageState extends State<PlayListPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               PlayListCoverWidget(
-                                widget.data.picUrl,
+                                '${widget.data.picUrl}?param=200y200',
                                 width: 250,
                                 playCount: widget.data.playcount,
                               ),
@@ -129,7 +129,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                         _data == null
                                             ? Container()
                                             : RoundImgWidget(
-                                            _data.creator.avatarUrl, 40),
+                                            '${_data.creator.avatarUrl}?param=50y50', 40),
                                         HEmptyView(5),
                                         Expanded(
                                           child: _data == null

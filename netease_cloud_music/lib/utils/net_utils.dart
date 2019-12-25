@@ -28,13 +28,13 @@ import 'custom_log_interceptor.dart';
 
 class NetUtils {
   static Dio _dio;
-  static final String baseUrl = 'http://127.0.0.1';
+  static final String baseUrl = 'http://118.24.63.15';
 
   static void init() async {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
     CookieJar cj = PersistCookieJar(dir: tempPath);
-    _dio = Dio(BaseOptions(baseUrl: '$baseUrl:3000', followRedirects: false))
+    _dio = Dio(BaseOptions(baseUrl: '$baseUrl:1020', followRedirects: false))
       ..interceptors.add(CookieManager(cj))
       ..interceptors
           .add(CustomLogInterceptor(responseBody: true, requestBody: true));

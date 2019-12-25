@@ -89,10 +89,7 @@ class _EventPageState extends State<EventPage>
           },
           child: Padding(
             padding: EdgeInsets.only(top: ScreenUtil().setWidth(15)),
-            child: Hero(
-              tag: '${data.pics[0].originUrl}0',
-              child: Utils.showNetImage(data.pics[0].originUrl),
-            ),
+            child: Utils.showNetImage(data.pics[0].originUrl),
           ),
         );
       });

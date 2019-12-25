@@ -23,7 +23,7 @@ class AlbumWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               RoundedNetImage(
-                albumCoverUrl,
+                '$albumCoverUrl?param=150y150',
                 width: 140,
                 height: 140,
                 radius: 8,

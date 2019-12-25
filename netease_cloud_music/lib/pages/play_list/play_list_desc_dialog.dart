@@ -25,7 +25,7 @@ class PlayListDescDialog extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Utils.showNetImage(
-              _data.coverImgUrl,
+              '${_data.coverImgUrl}?param=200y200',
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.cover,
@@ -62,7 +62,7 @@ class PlayListDescDialog extends StatelessWidget {
                           Align(
                             alignment: Alignment.topCenter,
                             child: RoundedNetImage(
-                              _data.coverImgUrl,
+                              '${_data.coverImgUrl}?param=200y200',
                               width: 400,
                               height: 400,
                             ),

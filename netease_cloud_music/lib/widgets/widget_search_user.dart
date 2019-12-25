@@ -23,7 +23,7 @@ class SearchUserWidget extends StatelessWidget {
       child: Row(
         children: <Widget>[
           RoundImgWidget(
-            url,
+            '$url?param=150y150',
             140,
           ),
           HEmptyView(10),

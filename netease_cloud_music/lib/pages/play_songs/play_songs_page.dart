@@ -74,7 +74,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
         body: Stack(
           children: <Widget>[
             Utils.showNetImage(
-              curSong.picUrl,
+              '${curSong.picUrl}?param=200y200',
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.fitHeight,
@@ -144,7 +144,7 @@ class _PlaySongsPageState extends State<PlaySongsPage>
                                           'images/bet.png',
                                           width: ScreenUtil().setWidth(550),
                                         ),
-                                        RoundImgWidget(curSong.picUrl, 370),
+                                        RoundImgWidget('${curSong.picUrl}?param=200y200', 370),
                                       ],
                                     ),
                                   ),

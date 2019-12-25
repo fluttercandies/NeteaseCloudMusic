@@ -23,7 +23,7 @@ class SearchVideoWidget extends StatelessWidget {
       child: Row(
         children: <Widget>[
           PlayListCoverWidget(
-            url,
+            '$url?param=200y150',
             playCount: playCount,
             width: 250,
             height: 150,
