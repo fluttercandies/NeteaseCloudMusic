@@ -70,7 +70,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     NetUtils.init();
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+    ScreenUtil.init(context, width: 750, height: 1334);
     final size = MediaQuery.of(context).size;
     Application.screenWidth = size.width;
     Application.screenHeight = size.height;
