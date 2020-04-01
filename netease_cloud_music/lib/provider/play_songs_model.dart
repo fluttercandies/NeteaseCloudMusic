@@ -73,9 +73,11 @@ class PlaySongsModel with ChangeNotifier{
   }
 
   /// 播放
-  void play() {
-    _audioPlayer.play(
-        "https://music.163.com/song/media/outer/url?id=${this._songs[curIndex].id}.mp3");
+  void play() async {
+    var songId = this._songs[curIndex].id;
+    var url = await NetUtils.getMusicURL(null, songId);
+
+    _audioPlayer.play(url);
     saveCurSong();
   }
 
