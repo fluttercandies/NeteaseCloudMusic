@@ -23,13 +23,13 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<UserModel>(
-        builder: (_) => UserModel(),
+        create: (_) => UserModel(),
       ),
       ChangeNotifierProvider<PlaySongsModel>(
-        builder: (_) => PlaySongsModel()..init(),
+        create: (_) => PlaySongsModel()..init(),
       ),
       ChangeNotifierProvider<PlayListModel>(
-        builder: (_) => PlayListModel(),
+        create: (_) => PlayListModel(),
       ),
     ],
     child: MyApp(),

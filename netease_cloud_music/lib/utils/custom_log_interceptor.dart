@@ -18,8 +18,7 @@ class CustomLogInterceptor extends LogInterceptor {
             requestBody: requestBody,
             responseHeader: responseHeader,
             responseBody: responseBody,
-            error: error,
-            logSize: logSize);
+            error: error,);
 
   @override
   printKV(String key, Object v) {
