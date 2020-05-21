@@ -80,4 +80,10 @@ class NavigatorUtil {
         TransparentRoute(builder: (_) => LookImgPage(imgs, index),),
     );
   }
+
+  /// 用户详情页面
+  static void goUserDetailPage(BuildContext context, int userId) {
+    _navigateTo(context, "${Routes.userDetail}?id=$userId");
+  }
+
 }

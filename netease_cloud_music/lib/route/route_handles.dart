@@ -12,6 +12,7 @@ import 'package:netease_cloud_music/pages/play_songs/play_songs_page.dart';
 import 'package:netease_cloud_music/pages/search/search_page.dart';
 import 'package:netease_cloud_music/pages/splash_page.dart';
 import 'package:netease_cloud_music/pages/top_list/top_list_page.dart';
+import 'package:netease_cloud_music/pages/user/user_detail_page.dart';
 import 'package:netease_cloud_music/utils/fluro_convert_utils.dart';
 
 // splash 页面
@@ -79,4 +80,11 @@ var lookImgHandler = new Handler(
       print(imgs);
       print(index);
       return LookImgPage(imgs, int.parse(index));
+    });
+
+// 跳转到搜索页面
+var userDetailHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+      var id = int.parse(params['id'].first);
+      return UserDetailPage(userId: id,);
     });

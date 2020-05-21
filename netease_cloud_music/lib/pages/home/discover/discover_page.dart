@@ -1,7 +1,6 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:netease_cloud_music/application.dart';
-import 'package:netease_cloud_music/provider/play_songs_model.dart';
+import 'package:netease_cloud_music/provider/user_model.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
 import 'package:netease_cloud_music/widgets/common_text_style.dart';
 import 'package:netease_cloud_music/model/album.dart';
@@ -24,15 +23,14 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class _HomePrePageState extends State<DiscoverPage>
-    with TickerProviderStateMixin,  AutomaticKeepAliveClientMixin {
-
-
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   /// 构建轮播图
   Widget _buildBanner() {
     return CustomFutureBuilder<prefix0.Banner>(
       futureFunc: NetUtils.getBannerData,
       builder: (context, data) {
-        return CustomBanner(data.banners.map((e) => '${e.pic}?param=540y210').toList());
+        return CustomBanner(
+            data.banners.map((e) => '${e.pic}?param=540y210').toList());
       },
     );
   }
@@ -59,13 +57,15 @@ class _HomePrePageState extends State<DiscoverPage>
         childAspectRatio: 1 / 1.1,
       ),
       childrenDelegate: SliverChildBuilderDelegate(
-            (context, index) {
+        (context, index) {
           return GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
               switch (index) {
                 case 0:
                   NavigatorUtil.goDailySongsPage(context);
+                  break;
+                case 1:
                   break;
                 case 2:
                   NavigatorUtil.goTopListPage(context);
@@ -102,11 +102,11 @@ class _HomePrePageState extends State<DiscoverPage>
                       padding: EdgeInsets.only(top: 5),
                       child: keys[index] == '每日推荐'
                           ? Text(
-                        '${DateUtil.formatDate(DateTime.now(), format: 'dd')}',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold),
-                      )
+                              '${DateUtil.formatDate(DateTime.now(), format: 'dd')}',
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            )
                           : Text(''),
                     )
                   ],
@@ -137,15 +137,15 @@ class _HomePrePageState extends State<DiscoverPage>
               separatorBuilder: (context, index) {
                 return HEmptyView(ScreenUtil().setWidth(30));
               },
-              padding: EdgeInsets.symmetric(
-                  horizontal: ScreenUtil().setWidth(15)),
+              padding:
+                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
               itemBuilder: (context, index) {
                 return PlayListWidget(
                   text: data[index].name,
                   picUrl: data[index].picUrl,
                   playCount: data[index].playcount,
                   maxLines: 2,
-                  onTap: (){
+                  onTap: () {
                     NavigatorUtil.goPlayListPage(context, data: data[index]);
                   },
                 );
@@ -170,8 +170,8 @@ class _HomePrePageState extends State<DiscoverPage>
                 separatorBuilder: (context, index) {
                   return HEmptyView(ScreenUtil().setWidth(30));
                 },
-                padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(15)),
+                padding:
+                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
                 itemBuilder: (context, index) {
                   return PlayListWidget(
                     text: data[index].name,
@@ -197,16 +197,15 @@ class _HomePrePageState extends State<DiscoverPage>
             separatorBuilder: (context, index) {
               return VEmptyView(ScreenUtil().setWidth(100));
             },
-            padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(15)),
+            padding:
+                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
             itemBuilder: (context, index) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   ClipRRect(
-                    borderRadius:
-                    BorderRadius.all(Radius.circular(8)),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
                     child: Utils.showNetImage(
                       '${data[index].cover}?param=350&197',
                     ),
@@ -295,5 +294,4 @@ class _HomePrePageState extends State<DiscoverPage>
 
   @override
   bool get wantKeepAlive => true;
-
 }

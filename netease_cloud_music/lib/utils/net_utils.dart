@@ -19,6 +19,7 @@ import 'package:netease_cloud_music/model/song_comment.dart' hide User;
 import 'package:netease_cloud_music/model/song_detail.dart';
 import 'package:netease_cloud_music/model/top_list.dart';
 import 'package:netease_cloud_music/model/user.dart';
+import 'package:netease_cloud_music/model/user_detail.dart';
 import 'package:netease_cloud_music/route/navigate_service.dart';
 import 'package:netease_cloud_music/route/routes.dart';
 import 'package:netease_cloud_music/utils/utils.dart';
@@ -43,7 +44,7 @@ class NetUtils {
     _dio = Dio(BaseOptions(baseUrl: '$baseUrl:1020', followRedirects: false))
       ..interceptors.add(CookieManager(cj))
       ..interceptors
-          .add(CustomLogInterceptor(responseBody: true, requestBody: true));
+          .add(LogInterceptor(responseBody: true, requestBody: true));
     
     // 海外華人可使用 nondanee/UnblockNeteaseMusic
     (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
@@ -341,4 +342,16 @@ class NetUtils {
     return response.data['data'][0]["url"]
         .replaceFirst('m10.music.126.net', m10 + '/m10.music.126.net');
   }
+
+  /// 获取用户信息
+  static Future<UserDetailData> getUserInfo(
+    BuildContext context,{
+        @required Map<String, dynamic> params,
+      }) async {
+    var response = await _get(null, '/user/detail',
+        params: params, isShowLoading: false);
+    return UserDetailData.fromJson(response.data);
+  }
+
 }
+
