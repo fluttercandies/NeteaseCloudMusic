@@ -199,24 +199,32 @@ class _PlayListPageState extends State<PlayListPage> {
                   params: {'id': widget.data.id},
                   builder: (context, data) {
                     setData(data.playlist);
-                    return Consumer<PlaySongsModel>(builder: (context, model, child) {
-                      return SliverList(
-                          delegate: SliverChildBuilderDelegate((context, index) {
-                            var d = data.playlist.tracks[index];
-                            return WidgetMusicListItem(
-                              MusicData(
-                                mvid: d.mv,
-                                index: index + 1,
-                                songName: d.name,
-                                artists:
-                                '${d.ar.map((a) => a.name).toList().join('/')} - ${d.al.name}',
-                              ),
-                              onTap: () {
-                                playSongs(model, index);
-                              },
-                            );
-                          }, childCount: data.playlist.trackIds.length));
-                    });
+                    return Consumer<PlaySongsModel>(
+                        builder: (context, model, child) {
+                          return SliverList(
+                              delegate:
+                              SliverChildBuilderDelegate((context, index) {
+                                var d = data.playlist.tracks[index];
+                                var isBottomPadding =
+                                    index == data.playlist.trackIds.length - 1;
+                                return Padding(
+                                  padding:
+                                  EdgeInsets.only(bottom: isBottomPadding ? 10 : 0),
+                                  child: WidgetMusicListItem(
+                                    MusicData(
+                                      mvid: d.mv,
+                                      index: index + 1,
+                                      songName: d.name,
+                                      artists:
+                                      '${d.ar.map((a) => a.name).toList().join('/')} - ${d.al.name}',
+                                    ),
+                                    onTap: () {
+                                      playSongs(model, index);
+                                    },
+                                  ),
+                                );
+                              }, childCount: data.playlist.trackIds.length));
+                        });
                   },
                 ),
               ],
